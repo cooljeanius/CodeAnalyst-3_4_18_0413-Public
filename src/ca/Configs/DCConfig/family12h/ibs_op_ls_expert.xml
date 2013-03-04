@@ -1,0 +1,36 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE dc_configuration SYSTEM "dcconfig.dtd">
+
+<!--     
+         Instruction-based sampling (IBS) data collection configuration
+         Date:    November 20th 2009
+         Version: 1.0
+         Processor: AMD family12h
+         Copyright (c) 2009 Advanced Micro Devices, Inc. All rights reserved.
+ -->
+
+<dc_configuration cpu_type="x86-64/family12h">
+
+  <ebp name="IBS Op Load-Store (expert)" mux_period="0">
+
+	<event select="F200" mask="01" count="1000000"></event>
+	<event select="F201" mask="01" count="1000000"></event>
+	<event select="F202" mask="01" count="1000000"></event>
+	<event select="F209" mask="01" count="1000000"></event>
+	<event select="F20A" mask="01" count="1000000"></event>
+	<event select="F20B" mask="01" count="1000000"></event>
+	<event select="F20C" mask="01" count="1000000"></event>
+	<event select="F210" mask="01" count="1000000"></event>
+
+    <tool_tip>
+      Measure data load / store performance using IBS Op (expert)
+    </tool_tip>
+
+    <description>
+      Use this configuration to measure data load / store performance 
+      using IBS Op (expert).
+    </description>
+
+  </ebp>
+
+</dc_configuration>

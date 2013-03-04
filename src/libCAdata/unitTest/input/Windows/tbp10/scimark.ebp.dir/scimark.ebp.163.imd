@@ -1,0 +1,13 @@
+[C:\WINDOWS\system32\wbem\wbemcomn.dll]
+BASE=75290000
+SIZE=0
+SAMPS=1
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+2008,3492,1,1,[1 3] 1,0xdd63
+[SUB_END]
+[END]
+

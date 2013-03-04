@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE view_configuration SYSTEM "viewconfig.dtd">
+
+<!--
+        Show time-based profiling (TBP) data
+        View configuration
+        Date:    25 May 2006
+        Version: 0.2
+        Copyright (c) 2006 Advanced Micro Devices, Inc. All rights reserved.
+
+        The timer view should always be available when TBP data are available.
+
+        Related DC configuration: tbp.xml
+ -->
+
+<view_configuration>
+
+  <view name="CPU Clock Unhalted"
+        separate_cpus="F"
+        separate_processes="F"
+        separate_threads="F"
+        default_view="T"
+        >
+
+    <data>
+      <event id="tbp_data" select="76" mask="00" />
+    </data>
+
+    <output>
+      <column title="Timer samples" sort="descending">
+        <value id="tbp_data" />
+      </column>
+    </output>
+
+    <tool_tip>
+      Show profile of execution time
+    </tool_tip>
+
+    <description>
+      Use this view to find hot-spots where the program is spending most
+      of its time.
+    </description>
+
+  </view>
+
+</view_configuration>

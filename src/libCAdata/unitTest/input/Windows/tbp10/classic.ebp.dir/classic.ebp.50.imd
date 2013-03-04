@@ -1,0 +1,21 @@
+[C:\Windows\System32\drivers\partmgr.sys]
+BASE=fffff88000ead000
+SIZE=0
+SAMPS=9
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=9
+3720,3000,1,1,[21 3] 1,0x1010
+3720,3000,1,1,[21 3] 1,0x40c2
+4,68,1,1,[20 3] 1,0x4319
+3720,3000,1,1,[21 1] 1,0x4319
+0,0,1,1,[7 3] 1,0x4a4b
+0,0,1,1,[7 3] 1,0x4a6f
+0,0,1,1,[5 1] 1,0x4ac2
+0,0,1,1,[6 3] 1,0x5f75
+0,0,1,1,[7 0] 1,0x5fcb
+[SUB_END]
+[END]
+

@@ -1,0 +1,15 @@
+[C:\Program Files (x86)\Mozilla Firefox\xul.dll]
+BASE=67750000
+SIZE=0
+SAMPS=3
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=3
+3292,4696,1,1,[4 5] 1,0xc6116
+3292,4696,1,1,[4 3] 1,0xc627f
+3292,4696,1,1,[4 0] 1,0x441451
+[SUB_END]
+[END]
+

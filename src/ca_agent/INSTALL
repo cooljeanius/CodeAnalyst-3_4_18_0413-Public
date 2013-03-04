@@ -1,0 +1,29 @@
+*********************
+* Build And Install *
+*********************
+
+Last Update: 9/29/2009
+
+- Default installation directory is "/opt/CodeAnalyst/"
+
+- To build libCAagent, run:
+
+	./autogen.sh
+	./configure
+	make clean
+	make all
+	make install
+
+
+- To build libCAagent and JVMTIA, run:
+
+	./configure --with-java=<path to Java install dir>
+
+
+- To cross-compile 32-bit JVMTI on 64-bit system, run:
+
+	./configure --with-java=/sandbox/tarballs/jdk1.6.0_10-32/ --build=x86_64 --host=i686
+
+	NOTE: Some Linux distribution cannot cross compile i.e.
+		- SLES11 (Failed to compile 32-bit application.)
+		- RHEL4  (32-bit binutils package does not exist.)

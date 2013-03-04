@@ -1,0 +1,15 @@
+[/usr/lib64/libX11.so.6.2.0]
+BASE=0
+SIZE=0
+SAMPS=4
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=3
+2,0,2,1,[12 5] 2,0x3c78824855
+2,0,1,1,[12 1] 1,0x3c7883e582
+2,0,1,1,[8 5] 1,0x3c7883f4b8
+[SUB_END]
+[END]
+

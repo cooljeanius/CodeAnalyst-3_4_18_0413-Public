@@ -1,0 +1,15 @@
+[/usr/lib64/libgtk-x11-2.0.so.0.1600.1]
+BASE=0
+SIZE=0
+SAMPS=3
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=3
+9,0,1,1,[2 5] 1,0x3c835a1d13
+9,0,1,1,[2 5] 1,0x3c83637941
+9,0,1,1,[2 6] 1,0x3c836379d7
+[SUB_END]
+[END]
+

@@ -1,0 +1,8 @@
+[/no-vmlinux]
+BASE=0
+SIZE=0
+SAMPS=90064
+ModuleType=1
+NUMSUBSECTIONS=0
+[END]
+

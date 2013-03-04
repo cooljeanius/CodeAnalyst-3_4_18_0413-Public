@@ -1,0 +1,13 @@
+[C:\Windows\system32\wmp.dll]
+BASE=7fef06b0000
+SIZE=0
+SAMPS=2
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+3816,3908,2,2,[2 3] 1,[2 6] 1,0x4704f5
+[SUB_END]
+[END]
+

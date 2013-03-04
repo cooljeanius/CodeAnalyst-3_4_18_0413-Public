@@ -1,0 +1,14 @@
+[C:\Program Files (x86)\Mozilla Firefox\nspr4.dll]
+BASE=10000000
+SIZE=0
+SAMPS=3
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=2
+3292,4696,2,2,[4 3] 1,[4 5] 1,0x18014
+3292,4056,1,1,[3 3] 1,0x1b77b
+[SUB_END]
+[END]
+

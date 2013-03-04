@@ -1,0 +1,13 @@
+[C:\Windows\system32\DRIVERS\atikmpag.sys]
+BASE=fffff88004c2a000
+SIZE=0
+SAMPS=1
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+4,632,1,1,[7 0] 1,0x5770
+[SUB_END]
+[END]
+

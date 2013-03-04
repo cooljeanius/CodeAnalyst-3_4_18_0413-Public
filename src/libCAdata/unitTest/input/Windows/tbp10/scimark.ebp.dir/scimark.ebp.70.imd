@@ -1,0 +1,13 @@
+[C:\WINDOWS\WinSxS\X86_Microsoft.Windows.Common-Controls_6595b64144ccf1df_6.0.2600.5512_x-ww_35d4ce83\COMCTL32.dll]
+BASE=773d0000
+SIZE=0
+SAMPS=1
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+7344,7712,1,1,[3 3] 1,0x8ba99
+[SUB_END]
+[END]
+

@@ -1,0 +1,13 @@
+[/usr/lib64/libpixman-1.so.0.14.0]
+BASE=0
+SIZE=0
+SAMPS=1
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+8,0,1,1,[1 6] 1,0x3c85c13554
+[SUB_END]
+[END]
+

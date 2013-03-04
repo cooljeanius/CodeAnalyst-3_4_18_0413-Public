@@ -1,0 +1,15 @@
+[C:\Windows\System32\cdd.dll]
+BASE=fffff960007d0000
+SIZE=0
+SAMPS=4
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=3
+684,840,2,2,[9 3] 1,[9 5] 1,0x59f6
+244,256,1,1,[15 5] 1,0x125e7
+684,840,1,1,[9 3] 1,0x1ff03
+[SUB_END]
+[END]
+

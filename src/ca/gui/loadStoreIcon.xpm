@@ -1,0 +1,33 @@
+/* XPM */
+static const char *loadStoreIcon[] = {
+/* width height ncolors chars_per_pixel */
+"16 16 10 1",
+/* colors */
+"  c #B7EDFC",
+". c #CCFAF9",
+"X c #A4DCFC",
+"o c #ACE4FC",
+"O c #DD3614",
+"+ c #BEF3FC",
+"@ c #C6F9FF",
+"# c #0080FF",
+"$ c #C1F6FC",
+"% c None",
+/* pixels */
+"X##############X",
+"#XXXXXXXXXXXXXX#",
+"#XOXXXXXXXXXXOX#",
+"#XOXXXXXXXXXOXX#",
+"#XOXXXXXXXXOXXX#",
+"#XOXXXXXXXOXXXX#",
+"#oOooooooOooooo#",
+"#oOOOOooOoOOOoo#",
+"#      O O   O #",
+"#     O  O     #",
+"#++++O++++OOOO+#",
+"#$$$O$$$$$$$$O+#",
+"#@@O@@@@@O...O+#",
+"#.O.......OOO++#",
+"#.........+++++#",
+".##############."
+};

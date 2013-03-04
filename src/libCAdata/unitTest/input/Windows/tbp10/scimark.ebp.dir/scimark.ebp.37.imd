@@ -1,0 +1,15 @@
+[C:\Program Files\Microsoft Visual Studio 8\VC#\VCSPackages\csproj.dll]
+BASE=5a2f0000
+SIZE=0
+SAMPS=4
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=3
+5292,5108,1,1,[1 3] 1,0x1b90
+5292,5108,2,2,[1 3] 1,[1 5] 1,0x1b91
+5292,5108,1,1,[3 3] 1,0x1bb8
+[SUB_END]
+[END]
+

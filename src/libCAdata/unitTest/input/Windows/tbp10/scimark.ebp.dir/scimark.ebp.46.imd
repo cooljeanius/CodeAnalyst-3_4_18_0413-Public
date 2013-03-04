@@ -1,0 +1,17 @@
+[C:\Program Files\Symantec AntiVirus\Rtvscan.exe]
+BASE=400000
+SIZE=0
+SAMPS=6
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=5
+1544,2796,1,1,[1 4] 1,0xf1f3
+1544,2808,1,1,[2 3] 1,0x54101
+1544,2808,1,1,[2 3] 1,0x81f48
+1544,2812,2,2,[2 3] 1,[2 4] 1,0x9ed25
+1544,2296,1,1,[1 3] 1,0xc35f8
+[SUB_END]
+[END]
+

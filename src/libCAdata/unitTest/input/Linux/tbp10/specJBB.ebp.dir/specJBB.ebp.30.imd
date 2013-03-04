@@ -1,0 +1,16 @@
+[/usr/lib64/libXcursor.so.1.0.2]
+BASE=0
+SIZE=0
+SAMPS=4
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=4
+10,0,1,1,[9 0] 1,0x3c7e40455f
+10,0,1,1,[9 5] 1,0x3c7e4048e0
+10,0,1,1,[9 5] 1,0x3c7e404955
+10,0,1,1,[9 6] 1,0x3c7e406418
+[SUB_END]
+[END]
+

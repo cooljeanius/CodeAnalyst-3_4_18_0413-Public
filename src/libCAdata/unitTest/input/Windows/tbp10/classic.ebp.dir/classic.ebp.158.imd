@@ -1,0 +1,13 @@
+[C:\Windows\system32\srvcli.dll]
+BASE=7fefd560000
+SIZE=0
+SAMPS=1
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+2732,5072,1,1,[17 5] 1,0x1a5b
+[SUB_END]
+[END]
+

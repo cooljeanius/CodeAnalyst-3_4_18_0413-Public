@@ -1,0 +1,13 @@
+[C:\Program Files\Common Files\Symantec Shared\ccL60.dll]
+BASE=6aa00000
+SIZE=0
+SAMPS=1
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+1840,1896,1,1,[2 3] 1,0x22110
+[SUB_END]
+[END]
+

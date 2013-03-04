@@ -1,0 +1,33 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE dc_configuration SYSTEM "dcconfig.dtd">
+
+<!--     
+         Instruction-based sampling (IBS) data collection configuration
+         Date:    November 20th 2009
+         Version: 1.0
+         Processor: AMD family12h
+         Copyright (c) 2009 Advanced Micro Devices, Inc. All rights reserved.
+ -->
+
+<dc_configuration cpu_type="x86-64/family12h">
+
+  <ebp name="IBS Op Overall Assessment" mux_period="0">
+
+	<event select="F100" mask="01" count="1000000"></event>
+	<event select="F101" mask="01" count="1000000"></event>
+	<event select="F102" mask="01" count="1000000"></event>
+	<event select="F103" mask="01" count="1000000"></event>
+	<event select="F200" mask="01" count="1000000"></event>
+
+    <tool_tip>
+      Get an overall assessment of performance using IBS Op
+    </tool_tip>
+
+    <description>
+      Use this configuration to get an overall assesment of performance 
+      using IBS Op.
+    </description>
+
+  </ebp>
+
+</dc_configuration>

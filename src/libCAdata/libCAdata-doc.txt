@@ -1,0 +1,111 @@
+libCAdata DOCUMENTATION
+
+Author	: Suravee Suthikulpanit (suravee.suthikulpanit@amd.com)
+Version	: 1.0
+Date	: May 2010
+=======================
+
+OVERVIEW
+========
+This library provides interfaces for creating and accessing CodeAnalyst profile 
+data file (TBP/EBP/IMD file).  Besides, it provides a collection of profile data 
+containers which CodeAnalyst uses for various types of data aggregation.
+
+
+TBPVER_10
+==========
+Current library supports TBPVER_10. It is backward compatible from TBPVER_6.
+In TBPVER_10, the profile data is separated into two types of file.
+
+* TBP/EBP (Time-Based Profile/ Event-Based Profile File)
+    - TBPFILEVERSION:
+    This is the version identification string.
+
+    - [ENV] Section
+    This section contains metadata of the profile.
+        * CPU		: Number of cpus
+        * NumEvents	: Number of events
+        * MODULES	: Number of modules
+        * SAMPS		: Number of samples
+        * TIMESTAMP	: Profile timestamp string (i.e. Sat May 15 06:12:40 2010)
+        * MISSED	: Number of sample Missed (not currently used)
+        * CPUFAMILY	: Cpu models and family (i.e. 16,9)
+        * Event		: Each event (i.e. 0,118,100000) (There could be multiple entry.)
+
+    - [PROCESS] Section
+    This section contains a list of processes.
+        * Process line format: PID,TOTALSAMPLE,#EVENTSET,[CPU INDEX] #SAMPLE,32-BIT-FLAG,CSS-FLAG,MODULE-NAME
+
+    - [MODDATA] Section
+    This section contains a list of modules
+        * Module Line format: PID,TOTALSAMPLE,#EVENTSET,[CPU INDEX] #SAMPLE,32-BIT-FLAG,MODULE-NAME
+
+
+* IMD (Individual Module Data)File
+
+    - Naming Scheme:
+         <Session Name>.<extension>.<index>.imd
+         The index is assigned using the order of the module listed in the [MODDATA] section of TBP/EBP file.
+
+    - Headers
+        * [C:\Users\ssuthiku\Desktop\scimark2_C\Scimark_C_VS05.exe]
+        * SIZE		: Not currently used
+        * SAMPS		: Number of samples in the modules
+        * ModuleType	: Module type
+        * NUMSUBSECTIONS: Number of sub-sections
+
+    - [SUB] Section	:
+        * BINARYFILE	: Jnc file name
+        * SRCFILE	: Java/Managed source file
+        * SYMBOL	: Java/Managed function symbol
+        * BASEADDR	: Module base address
+        * INSTANCE	: Each of Java Inline instances (i.e. Addr:NumInstances:Symbol) (There could be multiple entry.)        
+        * LINECOUNT	: Number of sample line
+        * Sample Line Format: TGID,TID,TOTALSAMPLE,#EVENTSET,[CPU INDEX] #SAMPLE,OFFSET
+
+
+EXPORT READER/WRITER CLASSES
+============================
+
+* class CaProfileReader
+    Headers	: CaProfileReader.h
+    Description	: CaProfileReader is used to query information from various 
+                  sections of TBP/EBP and IMD files.
+
+* class CaProfileWriter
+    Headers	: CaProfileWriter.h
+    Description	: CaProfileWrite is used to write TBP/EBP and IMD files
+
+
+EXPORT CONTAINER CLASSES AND DATASTRUCTURES
+===========================================
+
+* SampleKey		: A class representing a key containing "cpu" and "event"
+* CA_SampleMap		: std::map<SampleKey, unsigned long>
+
+* AptKey		: A class representing a key containing "Address", "Pid" and "Tid"
+* AggregatedSample	: A class for managing CA_SampleMap 
+* AptAggregatedSampleMap	: A map of type <AptKey, AggregatedSample> (used in CA_Function)
+* PidAggregatedSampleMap	: A map of type <pid, AggregatedSample> (used in CA_Module)
+
+* CA_Process 		: A class representing each line of the process section
+* PidProcessMap		: A map representing the process section which use PID as the key
+
+* CA_Module		: A class representing each line of the module section
+* NameModuleMap		: A map representing the module section which uses name as the key
+
+* CA_Function		: A class representing each sub section in the IMD file
+* AddrFunctionMultMap	: A multi-map representing the [SUB] section which uses base address as the key
+			  Note: Functions could be rejitted in the same address
+
+TBP VERSION HISTORY
+=================== 
+
+* Version 10: (5/2010)
+    - Add IMD file support
+    - Add Java Inline support
+
+* Version 9:
+    - Add JIT function level
+    - Java Profiling Not compatible with previous version 
+

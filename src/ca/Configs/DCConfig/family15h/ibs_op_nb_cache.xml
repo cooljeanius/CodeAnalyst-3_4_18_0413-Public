@@ -1,0 +1,34 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE dc_configuration SYSTEM "dcconfig.dtd">
+
+<!--     
+         Instruction-based sampling (IBS) data collection configuration
+         Date:    28 June 2010
+         Version: 1.1
+         Processor: AMD family 15h
+         Copyright (c) 2007-2010 Advanced Micro Devices, Inc.
+                       All rights reserved.
+ -->
+
+<dc_configuration cpu_type="x86-64/family15h">
+
+  <ebp name="IBS Op Northbridge Cache Access" mux_period="0">
+
+	<event select="F201" mask="01" count="1000000"></event>
+	<event select="F243" mask="01" count="1000000"></event>
+	<event select="F244" mask="01" count="1000000"></event>
+	<event select="F249" mask="01" count="1000000"></event>
+	<event select="F24A" mask="01" count="1000000"></event>
+
+    <tool_tip>
+      Measure northbridge cache access performance using IBS Op
+    </tool_tip>
+
+    <description>
+      Use this configuration to measure northbridge cache access performance 
+      using IBS Op.
+    </description>
+
+  </ebp>
+
+</dc_configuration>

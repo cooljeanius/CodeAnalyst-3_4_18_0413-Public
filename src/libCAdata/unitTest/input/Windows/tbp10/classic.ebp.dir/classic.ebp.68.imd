@@ -1,0 +1,15 @@
+[C:\Windows\System32\webio.dll]
+BASE=7fefa140000
+SIZE=0
+SAMPS=3
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=3
+1084,5048,1,1,[18 5] 1,0x3611
+5092,4880,1,1,[8 3] 1,0x3b83
+5092,4880,1,1,[8 6] 1,0x76c4
+[SUB_END]
+[END]
+

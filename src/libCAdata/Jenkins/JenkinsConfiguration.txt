@@ -1,0 +1,76 @@
+// libCAdata
+
+// "P4ROOT" is passed in by the build script from Jenkins
+
+Define "DISPATH" "[P4ROOT]\main\CommonProjects\libCAdata"
+Define "INSPATH" "[P4ROOT]\main\Common\DK\Installer"
+
+Always
+   Log "[P4ROOT]\libCAdata_Build.log"
+
+   // grab the major, minor, update version from the qcControls.rc file
+   Version "[DISPATH]\vs\libCAdata.rc" " FILEVERSION [GETMAJOR],[GETMINOR],0,[GETUPDATE]"
+
+   // update version number in libCAdata.rc
+   MakeWriteable "[DISPATH]\vs\libCAdata.rc"
+   Replace "[DISPATH]\vs\libCAdata.rc" "(VALUE \"FileVersion\",\s\")[0-9]+\.[0-9]+\.[0-9]+" "$1[MAJOR].[MINOR].[BUILD]"
+   Replace "[DISPATH]\vs\libCAdata.rc" "(VALUE \"ProductVersion\",\s\")[0-9]+\.[0-9]+\.[0-9]+" "$1[MAJOR].[MINOR].[BUILD]"
+   Replace "[DISPATH]\vs\libCAdata.rc" "FILEVERSION [0-9]+\,[0-9]+\,[0-9]+" "FILEVERSION [MAJOR],[MINOR],[BUILD]"
+   Replace "[DISPATH]\vs\libCAdata.rc" "PRODUCTVERSION [0-9]+\,[0-9]+\,[0-9]+" "PRODUCTVERSION  [MAJOR],[MINOR],[BUILD]"
+
+   // need to copy the necessary files to make a zip for delivery into Common
+   Define "ZIPDIR" "[DISPATH]\Jenkins\libCAdata"
+
+   MKDIR "[ZIPDIR]"
+   MKDIR "[ZIPDIR]\Lib"
+   MKDIR "[ZIPDIR]\Lib\x86"
+   MKDIR "[ZIPDIR]\Lib\x64"
+   MKDIR "[ZIPDIR]\Include"
+
+   BuildSln "[DISPATH]\vs\libCAdata.sln" "" "Build"     "Debug|Win32"
+   BuildSln "[DISPATH]\vs\libCAdata.sln" "" "Build"     "Debug|x64"
+
+   // copy the debug lib\dll files
+   Copy "[DISPATH]\Output\Debug\bin\x86\*.*" "[ZIPDIR]\Lib\x86"
+   Copy "[DISPATH]\Output\Debug\bin\x64\*.*" "[ZIPDIR]\Lib\x64"
+
+   BuildSln "[DISPATH]\vs\libCAdata.sln" "" "Clean"     "Debug|Win32"
+   BuildSln "[DISPATH]\vs\libCAdata.sln" "" "Clean"     "Debug|x64"
+
+   //build and copy 32-bit library
+   BuildSln "[DISPATH]\vs\libCAdata.sln" "" "Rebuild"   "Release|Win32"
+   Copy "[DISPATH]\Output\Release\bin\x86\*.*" "[ZIPDIR]\Lib\x86"
+   
+   // TODO Run release unit tests in 32-bit
+   //Define "AQCUNITTESTPATH" "[DISPATH]\bin\Release-Win32\TestQcTimeline"
+   // Copy "[AQCPATH]\..\Common\Lib\Ext\Qt\4.7.4\bin\QtCoreAmdDt4744.dll" "[AQCUNITTESTPATH]"
+   // Copy "[AQCPATH]\..\Common\Lib\Ext\Qt\4.7.4\bin\QtGuiAmdDt4744.dll" "[AQCUNITTESTPATH]"
+   // GoogleTest "[AQCUNITTESTPATH]\TestQcTimeline.exe" "[AQCPATH]\Installer\TestQcTimeline-Release-Win32.xml"
+
+   //build and copy 64-bit library
+   BuildSln "[DISPATH]\vs\libCAdata.sln" "" "Rebuild"   "Release|x64"
+   Copy "[DISPATH]\Output\Release\bin\x64\*.*" "[ZIPDIR]\Lib\x64"
+
+   // copy the header files
+   XCopy "[DISPATH]\src\libCAdata.h"                         "[ZIPDIR]\Include"
+   XCopy "[DISPATH]\src\CaDataReader.h"                      "[ZIPDIR]\Include"
+   XCopy "[DISPATH]\src\CaDataWriter.h"                      "[ZIPDIR]\Include"
+   XCopy "[DISPATH]\src\CaProfileInfo.h"                     "[ZIPDIR]\Include"
+   XCopy "[DISPATH]\src\CaProfileReader.h"                   "[ZIPDIR]\Include"
+   XCopy "[DISPATH]\src\CaProfileWriter.h"                   "[ZIPDIR]\Include"
+   XCopy "[DISPATH]\src\Function.h"                          "[ZIPDIR]\Include"
+   XCopy "[DISPATH]\src\ImdReader.h"                         "[ZIPDIR]\Include"
+   XCopy "[DISPATH]\src\ImdWriter.h"                         "[ZIPDIR]\Include"
+   XCopy "[DISPATH]\src\InlineInstance.h"                    "[ZIPDIR]\Include"
+   XCopy "[DISPATH]\src\libCAdata_Process.h"                 "[ZIPDIR]\Include"
+   XCopy "[DISPATH]\src\libCAdata_typedefs.h"                "[ZIPDIR]\Include"
+   XCopy "[DISPATH]\src\Module.h"                            "[ZIPDIR]\Include"
+   XCopy "[DISPATH]\src\SampleInfo.h"                        "[ZIPDIR]\Include"
+
+   // generate the public zip
+   Zip "[DISPATH]\Jenkins\libCAdata-[MAJOR].[MINOR].[BUILD].[UPDATE].zip" "[ZIPDIR]"
+
+   //TODO Document interface
+   //Zip "[DISPATH]\Jenkins\libCAdataDocumentation-[MAJOR].[MINOR].[BUILD].[UPDATE].zip"            "[DISPATH]\Documentation\html"
+
+   SendBuildErrors "[EMAIL]" "libCAdata Build Failed"

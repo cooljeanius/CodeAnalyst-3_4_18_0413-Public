@@ -1,0 +1,14 @@
+[/opt/CodeAnalyst/bin/CodeAnalyst]
+BASE=0
+SIZE=0
+SAMPS=4
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=2
+2,0,1,1,[12 0] 1,0x4256a0
+2,0,3,2,[12 6] 1,[12 5] 2,0x527945
+[SUB_END]
+[END]
+

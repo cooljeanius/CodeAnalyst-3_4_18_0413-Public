@@ -1,0 +1,13 @@
+[/usr/lib64/libxcb.so.1.1.0]
+BASE=0
+SIZE=0
+SAMPS=1
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+4,0,1,1,[0 0] 1,0x3c78c09e55
+[SUB_END]
+[END]
+

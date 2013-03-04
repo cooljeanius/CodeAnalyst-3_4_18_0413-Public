@@ -1,0 +1,15 @@
+[C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\vcpackages\VCProject.dll]
+BASE=6ed70000
+SIZE=0
+SAMPS=4
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=3
+4244,5080,1,1,[9 3] 1,0x2a20
+4244,5080,2,2,[9 3] 1,[9 5] 1,0x36f2
+4244,5080,1,1,[9 5] 1,0x370a
+[SUB_END]
+[END]
+

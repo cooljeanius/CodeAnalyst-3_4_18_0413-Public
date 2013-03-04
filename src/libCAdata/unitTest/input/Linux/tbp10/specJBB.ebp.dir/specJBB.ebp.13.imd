@@ -1,0 +1,13 @@
+[/opt/CodeAnalyst/lib/libCAJVMTIA64.so.0.0.0]
+BASE=0
+SIZE=0
+SAMPS=1
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+5,0,1,1,[14 0] 1,0x42d0
+[SUB_END]
+[END]
+

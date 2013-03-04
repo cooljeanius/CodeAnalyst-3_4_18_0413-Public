@@ -1,0 +1,15 @@
+[C:\Program Files\Microsoft Office\Office12\GrooveSystemServices.dll]
+BASE=65e50000
+SIZE=0
+SAMPS=3
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=3
+2552,3888,1,1,[2 3] 1,0x4fe3
+2552,3888,1,1,[2 3] 1,0x11caf
+2552,2308,1,1,[0 3] 1,0x11cca
+[SUB_END]
+[END]
+

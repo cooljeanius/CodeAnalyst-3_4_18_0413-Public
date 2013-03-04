@@ -1,0 +1,15 @@
+[/lib64/libglib-2.0.so.0.2000.1]
+BASE=0
+SIZE=0
+SAMPS=3
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=3
+8,0,1,1,[2 7] 1,0x3c7943ac57
+8,0,1,1,[2 0] 1,0x3c79460a71
+8,0,1,1,[2 0] 1,0x3c79460a7d
+[SUB_END]
+[END]
+

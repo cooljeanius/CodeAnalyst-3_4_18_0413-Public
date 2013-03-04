@@ -1,0 +1,326 @@
+#!/bin/sh
+#
+# codeanalyst	Initialize/Uninitialize Oprofile driver for CodeAnalyst
+#
+# chkconfig: 345 99 1 
+# description: This script load/unload Oprofile driver\
+# 		, mount the oprofilefs (/dev/oprofile)\
+# 		, set the group to "amdca"\
+# 		, and grant group write access for oprofile\
+# 		, driver interface. This is necessary to\
+# 		support non-root user to start/stop profile\
+#		using CodeAnalyst.
+
+### BEGIN INIT INFO
+# Provides: codeanalyst
+# Required-Start: $local_fs $remote_fs
+# Required-Stop: $local_fs $remote_fs
+# Should-Start: $syslog
+# Should-Stop:  $syslog
+# Default-Start: 3 4 5
+# Default-Stop: 0 1 2 6
+# Short-Description: Initialize/Unintialize CodeAnalyst
+# Description: This script load/unload Oprofile driver\
+# 		, mount the oprofilefs (/dev/oprofile)\
+# 		, set the group to "amdca"\
+# 		, and grant group write access for oprofile\
+# 		, driver interface. This is necessary to\
+# 		support non-root user to start/stop profile\
+#		using CodeAnalyst.
+### END INIT INFO
+
+#Source function library.
+if test -f /etc/rc.d/init.d/functions ; then
+	# FEDORA STYLE
+	. /etc/rc.d/init.d/functions
+
+elif test -f /etc/rc.status ; then
+	# OPENSUSE STYLE 
+	. /etc/rc.status
+	rc_reset
+
+	echo_success()
+	{
+		echo "$rc_done"
+	}
+
+	echo_failure()
+	{
+		echo "$rc_failed"
+	}	
+elif test -f /lib/lsb/init-functions ; then
+	# UBUNTU STYLE 
+	. /lib/lsb/init-functions
+
+	echo_success()
+	{
+		log_success_msg "success"
+	}
+
+	echo_failure()
+	{
+		log_failure_msg "failed"
+	}	
+fi
+
+
+MODPROBE=/sbin/modprobe 
+RMMOD=/sbin/rmmod
+STAT=/usr/bin/stat
+
+OPROFILE_DIR="/var/lib/oprofile"
+SAMPLES_DIR="$OPROFILE_DIR/samples"
+JIT_DIR="$OPROFILE_DIR/jit"
+JAVA_DIR="$OPROFILE_DIR/Java"
+JITDUMP_DIR="$OPROFILE_DIR/jitdump"
+OP_MOUNT="/dev/oprofile/"
+
+create_dir()
+{
+	if test ! -d "$1"; then
+	       mkdir -p "$1"
+	       if test "$?" != "0"; then
+		       echo "Couldn't mkdir -p $1" >&2
+		       exit 1
+	       fi
+	fi
+}
+
+is_driver_loaded()
+{
+	grep oprofile /proc/modules >/dev/null
+	[ "$?" -eq "0" ] && RETVAL=0 || RETVAL=1
+	return $RETVAL 
+}
+
+is_oprofilefs_mounted()
+{
+	grep oprofilefs /etc/mtab >/dev/null
+	[ "$?" -eq "0" ] && RETVAL=0 || RETVAL=1
+	return $RETVAL
+}
+
+check_amdca_group()
+{
+	grpname=`$STAT --format=%G $1 2> /dev/null`
+	[ "$grpname" = "amdca" ] && return 0 || return 1	
+}
+
+match_user_grp_write()
+{
+        usrwr=`$STAT --format=%A $1 | awk '{split($1,a,""); print a[3]}' 2> /dev/null`
+        grpwr=`$STAT --format=%A $1 | awk '{split($1,a,""); print a[6]}' 2> /dev/null`
+        [ "$grpwr" = "$usrwr" ] && return 0 || return 1
+}
+
+check_user_write()
+{
+        grpwr=`$STAT --format=%A $1 | awk '{split($1,a,""); print a[3]}' 2> /dev/null`
+        [ "$grpwr" = "w" ] && return 0 || return 1
+}
+
+set_grp_write_from_user()
+{
+	check_user_write $1 ; RETVAL=$?
+	[ $RETVAL = 0 ] && chmod g+w $1 > /dev/null 2>&1 || return 0; RETVAL=$?
+	[ $RETVAL = 0 ] && return 0 || return 1 
+}
+
+set_oprofilefs_permission()
+{
+	RETVAL=1
+	for i in $1/* ; 
+	do
+		if [ -d $i ] ; then
+			set_grp_write_from_user $i ; RETVAL=$?
+			[ $RETVAL = 0 ] && set_oprofilefs_permission $i ; RETVAL=$?
+		else
+			set_grp_write_from_user $i ; RETVAL=$?
+		fi
+	done
+	return $RETVAL
+}
+
+check_oprofilefs()
+{
+	RETVAL=1
+	for i in $1/* ; 
+	do
+		if [ -d $i ] ; then
+			check_amdca_group $i ; RETVAL=$?
+			[ $RETVAL = 0 ] && match_user_grp_write $i ; RETVAL=$?
+			[ $RETVAL = 0 ] && check_oprofilefs $i ; RETVAL=$?
+			
+		else
+			check_amdca_group $i ; RETVAL=$?
+			[ $RETVAL = 0 ] && match_user_grp_write $i ; RETVAL=$?
+		fi
+	done
+	return $RETVAL
+}
+
+load_module_26()
+{
+	# Load module
+	$MODPROBE oprofile ; RETVAL=$?
+	[ $RETVAL = 0 ] && is_driver_loaded ; RETVAL=$?
+	[ $RETVAL = 0 ] && return 0 || return 1 
+}
+
+chk_status() {
+	echo -n $"Check Oprofile driver loaded ... "
+	is_driver_loaded ; RETVAL0=$?
+	[ $RETVAL0 = 0 ] && echo "OK" || echo "NO"
+
+	echo -n $"Check Oprofile filesystem mounted ... "
+	is_oprofilefs_mounted ; RETVAL1=$?
+	[ $RETVAL1 = 0 ] && echo "OK" || echo "NO"
+	
+	echo -n $"Check Oprofile filesystem group/permission... "
+	check_oprofilefs $OP_MOUNT; RETVAL2=$?
+	[ $RETVAL2 = 0 ] && echo "OK" || echo "NO"
+	
+	RETVAL=0
+	[ $RETVAL0 -ne  0 ] || [ $RETVAL1 -ne 0 ] || [ $RETVAL2 -ne 0 ] && RETVAL=3
+
+	return $RETVAL
+}
+
+setup_oprofilefs()
+{
+	# Check if /dev/oprofile already exist
+	if test ! -d "/dev/oprofile" ; then
+		mkdir /dev/oprofile >/dev/null 2>&1
+	fi
+	
+	# Mount oprofile fs
+	is_oprofilefs_mounted
+	if test "$?" != "0"; then
+		mount -t oprofilefs nodev /dev/oprofile >/dev/null
+		if test "$?" != "0"; then
+			return 1
+		fi
+	fi
+
+	return 0
+}
+
+load_module()
+{
+	load_module_26; RETVAL=$?
+	[ $RETVAL = 0 ] && setup_oprofilefs ; RETVAL=$?
+	[ $RETVAL = 0 ] && return 0 || return 1 
+}
+
+start() {
+	echo -n "Starting CodeAnalyst services:"
+
+	# Load oprofile driver
+	load_module ; RETVAL=$?
+	
+	# Create files necessary for oprofile
+	[ $RETVAL = 0 ] && create_dir "$SAMPLES_DIR" ; RETVAL=$?
+	[ $RETVAL = 0 ] && create_dir "$JIT_DIR" ; RETVAL=$?
+	[ $RETVAL = 0 ] && create_dir "$JAVA_DIR" ; RETVAL=$?
+	[ $RETVAL = 0 ] && create_dir "$JITDUMP_DIR" ; RETVAL=$?
+
+	# Set mode for MOUNT area /dev/oprofile/
+	[ $RETVAL = 0 ] && chown -R root.amdca $OP_MOUNT/* ; RETVAL=$?
+	[ $RETVAL = 0 ] && set_oprofilefs_permission $OP_MOUNT ; RETVAL=$?
+	#[ $RETVAL = 0 ] && chmod -R g+w $OP_MOUNT/* ; RETVAL=$?
+
+	if [ $RETVAL = 0 ] ; then
+		if test -d /var/lock/subsys ; then
+			touch /var/lock/subsys/codeanalyst; 
+		fi
+		echo_success 
+	else
+		echo_failure
+	fi
+
+	echo ""
+	return $RETVAL 
+}
+
+stop() {
+	echo -n "Stopping CodeAnalyst services:"
+	
+	umount /dev/oprofile 2> /dev/null ; RETVAL=$?
+	[ $RETVAL = 0 ] && $RMMOD oprofile 2> /dev/null ; RETVAL=$?
+	
+	if [ $RETVAL = 0 ] ; then
+		rm -f /var/lock/subsys/codeanalyst; 
+		echo_success 
+	else
+		echo_failure
+	fi
+
+	echo ""
+	return $RETVAL
+}
+
+restart() {
+	stop
+	start
+}
+
+reload() {
+	# 3 = unimplemented feature
+	return 3
+}
+
+force_reload() {
+	restart
+}
+
+rh_status() {
+	chk_status
+}
+
+rh_status_q() {
+	rh_status > /dev/null 2>&1
+}
+
+# parse command-line options and execute
+
+case "$1" in
+	start)
+		rh_status_q && exit 0
+		$1
+		;;
+	stop)
+		rh_status_q || exit 0
+		$1
+		;;
+	# Stop and restart the service if the service is already 
+	# running, otherwise just start the service 
+	restart)
+		$1
+		;;
+	# Reload the configuration of the service without actually 
+	# stopping and restarting the service (if the service does 
+	# not support this, do nothing)
+	reload)
+		rh_status_q || exit 7
+		$1
+		;;
+	# Reload the configuration of the service and restart it so 
+	# that it takes effect 
+	force-reload)
+		force_reload
+		;;
+	status)
+		rh_status
+		;;
+	# Restart the service if the service is already running, 
+	# if not, do nothing 
+	condrestart|try-restart)
+		rh_status_q || exit 0
+		restart
+		;;
+
+	*)
+	    echo $"Usage: $0 {start|stop|restart|status|condrestart|try-restart|reload|force-reload}"
+	    exit 2
+esac
+exit $?

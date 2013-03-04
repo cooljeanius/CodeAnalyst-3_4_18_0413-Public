@@ -1,0 +1,17 @@
+[C:\Windows\system32\SearchIndexer.exe]
+BASE=ffda0000
+SIZE=0
+SAMPS=5
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=5
+3720,4616,1,1,[20 6] 1,0x445e
+3720,4616,1,1,[20 3] 1,0x4680
+3720,4616,1,1,[20 4] 1,0x4afc
+3720,4616,1,1,[20 3] 1,0x12b21
+3720,4616,1,1,[20 5] 1,0x13f4d
+[SUB_END]
+[END]
+

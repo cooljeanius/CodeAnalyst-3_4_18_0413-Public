@@ -1,0 +1,13 @@
+[C:\Windows\system32\DRIVERS\usbccgp.sys]
+BASE=fffff88002a4e000
+SIZE=0
+SAMPS=1
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+0,0,1,1,[23 3] 1,0x178e
+[SUB_END]
+[END]
+

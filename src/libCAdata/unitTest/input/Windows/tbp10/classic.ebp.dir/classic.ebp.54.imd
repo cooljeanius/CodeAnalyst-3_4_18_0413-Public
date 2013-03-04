@@ -1,0 +1,13 @@
+[C:\Windows\System32\firewallapi.dll]
+BASE=7fefcc00000
+SIZE=0
+SAMPS=2
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+276,3096,2,2,[2 3] 1,[2 5] 1,0x1655
+[SUB_END]
+[END]
+

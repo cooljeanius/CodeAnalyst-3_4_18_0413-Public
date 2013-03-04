@@ -1,0 +1,14 @@
+[C:\Program Files\Microsoft Visual Studio 8\Common7\Tools\Deployment\Vspkgs\dpdpl.dll]
+BASE=5cc30000
+SIZE=0
+SAMPS=2
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=2
+5292,7592,1,1,[1 3] 1,0x7936c
+5292,5332,1,1,[3 3] 1,0x79384
+[SUB_END]
+[END]
+

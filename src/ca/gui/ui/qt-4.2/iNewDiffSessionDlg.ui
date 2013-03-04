@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0" stdsetdef="1">
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>iNewDiffSessionDlg</class>
+  <widget class="QDialog" name="iNewDiffSessionDlg">
+    <property name="geometry">
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>687</width>
+        <height>412</height>
+      </rect>
+    </property>
+    <property name="windowTitle">
+      <string>New Diff Session</string>
+    </property>
+    <property name="sizeGripEnabled">
+      <bool>true</bool>
+    </property>
+    <layout class="QGridLayout">
+      <item row="0" column="0">
+        <widget class="Q3ButtonGroup" name="buttonGroup1">
+          <property name="title">
+            <string/>
+          </property>
+          <layout class="QGridLayout">
+            <item row="0" column="0" rowspan="1" colspan="2">
+              <layout class="QHBoxLayout">
+                <item>
+                  <widget class="QLabel" name="textLabel1">
+                    <property name="minimumSize">
+                      <size>
+                        <width>75</width>
+                        <height>0</height>
+                      </size>
+                    </property>
+                    <property name="maximumSize">
+                      <size>
+                        <width>32767</width>
+                        <height>32767</height>
+                      </size>
+                    </property>
+                    <property name="text">
+                      <string>CodeAnalyst Session :</string>
+                    </property>
+                    <property name="wordWrap">
+                      <bool>false</bool>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QComboBox" name="m_pSessionFile">
+                    <property name="sizePolicy">
+                      <sizepolicy>
+                        <hsizetype>5</hsizetype>
+                        <vsizetype>0</vsizetype>
+                        <horstretch>250</horstretch>
+                        <verstretch>0</verstretch>
+                      </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                      <size>
+                        <width>400</width>
+                        <height>0</height>
+                      </size>
+                    </property>
+                    <property name="editable">
+                      <bool>false</bool>
+                    </property>
+                  </widget>
+                </item>
+              </layout>
+            </item>
+            <item row="1" column="0">
+              <layout class="QVBoxLayout">
+                <item>
+                  <widget class="QLabel" name="textLabel1_2">
+                    <property name="minimumSize">
+                      <size>
+                        <width>75</width>
+                        <height>0</height>
+                      </size>
+                    </property>
+                    <property name="maximumSize">
+                      <size>
+                        <width>100</width>
+                        <height>32767</height>
+                      </size>
+                    </property>
+                    <property name="text">
+                      <string>Available Tasks :</string>
+                    </property>
+                    <property name="wordWrap">
+                      <bool>false</bool>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="Q3ListBox" name="m_pTask"/>
+                </item>
+              </layout>
+            </item>
+            <item row="1" column="1">
+              <layout class="QVBoxLayout">
+                <item>
+                  <widget class="QLabel" name="textLabel1_2_3">
+                    <property name="minimumSize">
+                      <size>
+                        <width>75</width>
+                        <height>0</height>
+                      </size>
+                    </property>
+                    <property name="maximumSize">
+                      <size>
+                        <width>100</width>
+                        <height>32767</height>
+                      </size>
+                    </property>
+                    <property name="text">
+                      <string>Available Modules :</string>
+                    </property>
+                    <property name="wordWrap">
+                      <bool>false</bool>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="Q3ListBox" name="m_pModule"/>
+                </item>
+              </layout>
+            </item>
+            <item row="2" column="0" rowspan="1" colspan="2">
+              <layout class="QHBoxLayout">
+                <item>
+                  <spacer name="spacer8">
+                    <property name="sizeHint">
+                      <size>
+                        <width>161</width>
+                        <height>21</height>
+                      </size>
+                    </property>
+                    <property name="sizeType">
+                      <enum>QSizePolicy::Expanding</enum>
+                    </property>
+                    <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                    </property>
+                  </spacer>
+                </item>
+                <item>
+                  <widget class="QPushButton" name="m_pAddBtn">
+                    <property name="enabled">
+                      <bool>false</bool>
+                    </property>
+                    <property name="minimumSize">
+                      <size>
+                        <width>100</width>
+                        <height>0</height>
+                      </size>
+                    </property>
+                    <property name="text">
+                      <string>&amp;Add</string>
+                    </property>
+                    <property name="shortcut">
+                      <string>Alt+A</string>
+                    </property>
+                  </widget>
+                </item>
+              </layout>
+            </item>
+          </layout>
+        </widget>
+      </item>
+      <item row="1" column="0">
+        <layout class="QGridLayout">
+          <item row="0" column="0" rowspan="2" colspan="1">
+            <widget class="Q3ListView" name="m_pSessionListView">
+              <property name="minimumSize">
+                <size>
+                  <width>0</width>
+                  <height>100</height>
+                </size>
+              </property>
+              <property name="maximumSize">
+                <size>
+                  <width>32767</width>
+                  <height>100</height>
+                </size>
+              </property>
+              <property name="resizeMode">
+                <enum>Q3ListView::AllColumns</enum>
+              </property>
+              <column>
+                <property name="text">
+                  <string>Sessfion File</string>
+                </property>
+                <property name="clickable">
+                  <bool>false</bool>
+                </property>
+                <property name="resizable">
+                  <bool>true</bool>
+                </property>
+              </column>
+              <column>
+                <property name="text">
+                  <string>Task</string>
+                </property>
+                <property name="clickable">
+                  <bool>false</bool>
+                </property>
+                <property name="resizable">
+                  <bool>true</bool>
+                </property>
+              </column>
+              <column>
+                <property name="text">
+                  <string>Module</string>
+                </property>
+                <property name="clickable">
+                  <bool>false</bool>
+                </property>
+                <property name="resizable">
+                  <bool>true</bool>
+                </property>
+              </column>
+            </widget>
+          </item>
+          <item row="0" column="1">
+            <widget class="QPushButton" name="m_pEditBtn">
+              <property name="text">
+                <string>&amp;Edit</string>
+              </property>
+              <property name="shortcut">
+                <string>Alt+E</string>
+              </property>
+            </widget>
+          </item>
+          <item row="1" column="1">
+            <widget class="QPushButton" name="m_pRemoveBtn">
+              <property name="text">
+                <string>&amp;Remove</string>
+              </property>
+              <property name="shortcut">
+                <string>Alt+R</string>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+      <item row="2" column="0">
+        <layout class="QHBoxLayout">
+          <property name="margin">
+            <number>0</number>
+          </property>
+          <property name="spacing">
+            <number>6</number>
+          </property>
+          <item>
+            <spacer name="Horizontal Spacing2">
+              <property name="sizeHint">
+                <size>
+                  <width>20</width>
+                  <height>20</height>
+                </size>
+              </property>
+              <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+          <item>
+            <widget class="QPushButton" name="buttonOk">
+              <property name="text">
+                <string>Create &amp;Diff Session</string>
+              </property>
+              <property name="shortcut">
+                <string>Alt+D</string>
+              </property>
+              <property name="autoDefault">
+                <bool>true</bool>
+              </property>
+              <property name="default">
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QPushButton" name="buttonCancel">
+              <property name="text">
+                <string>&amp;Cancel</string>
+              </property>
+              <property name="shortcut">
+                <string>Alt+C</string>
+              </property>
+              <property name="autoDefault">
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11"/>
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <connections>
+    <connection>
+      <sender>buttonOk</sender>
+      <signal>clicked()</signal>
+      <receiver>iNewDiffSessionDlg</receiver>
+      <slot>accept()</slot>
+    </connection>
+    <connection>
+      <sender>buttonCancel</sender>
+      <signal>clicked()</signal>
+      <receiver>iNewDiffSessionDlg</receiver>
+      <slot>reject()</slot>
+    </connection>
+    <connection>
+      <sender>m_pAddBtn</sender>
+      <signal>clicked()</signal>
+      <receiver>iNewDiffSessionDlg</receiver>
+      <slot>onAdd()</slot>
+    </connection>
+    <connection>
+      <sender>m_pEditBtn</sender>
+      <signal>clicked()</signal>
+      <receiver>iNewDiffSessionDlg</receiver>
+      <slot>onEdit()</slot>
+    </connection>
+    <connection>
+      <sender>m_pRemoveBtn</sender>
+      <signal>clicked()</signal>
+      <receiver>iNewDiffSessionDlg</receiver>
+      <slot>onRemove()</slot>
+    </connection>
+  </connections>
+</ui>

@@ -1,0 +1,14 @@
+[/usr/lib64/libcairo.so.2.10800.6]
+BASE=0
+SIZE=0
+SAMPS=2
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=2
+9,0,1,1,[2 0] 1,0x3c85810bf2
+9,0,1,1,[2 5] 1,0x3c858454c5
+[SUB_END]
+[END]
+

@@ -1,0 +1,14 @@
+**********
+* README *
+**********
+
+Last Update: 9/29/2009
+
+Package Name	: CodeAnalyst Agent
+Provides	: libCAagent, libCAJVMTIA, libCAJVMPIA
+
+libCAagent is used by CodeAnalyst-modified OProfile daemon and CodeAnalyst
+Java profiling agent (CA-JVMTI). JVMPI is no longer support and is included
+for legacy purpose.
+
+Please see INSTALL for how to build and install.

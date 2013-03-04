@@ -1,0 +1,17 @@
+[C:\Windows\system32\rsaenh.dll]
+BASE=7fefd050000
+SIZE=0
+SAMPS=8
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=5
+972,4712,3,2,[4 3] 1,[4 4] 2,0x134a
+3816,4764,1,1,[5 5] 1,0x139d
+972,4712,1,1,[4 5] 1,0x1511
+972,4712,2,2,[4 0] 1,[4 1] 1,0x15df
+948,1116,1,1,[4 4] 1,0x1bdb
+[SUB_END]
+[END]
+

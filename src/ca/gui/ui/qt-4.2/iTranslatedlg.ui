@@ -1,0 +1,75 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>iTranslateDlg</class>
+  <widget class="QDialog" name="iTranslateDlg" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>468</width>
+        <height>451</height>
+      </rect>
+    </property>
+    <property name="font" >
+      <font>
+        <pointsize>11</pointsize>
+      </font>
+    </property>
+    <property name="windowTitle" >
+      <string>Form1</string>
+    </property>
+    <layout class="QGridLayout" >
+      <item rowspan="1" row="0" column="0" colspan="2" >
+        <widget class="Q3TextEdit" name="translate_edit" >
+          <property name="readOnly" >
+            <bool>true</bool>
+          </property>
+        </widget>
+      </item>
+      <item row="1" column="0" >
+        <spacer name="spacer1" >
+          <property name="sizeHint" >
+            <size>
+              <width>340</width>
+              <height>21</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Horizontal</enum>
+          </property>
+        </spacer>
+      </item>
+      <item row="1" column="1" >
+        <widget class="QPushButton" name="m_pOk" >
+          <property name="minimumSize" >
+            <size>
+              <width>20</width>
+              <height>0</height>
+            </size>
+          </property>
+          <property name="text" >
+            <string>&amp;Ok</string>
+          </property>
+          <property name="shortcut" >
+            <string>Alt+O</string>
+          </property>
+        </widget>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <connections>
+    <connection>
+      <sender>m_pOk</sender>
+      <signal>clicked()</signal>
+      <receiver>iTranslateDlg</receiver>
+      <slot>close()</slot>
+    </connection>
+  </connections>
+</ui>

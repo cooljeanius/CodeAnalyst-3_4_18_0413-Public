@@ -1,0 +1,13 @@
+[C:\Windows\system32\drivers\HTTP.sys]
+BASE=fffff880028f6000
+SIZE=0
+SAMPS=1
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+4,2284,1,1,[0 3] 1,0x67256
+[SUB_END]
+[END]
+

@@ -1,0 +1,1152 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>iEventCfgDlg</class>
+  <widget class="QDialog" name="iEventCfgDlg" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>684</width>
+        <height>658</height>
+      </rect>
+    </property>
+    <property name="windowTitle" >
+      <string>Edit EBS / IBS Profile Configuration</string>
+    </property>
+    <property name="sizeGripEnabled" >
+      <bool>true</bool>
+    </property>
+    <layout class="QGridLayout" >
+      <item row="0" column="0" >
+        <layout class="QHBoxLayout" >
+          <property name="margin" >
+            <number>0</number>
+          </property>
+          <item>
+            <widget class="QLabel" name="textLabel5" >
+              <property name="sizePolicy" >
+                <sizepolicy>
+                  <hsizetype>0</hsizetype>
+                  <vsizetype>5</vsizetype>
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                </sizepolicy>
+              </property>
+              <property name="text" >
+                <string>Profile Name:</string>
+              </property>
+              <property name="wordWrap" >
+                <bool>false</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QComboBox" name="m_pDcConfigs" >
+              <property name="sizePolicy" >
+                <sizepolicy>
+                  <hsizetype>5</hsizetype>
+                  <vsizetype>0</vsizetype>
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                </sizepolicy>
+              </property>
+              <property name="editable" >
+                <bool>false</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QPushButton" name="m_pManageDcConfigs" >
+              <property name="sizePolicy" >
+                <sizepolicy>
+                  <hsizetype>0</hsizetype>
+                  <vsizetype>0</vsizetype>
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                </sizepolicy>
+              </property>
+              <property name="text" >
+                <string>&amp;Manage Profiles</string>
+              </property>
+              <property name="shortcut" >
+                <string>Alt+M</string>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+      <item row="2" column="0" >
+        <widget class="QTabWidget" name="m_pCurrentEventTab" >
+          <widget class="QWidget" name="tab" >
+            <attribute name="title" >
+              <string>Selected Events</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <property name="margin" >
+                <number>0</number>
+              </property>
+              <item row="0" column="0" >
+                <widget class="QLabel" name="textLabel1_2_4" >
+                  <property name="sizePolicy" >
+                    <sizepolicy>
+                      <hsizetype>0</hsizetype>
+                      <vsizetype>5</vsizetype>
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                    </sizepolicy>
+                  </property>
+                  <property name="text" >
+                    <string>Events in this profile configuration :</string>
+                  </property>
+                  <property name="wordWrap" >
+                    <bool>false</bool>
+                  </property>
+                </widget>
+              </item>
+              <item row="1" column="0" >
+                <widget class="Q3ListView" name="m_pSelectedList" >
+                  <property name="sizePolicy" >
+                    <sizepolicy>
+                      <hsizetype>7</hsizetype>
+                      <vsizetype>7</vsizetype>
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                    </sizepolicy>
+                  </property>
+                  <property name="resizePolicy" >
+                    <enum>Q3ScrollView::Manual</enum>
+                  </property>
+                  <property name="allColumnsShowFocus" >
+                    <bool>true</bool>
+                  </property>
+                  <property name="showSortIndicator" >
+                    <bool>true</bool>
+                  </property>
+                  <property name="rootIsDecorated" >
+                    <bool>false</bool>
+                  </property>
+                  <property name="resizeMode" >
+                    <enum>Q3ListView::LastColumn</enum>
+                  </property>
+                  <column>
+                    <property name="text" >
+                      <string>Event</string>
+                    </property>
+                    <property name="clickable" >
+                      <bool>true</bool>
+                    </property>
+                    <property name="resizable" >
+                      <bool>true</bool>
+                    </property>
+                  </column>
+                  <column>
+                    <property name="text" >
+                      <string>Source</string>
+                    </property>
+                    <property name="clickable" >
+                      <bool>true</bool>
+                    </property>
+                    <property name="resizable" >
+                      <bool>true</bool>
+                    </property>
+                  </column>
+                  <column>
+                    <property name="text" >
+                      <string>Count</string>
+                    </property>
+                    <property name="clickable" >
+                      <bool>true</bool>
+                    </property>
+                    <property name="resizable" >
+                      <bool>true</bool>
+                    </property>
+                  </column>
+                  <column>
+                    <property name="text" >
+                      <string>Unitmask</string>
+                    </property>
+                    <property name="clickable" >
+                      <bool>true</bool>
+                    </property>
+                    <property name="resizable" >
+                      <bool>true</bool>
+                    </property>
+                  </column>
+                  <column>
+                    <property name="text" >
+                      <string>Usr</string>
+                    </property>
+                    <property name="clickable" >
+                      <bool>true</bool>
+                    </property>
+                    <property name="resizable" >
+                      <bool>true</bool>
+                    </property>
+                  </column>
+                  <column>
+                    <property name="text" >
+                      <string>Os</string>
+                    </property>
+                    <property name="clickable" >
+                      <bool>true</bool>
+                    </property>
+                    <property name="resizable" >
+                      <bool>true</bool>
+                    </property>
+                  </column>
+                  <column>
+                    <property name="text" >
+                      <string>Name</string>
+                    </property>
+                    <property name="clickable" >
+                      <bool>true</bool>
+                    </property>
+                    <property name="resizable" >
+                      <bool>true</bool>
+                    </property>
+                  </column>
+                </widget>
+              </item>
+              <item row="2" column="0" >
+                <layout class="QHBoxLayout" >
+                  <property name="margin" >
+                    <number>0</number>
+                  </property>
+                  <item>
+                    <widget class="QLabel" name="m_pMuxIntervalLabel" >
+                      <property name="text" >
+                        <string>Multiplexing interval (msec)</string>
+                      </property>
+                      <property name="wordWrap" >
+                        <bool>false</bool>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <widget class="QLineEdit" name="m_pMuxInterval" >
+                      <property name="sizePolicy" >
+                        <sizepolicy>
+                          <hsizetype>0</hsizetype>
+                          <vsizetype>0</vsizetype>
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                        </sizepolicy>
+                      </property>
+                      <property name="maximumSize" >
+                        <size>
+                          <width>40</width>
+                          <height>32767</height>
+                        </size>
+                      </property>
+                      <property name="text" >
+                        <string/>
+                      </property>
+                      <property name="alignment" >
+                        <set>Qt::AlignRight</set>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="m_pRemove" >
+                      <property name="sizePolicy" >
+                        <sizepolicy>
+                          <hsizetype>0</hsizetype>
+                          <vsizetype>0</vsizetype>
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                        </sizepolicy>
+                      </property>
+                      <property name="maximumSize" >
+                        <size>
+                          <width>100</width>
+                          <height>30</height>
+                        </size>
+                      </property>
+                      <property name="text" >
+                        <string>&amp;Remove Event</string>
+                      </property>
+                      <property name="shortcut" >
+                        <string>Alt+R</string>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <spacer name="spacer10" >
+                      <property name="sizeHint" >
+                        <size>
+                          <width>181</width>
+                          <height>31</height>
+                        </size>
+                      </property>
+                      <property name="sizeType" >
+                        <enum>Expanding</enum>
+                      </property>
+                      <property name="orientation" >
+                        <enum>Horizontal</enum>
+                      </property>
+                    </spacer>
+                  </item>
+                </layout>
+              </item>
+              <item rowspan="3" row="0" column="1" colspan="1" >
+                <widget class="Q3ButtonGroup" name="m_pEventSettingBox" >
+                  <property name="sizePolicy" >
+                    <sizepolicy>
+                      <hsizetype>5</hsizetype>
+                      <vsizetype>3</vsizetype>
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                    </sizepolicy>
+                  </property>
+                  <property name="title" >
+                    <string>Event Setting</string>
+                  </property>
+                  <layout class="QGridLayout" >
+                    <property name="margin" >
+                      <number>0</number>
+                    </property>
+                    <item rowspan="1" row="0" column="0" colspan="2" >
+                      <layout class="QVBoxLayout" >
+                        <property name="margin" >
+                          <number>0</number>
+                        </property>
+                        <item>
+                          <layout class="QHBoxLayout" >
+                            <property name="margin" >
+                              <number>0</number>
+                            </property>
+                            <item>
+                              <widget class="QLabel" name="textLabel16_2_2" >
+                                <property name="sizePolicy" >
+                                  <sizepolicy>
+                                    <hsizetype>0</hsizetype>
+                                    <vsizetype>5</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                  </sizepolicy>
+                                </property>
+                                <property name="text" >
+                                  <string>Count</string>
+                                </property>
+                                <property name="wordWrap" >
+                                  <bool>false</bool>
+                                </property>
+                              </widget>
+                            </item>
+                            <item>
+                              <widget class="QLineEdit" name="m_pCount" >
+                                <property name="sizePolicy" >
+                                  <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>2</horstretch>
+                                    <verstretch>0</verstretch>
+                                  </sizepolicy>
+                                </property>
+                                <property name="minimumSize" >
+                                  <size>
+                                    <width>0</width>
+                                    <height>0</height>
+                                  </size>
+                                </property>
+                                <property name="text" >
+                                  <string/>
+                                </property>
+                              </widget>
+                            </item>
+                          </layout>
+                        </item>
+                        <item>
+                          <widget class="Q3GroupBox" name="m_pUmaskBox" >
+                            <property name="sizePolicy" >
+                              <sizepolicy>
+                                <hsizetype>5</hsizetype>
+                                <vsizetype>1</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                              </sizepolicy>
+                            </property>
+                            <property name="title" >
+                              <string>Unit Masks / Options</string>
+                            </property>
+                          </widget>
+                        </item>
+                      </layout>
+                    </item>
+                    <item row="1" column="0" >
+                      <widget class="QCheckBox" name="m_pUsr" >
+                        <property name="sizePolicy" >
+                          <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                          </sizepolicy>
+                        </property>
+                        <property name="text" >
+                          <string>Usr</string>
+                        </property>
+                        <property name="checked" >
+                          <bool>false</bool>
+                        </property>
+                      </widget>
+                    </item>
+                    <item row="2" column="0" >
+                      <widget class="QCheckBox" name="m_pOs" >
+                        <property name="sizePolicy" >
+                          <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                          </sizepolicy>
+                        </property>
+                        <property name="text" >
+                          <string>Os</string>
+                        </property>
+                        <property name="checked" >
+                          <bool>false</bool>
+                        </property>
+                      </widget>
+                    </item>
+                    <item rowspan="2" row="1" column="1" colspan="1" >
+                      <layout class="QHBoxLayout" >
+                        <property name="margin" >
+                          <number>0</number>
+                        </property>
+                        <item>
+                          <spacer name="spacer11" >
+                            <property name="sizeHint" >
+                              <size>
+                                <width>31</width>
+                                <height>21</height>
+                              </size>
+                            </property>
+                            <property name="sizeType" >
+                              <enum>Minimum</enum>
+                            </property>
+                            <property name="orientation" >
+                              <enum>Horizontal</enum>
+                            </property>
+                          </spacer>
+                        </item>
+                        <item>
+                          <widget class="QPushButton" name="m_pApply" >
+                            <property name="sizePolicy" >
+                              <sizepolicy>
+                                <hsizetype>0</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                              </sizepolicy>
+                            </property>
+                            <property name="maximumSize" >
+                              <size>
+                                <width>100</width>
+                                <height>30</height>
+                              </size>
+                            </property>
+                            <property name="text" >
+                              <string>&amp;Apply Setting</string>
+                            </property>
+                            <property name="shortcut" >
+                              <string>Alt+A</string>
+                            </property>
+                          </widget>
+                        </item>
+                      </layout>
+                    </item>
+                  </layout>
+                </widget>
+              </item>
+            </layout>
+          </widget>
+          <widget class="QWidget" name="tab" >
+            <attribute name="title" >
+              <string>Description</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <property name="margin" >
+                <number>0</number>
+              </property>
+              <item row="1" column="0" >
+                <widget class="Q3TextEdit" name="m_pDescription" >
+                  <property name="text" >
+                    <string/>
+                  </property>
+                  <property name="wordWrap" >
+                    <enum>Q3TextEdit::WidgetWidth</enum>
+                  </property>
+                  <property name="readOnly" >
+                    <bool>false</bool>
+                  </property>
+                </widget>
+              </item>
+              <item row="0" column="0" >
+                <widget class="QLabel" name="textLabel2" >
+                  <property name="text" >
+                    <string>Please enter description for this profile :</string>
+                  </property>
+                  <property name="wordWrap" >
+                    <bool>false</bool>
+                  </property>
+                </widget>
+              </item>
+            </layout>
+          </widget>
+        </widget>
+      </item>
+      <item row="1" column="0" >
+        <widget class="QTabWidget" name="m_pAvailableEventTab" >
+          <widget class="QWidget" name="tab" >
+            <attribute name="title" >
+              <string>Perf Counter</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <property name="margin" >
+                <number>0</number>
+              </property>
+              <item row="0" column="0" >
+                <widget class="QLabel" name="textLabel1_2" >
+                  <property name="sizePolicy" >
+                    <sizepolicy>
+                      <hsizetype>0</hsizetype>
+                      <vsizetype>5</vsizetype>
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                    </sizepolicy>
+                  </property>
+                  <property name="text" >
+                    <string>Please select event from the list below :</string>
+                  </property>
+                  <property name="wordWrap" >
+                    <bool>false</bool>
+                  </property>
+                </widget>
+              </item>
+              <item row="1" column="0" >
+                <widget class="Q3ListView" name="m_pPmcList" >
+                  <property name="sizePolicy" >
+                    <sizepolicy>
+                      <hsizetype>7</hsizetype>
+                      <vsizetype>7</vsizetype>
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                    </sizepolicy>
+                  </property>
+                  <property name="selectionMode" >
+                    <enum>Q3ListView::Extended</enum>
+                  </property>
+                  <property name="allColumnsShowFocus" >
+                    <bool>true</bool>
+                  </property>
+                  <property name="showSortIndicator" >
+                    <bool>true</bool>
+                  </property>
+                  <property name="rootIsDecorated" >
+                    <bool>false</bool>
+                  </property>
+                  <property name="resizeMode" >
+                    <enum>Q3ListView::LastColumn</enum>
+                  </property>
+                  <column>
+                    <property name="text" >
+                      <string>Event</string>
+                    </property>
+                    <property name="clickable" >
+                      <bool>true</bool>
+                    </property>
+                    <property name="resizable" >
+                      <bool>true</bool>
+                    </property>
+                  </column>
+                  <column>
+                    <property name="text" >
+                      <string>Source</string>
+                    </property>
+                    <property name="clickable" >
+                      <bool>true</bool>
+                    </property>
+                    <property name="resizable" >
+                      <bool>true</bool>
+                    </property>
+                  </column>
+                  <column>
+                    <property name="text" >
+                      <string>Name</string>
+                    </property>
+                    <property name="clickable" >
+                      <bool>true</bool>
+                    </property>
+                    <property name="resizable" >
+                      <bool>true</bool>
+                    </property>
+                  </column>
+                </widget>
+              </item>
+              <item row="1" column="1" >
+                <layout class="QVBoxLayout" >
+                  <property name="margin" >
+                    <number>0</number>
+                  </property>
+                  <item>
+                    <spacer name="spacer9" >
+                      <property name="sizeHint" >
+                        <size>
+                          <width>21</width>
+                          <height>121</height>
+                        </size>
+                      </property>
+                      <property name="sizeType" >
+                        <enum>Expanding</enum>
+                      </property>
+                      <property name="orientation" >
+                        <enum>Vertical</enum>
+                      </property>
+                    </spacer>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="m_pPmcAdd" >
+                      <property name="text" >
+                        <string>Add Events</string>
+                      </property>
+                    </widget>
+                  </item>
+                </layout>
+              </item>
+            </layout>
+          </widget>
+          <widget class="QWidget" name="tab" >
+            <attribute name="title" >
+              <string>IBS Fetch</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <property name="margin" >
+                <number>0</number>
+              </property>
+              <item row="0" column="0" >
+                <widget class="QLabel" name="textLabel1_2_2" >
+                  <property name="sizePolicy" >
+                    <sizepolicy>
+                      <hsizetype>0</hsizetype>
+                      <vsizetype>5</vsizetype>
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                    </sizepolicy>
+                  </property>
+                  <property name="text" >
+                    <string>Please select event from the list below :</string>
+                  </property>
+                  <property name="wordWrap" >
+                    <bool>false</bool>
+                  </property>
+                </widget>
+              </item>
+              <item row="1" column="0" >
+                <widget class="Q3ListView" name="m_pFetchList" >
+                  <property name="sizePolicy" >
+                    <sizepolicy>
+                      <hsizetype>7</hsizetype>
+                      <vsizetype>7</vsizetype>
+                      <horstretch>100</horstretch>
+                      <verstretch>0</verstretch>
+                    </sizepolicy>
+                  </property>
+                  <property name="selectionMode" >
+                    <enum>Q3ListView::Extended</enum>
+                  </property>
+                  <property name="allColumnsShowFocus" >
+                    <bool>true</bool>
+                  </property>
+                  <property name="showSortIndicator" >
+                    <bool>true</bool>
+                  </property>
+                  <property name="rootIsDecorated" >
+                    <bool>false</bool>
+                  </property>
+                  <property name="resizeMode" >
+                    <enum>Q3ListView::LastColumn</enum>
+                  </property>
+                  <column>
+                    <property name="text" >
+                      <string>Event</string>
+                    </property>
+                    <property name="clickable" >
+                      <bool>true</bool>
+                    </property>
+                    <property name="resizable" >
+                      <bool>true</bool>
+                    </property>
+                  </column>
+                  <column>
+                    <property name="text" >
+                      <string>Source</string>
+                    </property>
+                    <property name="clickable" >
+                      <bool>true</bool>
+                    </property>
+                    <property name="resizable" >
+                      <bool>true</bool>
+                    </property>
+                  </column>
+                  <column>
+                    <property name="text" >
+                      <string>Name</string>
+                    </property>
+                    <property name="clickable" >
+                      <bool>true</bool>
+                    </property>
+                    <property name="resizable" >
+                      <bool>true</bool>
+                    </property>
+                  </column>
+                </widget>
+              </item>
+              <item row="1" column="1" >
+                <layout class="QVBoxLayout" >
+                  <property name="margin" >
+                    <number>0</number>
+                  </property>
+                  <item>
+                    <spacer name="spacer10_2" >
+                      <property name="sizeHint" >
+                        <size>
+                          <width>20</width>
+                          <height>131</height>
+                        </size>
+                      </property>
+                      <property name="sizeType" >
+                        <enum>Expanding</enum>
+                      </property>
+                      <property name="orientation" >
+                        <enum>Vertical</enum>
+                      </property>
+                    </spacer>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="m_pFetchAdd" >
+                      <property name="text" >
+                        <string>Add Events</string>
+                      </property>
+                    </widget>
+                  </item>
+                </layout>
+              </item>
+            </layout>
+          </widget>
+          <widget class="QWidget" name="TabPage" >
+            <attribute name="title" >
+              <string>IBS Op</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <property name="margin" >
+                <number>0</number>
+              </property>
+              <item row="0" column="0" >
+                <widget class="QLabel" name="textLabel1_2_3" >
+                  <property name="sizePolicy" >
+                    <sizepolicy>
+                      <hsizetype>0</hsizetype>
+                      <vsizetype>5</vsizetype>
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                    </sizepolicy>
+                  </property>
+                  <property name="text" >
+                    <string>Please select event from the list below :</string>
+                  </property>
+                  <property name="wordWrap" >
+                    <bool>false</bool>
+                  </property>
+                </widget>
+              </item>
+              <item row="1" column="0" >
+                <widget class="Q3ListView" name="m_pOpList" >
+                  <property name="sizePolicy" >
+                    <sizepolicy>
+                      <hsizetype>7</hsizetype>
+                      <vsizetype>7</vsizetype>
+                      <horstretch>100</horstretch>
+                      <verstretch>0</verstretch>
+                    </sizepolicy>
+                  </property>
+                  <property name="selectionMode" >
+                    <enum>Q3ListView::Extended</enum>
+                  </property>
+                  <property name="allColumnsShowFocus" >
+                    <bool>true</bool>
+                  </property>
+                  <property name="showSortIndicator" >
+                    <bool>true</bool>
+                  </property>
+                  <property name="rootIsDecorated" >
+                    <bool>false</bool>
+                  </property>
+                  <property name="resizeMode" >
+                    <enum>Q3ListView::LastColumn</enum>
+                  </property>
+                  <column>
+                    <property name="text" >
+                      <string>Event</string>
+                    </property>
+                    <property name="clickable" >
+                      <bool>true</bool>
+                    </property>
+                    <property name="resizable" >
+                      <bool>true</bool>
+                    </property>
+                  </column>
+                  <column>
+                    <property name="text" >
+                      <string>Source</string>
+                    </property>
+                    <property name="clickable" >
+                      <bool>true</bool>
+                    </property>
+                    <property name="resizable" >
+                      <bool>true</bool>
+                    </property>
+                  </column>
+                  <column>
+                    <property name="text" >
+                      <string>Name</string>
+                    </property>
+                    <property name="clickable" >
+                      <bool>true</bool>
+                    </property>
+                    <property name="resizable" >
+                      <bool>true</bool>
+                    </property>
+                  </column>
+                </widget>
+              </item>
+              <item row="1" column="1" >
+                <layout class="QVBoxLayout" >
+                  <property name="margin" >
+                    <number>0</number>
+                  </property>
+                  <item>
+                    <spacer name="spacer11_2" >
+                      <property name="sizeHint" >
+                        <size>
+                          <width>20</width>
+                          <height>245</height>
+                        </size>
+                      </property>
+                      <property name="sizeType" >
+                        <enum>Expanding</enum>
+                      </property>
+                      <property name="orientation" >
+                        <enum>Vertical</enum>
+                      </property>
+                    </spacer>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="m_pOpAdd" >
+                      <property name="text" >
+                        <string>Add Events</string>
+                      </property>
+                    </widget>
+                  </item>
+                </layout>
+              </item>
+            </layout>
+          </widget>
+          <widget class="QWidget" name="TabPage" >
+            <attribute name="title" >
+              <string>Import</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <property name="margin" >
+                <number>0</number>
+              </property>
+              <item row="1" column="0" >
+                <layout class="QHBoxLayout" >
+                  <property name="margin" >
+                    <number>0</number>
+                  </property>
+                  <item>
+                    <widget class="QLabel" name="textLabel6" >
+                      <property name="text" >
+                        <string>Existing Profile Configurations :</string>
+                      </property>
+                      <property name="wordWrap" >
+                        <bool>false</bool>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <widget class="QComboBox" name="m_pImportDcConfigs" >
+                      <property name="sizePolicy" >
+                        <sizepolicy>
+                          <hsizetype>1</hsizetype>
+                          <vsizetype>0</vsizetype>
+                          <horstretch>100</horstretch>
+                          <verstretch>0</verstretch>
+                        </sizepolicy>
+                      </property>
+                    </widget>
+                  </item>
+                </layout>
+              </item>
+              <item row="2" column="0" >
+                <widget class="Q3TextEdit" name="m_pImportDescription" >
+                  <property name="text" >
+                    <string/>
+                  </property>
+                  <property name="wordWrap" >
+                    <enum>Q3TextEdit::WidgetWidth</enum>
+                  </property>
+                  <property name="readOnly" >
+                    <bool>true</bool>
+                  </property>
+                </widget>
+              </item>
+              <item row="0" column="0" >
+                <widget class="QLabel" name="textLabel1" >
+                  <property name="text" >
+                    <string>Import Events From Existing DC Configurations :</string>
+                  </property>
+                  <property name="wordWrap" >
+                    <bool>false</bool>
+                  </property>
+                </widget>
+              </item>
+              <item rowspan="2" row="1" column="1" colspan="1" >
+                <layout class="QVBoxLayout" >
+                  <property name="margin" >
+                    <number>0</number>
+                  </property>
+                  <item>
+                    <spacer name="spacer12" >
+                      <property name="sizeHint" >
+                        <size>
+                          <width>21</width>
+                          <height>241</height>
+                        </size>
+                      </property>
+                      <property name="sizeType" >
+                        <enum>Expanding</enum>
+                      </property>
+                      <property name="orientation" >
+                        <enum>Vertical</enum>
+                      </property>
+                    </spacer>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="m_pImportAdd" >
+                      <property name="text" >
+                        <string>Import Events</string>
+                      </property>
+                    </widget>
+                  </item>
+                </layout>
+              </item>
+            </layout>
+          </widget>
+          <widget class="QWidget" name="TabPage" >
+            <attribute name="title" >
+              <string>Info</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <property name="margin" >
+                <number>0</number>
+              </property>
+              <item row="1" column="0" >
+                <widget class="Q3TextEdit" name="m_pInfo" >
+                  <property name="readOnly" >
+                    <bool>true</bool>
+                  </property>
+                </widget>
+              </item>
+              <item row="0" column="0" >
+                <widget class="QLabel" name="textLabel1_3" >
+                  <property name="text" >
+                    <string>System Information :</string>
+                  </property>
+                  <property name="wordWrap" >
+                    <bool>false</bool>
+                  </property>
+                </widget>
+              </item>
+            </layout>
+          </widget>
+        </widget>
+      </item>
+      <item row="3" column="0" >
+        <layout class="QHBoxLayout" >
+          <property name="margin" >
+            <number>0</number>
+          </property>
+          <item>
+            <spacer name="spacer8" >
+              <property name="sizeHint" >
+                <size>
+                  <width>320</width>
+                  <height>21</height>
+                </size>
+              </property>
+              <property name="sizeType" >
+                <enum>Expanding</enum>
+              </property>
+              <property name="orientation" >
+                <enum>Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+          <item>
+            <widget class="QPushButton" name="m_pSaveAs" >
+              <property name="text" >
+                <string>Sa&amp;ve As</string>
+              </property>
+              <property name="shortcut" >
+                <string>Alt+V</string>
+              </property>
+              <property name="autoDefault" >
+                <bool>true</bool>
+              </property>
+              <property name="default" >
+                <bool>false</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QPushButton" name="m_pSave" >
+              <property name="text" >
+                <string>&amp;Save</string>
+              </property>
+              <property name="shortcut" >
+                <string>Alt+S</string>
+              </property>
+              <property name="autoDefault" >
+                <bool>true</bool>
+              </property>
+              <property name="default" >
+                <bool>false</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QPushButton" name="m_pOk" >
+              <property name="text" >
+                <string>&amp;Ok</string>
+              </property>
+              <property name="shortcut" >
+                <string>Alt+O</string>
+              </property>
+              <property name="default" >
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QPushButton" name="m_pCancel" >
+              <property name="text" >
+                <string>&amp;Cancel</string>
+              </property>
+              <property name="shortcut" >
+                <string>Alt+C</string>
+              </property>
+              <property name="autoDefault" >
+                <bool>true</bool>
+              </property>
+              <property name="default" >
+                <bool>false</bool>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <connections>
+    <connection>
+      <sender>m_pManageDcConfigs</sender>
+      <signal>clicked()</signal>
+      <receiver>iEventCfgDlg</receiver>
+      <slot>onManageDcConfigs()</slot>
+    </connection>
+    <connection>
+      <sender>m_pDcConfigs</sender>
+      <signal>activated(QString)</signal>
+      <receiver>iEventCfgDlg</receiver>
+      <slot>onDcConfigNameChanged(QString)</slot>
+    </connection>
+    <connection>
+      <sender>m_pSaveAs</sender>
+      <signal>clicked()</signal>
+      <receiver>iEventCfgDlg</receiver>
+      <slot>onSaveAs()</slot>
+    </connection>
+    <connection>
+      <sender>m_pAvailableEventTab</sender>
+      <signal>currentChanged(QWidget*)</signal>
+      <receiver>iEventCfgDlg</receiver>
+      <slot>onAvailableTabChanged(QWidget*)</slot>
+    </connection>
+    <connection>
+      <sender>m_pImportAdd</sender>
+      <signal>clicked()</signal>
+      <receiver>iEventCfgDlg</receiver>
+      <slot>onAddImportEvent()</slot>
+    </connection>
+    <connection>
+      <sender>m_pImportDcConfigs</sender>
+      <signal>activated(QString)</signal>
+      <receiver>iEventCfgDlg</receiver>
+      <slot>onImportDcConfigChanged(QString)</slot>
+    </connection>
+    <connection>
+      <sender>m_pOpAdd</sender>
+      <signal>clicked()</signal>
+      <receiver>iEventCfgDlg</receiver>
+      <slot>onAddOpEvent()</slot>
+    </connection>
+    <connection>
+      <sender>m_pFetchAdd</sender>
+      <signal>clicked()</signal>
+      <receiver>iEventCfgDlg</receiver>
+      <slot>onAddFetchEvent()</slot>
+    </connection>
+    <connection>
+      <sender>m_pPmcAdd</sender>
+      <signal>clicked()</signal>
+      <receiver>iEventCfgDlg</receiver>
+      <slot>onAddPmcEvent()</slot>
+    </connection>
+    <connection>
+      <sender>m_pApply</sender>
+      <signal>clicked()</signal>
+      <receiver>iEventCfgDlg</receiver>
+      <slot>onApplyEventSetting()</slot>
+    </connection>
+    <connection>
+      <sender>m_pRemove</sender>
+      <signal>clicked()</signal>
+      <receiver>iEventCfgDlg</receiver>
+      <slot>onRemove()</slot>
+    </connection>
+    <connection>
+      <sender>m_pSave</sender>
+      <signal>clicked()</signal>
+      <receiver>iEventCfgDlg</receiver>
+      <slot>onSave()</slot>
+    </connection>
+    <connection>
+      <sender>m_pOk</sender>
+      <signal>clicked()</signal>
+      <receiver>iEventCfgDlg</receiver>
+      <slot>onOk()</slot>
+    </connection>
+    <connection>
+      <sender>m_pCancel</sender>
+      <signal>clicked()</signal>
+      <receiver>iEventCfgDlg</receiver>
+      <slot>reject()</slot>
+    </connection>
+  </connections>
+</ui>

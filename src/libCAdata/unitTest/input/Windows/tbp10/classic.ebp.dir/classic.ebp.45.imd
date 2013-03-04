@@ -1,0 +1,13 @@
+[C:\Windows\System32\conhost.exe]
+BASE=ff680000
+SIZE=0
+SAMPS=2
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+4060,4716,2,2,[23 3] 1,[23 4] 1,0x1569
+[SUB_END]
+[END]
+

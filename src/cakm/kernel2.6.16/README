@@ -1,0 +1,103 @@
+          *************************************************
+          *    Build and Installation Instruction for     *
+          *                                               *
+          *       CodeAnalyst Kernel Module               *
+          *                                               *
+          *  on SuSE Linux Enterprise Server 10 (2.6.16)  *
+          *  on RedHat Enterprise Linux 4       (2.6.9 )  *
+          *  on RedHat Enterprise Linux 5       (2.6.18)  *
+          *                                               *
+          *           Last Modified: 8/2010               *
+          *                                               *
+          *************************************************
+
+*****************
+* RELEASE NOTES * 
+*****************
+
+This CodeAnalyst Kernel Module (CAKM) is a modified OProfile 
+kernel module from linux-2.6.16 with additional features added:
+    - Fixes for Event-based Sampling for Barcelona platforms
+    - Instruction-Based Sampling (IBS) mechanism
+    - Add True Event Multiplexing
+    - Add IBS Op counter randomizagion
+    - Add family12h/14h/15h support
+    - Fix MUX + IBS issue
+    - Add Non-contiguous MUX support
+    - Add MUX normalization
+    - Add 6 PMC support
+    - Add ON IBS workaround
+    - Add CSS support
+    - Add PPID for CSS
+    - Add BD IBS workaround (UBTS 299030, 227027)
+    - Add family15h_1xh (TN) supports
+    - Fix CSS crash due to NMI race condition when copy_from_user_inatomic
+
+
+
+****************
+* INSTALLATION *
+****************
+
+NOTE: Perform following steps as "root":
+
+1) Check the Linux distribution in "/etc/SuSE-release":
+	SUSE Linux Enterprise Server 10 (x86_64)
+	VERSION = 10
+	PATCHLEVEL = 1
+
+
+2) Check to see if the required RPM packages are installed
+	
+	- Linux kernel source package: 
+		[root@localhost ~]# rpm -qa | grep kernel
+		kernel-smp-2.6.16.46-0.12
+		kernel-source-2.6.16.46-0.12
+
+	- GCC C/C++ compiler package:
+		[root@localhost ~]# rpm -qa | grep gcc
+		gcc-obj-c++-4.1.2_20070115-0.11
+		gcc-4.1.2_20070115-0.11
+		gcc-c++-4.1.2_20070115-0.11
+		gcc-objc-4.1.2_20070115-0.11
+		libgcc-4.1.2_20070115-0.11
+
+   These RPM packages can be found on the installation CD 
+   or the update CD.
+
+
+3) On SLES10SP1, it is required to install the kernel source RPM. 
+   At command prompt, run:
+	
+      rpm -i <path to the rpm package>/kernel-source-2.6.16.46-0.12.x86_64.rpm 
+
+   This should install the kernel source at 
+      
+      "/usr/src/kernel-source-2.6.16.XXXX"
+
+
+4) In the directory 
+
+	"<CodeAnalyst Source>/cakm/kernel2.6.16/"
+
+   Run "make" to build the kernel module. This will create the 
+   kernel module file called "oprofile.ko".
+
+
+5) Please save the original oprofile.ko file. It is located at, 
+    
+	"/lib/module/`uname -r`/kernel/arch/i386/oprofile/oprofile.ko" 
+   or
+	"/lib/module/`uname -r`/kernel/arch/x86_64/oprofile/oprofile.ko" 
+
+
+6) Run "make install" to install the previously created "oprofile.ko" 
+   to the proper kernel module directory.
+
+
+7) Please reload the new kernel module by rebooting the sytem, 
+   or
+	"opcontrol --deinit"
+   or
+	"umount /dev/oprofile"
+	"rmmod oprofile"

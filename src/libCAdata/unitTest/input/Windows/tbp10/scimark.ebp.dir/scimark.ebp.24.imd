@@ -1,0 +1,16 @@
+[C:\Program Files\Java\jre6\bin\java.exe]
+BASE=400000
+SIZE=0
+SAMPS=4
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=4
+4284,380,1,1,[1 4] 1,0xab75
+4284,7140,1,1,[2 4] 1,0xd0eb
+4284,7140,1,1,[2 5] 1,0xecb6
+4284,7140,1,1,[2 4] 1,0xecc8
+[SUB_END]
+[END]
+

@@ -1,0 +1,13 @@
+[C:\Windows\system32\MsftEdit.dll]
+BASE=7fef7410000
+SIZE=0
+SAMPS=1
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+2732,5072,1,1,[12 6] 1,0x138c1
+[SUB_END]
+[END]
+

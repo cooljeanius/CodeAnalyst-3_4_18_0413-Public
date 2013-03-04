@@ -1,0 +1,25 @@
+Source: codeanalyst
+Section: unknown
+Priority: extra
+Maintainer: CodeAnalyst Team <CodeAnalyst.support@amd.com>
+Build-Depends: debhelper (>= 7)
+Standards-Version: 3.8.1
+Homepage: http://developer.amd.com/cpu/codeanalyst/codeanalystlinux
+
+Package: codeanalyst
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: CodeAnalyst Performance Analysis Suite
+        CodeAnalyst is a performance analysis suite. It provids graphical 
+        utilitys for running Oprofile, and analyzing result on AMD-based systems. 
+        CodeAnalyst includes several features to aid profile analysis such as 
+        inline-function analysis, code-block analysis, and a utility for 
+        profile comparison, DiffAnalayst.
+
+Package: codeanalyst-kernelmodule
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Kernel Module for CodeAnalyst
+        CodeAnalyst kernel module is a modified version of OProfile kernel module.
+        This must be installed to enable all features of the CodeAnalyst Performance
+        Analysis Utility

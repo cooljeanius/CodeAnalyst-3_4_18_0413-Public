@@ -1,0 +1,182 @@
+*******************************************************
+*  C o d e a n a l y s t    R E L E A S E  N O T E S  *
+*******************************************************
+
+Revision : 3.4
+Date     : 07/2012
+Author   : Gnanabaskaran <gnanabaskaran.muthumani@amd.com>
+
+	* Please see README for general information.
+	* Please see INSTALLATION file for detail on how to install CodeAnalyst.
+
+This release includes the following enhancements:
+
+	* Support for new Linux distributions RHEL 5 Update 8 and Ubuntu 12.04
+	* Added a new profile type "Time-Based Profiling (PERF)" using Linux PERF subsystem.
+	  This new profile type does not support profiling java applications. Also it does
+ 	  not report kernel functions.
+	* CAKM support for kernel version 3.2.0-XX.
+	* Various minor enhancements and bug fixes.
+
+----------------------------------------------------------------------------------
+Revision : 3.3
+Date     : 04/2012
+Author   : Gnanabaskaran <gnanabaskaran.muthumani@amd.com>
+
+	* Please see README for general information.
+	* Please see INSTALLATION file for detail on how to install CodeAnalyst.
+
+This release includes the following enhancements:
+
+	* Support for family 0x15 Orochi Rev-C processor.
+	* Support for new Linux distribution SLES11-SP2.
+	* CAKM support for kernel version 3.0.0-XX.
+	* The Module View is optimized to reduce rendering time and memory consumption.
+	  Now the module view aggregates and renders only the top-level entries - samples
+	  aggregated at function level. Only when the user expands to the next level,
+	  corresponding sample details are aggregated and rendered in GUI.
+	* The Disassembly View is optimized to display only 2K of instructions from the
+	  selected address. This reduces the time requried for rendering this view.
+	* Removed the "Current address range lines" from Source Density chart. 
+	* On Ubuntu11.10, CAKM is supported only with the kernel package - linux-headers-3.0.0-XX.
+	* Various minor enhancements and bug fixes.
+
+----------------------------------------------------------------------------------
+Revision : 3.2
+Date     : 01/2012
+Author   : Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+
+        * Please see README for general information.
+        * Please see INSTALLATION file for detail on how to install CodeAnalyst.
+
+This release includes the following enhancements:
+
+        * Support for new Linux distributions RHEL 5 Update 7 and RHEL 6 Update 2.
+        * Added support for attributing samples to inlined Java methods and reporting them
+          as either inlined-functions or inlined-instances.
+        * CodeAnalyst Java Profiling agent is built using JDK1.7 and CodeAnalyst recommends
+          JDK1.7 for java profiling.
+        * GUI was migrated to qt version 4.2 or higher.
+        * Various minor Enhancements and Bug Fixes.
+
+----------------------------------------------------------------------------------
+Revision : 3.1
+Date     : 10/2011
+Author   : Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+
+        * Please see README for general information.
+        * Please see INSTALLATION file for detail on how to install CodeAnalyst.
+
+This release includes the following enhancements:
+
+        * NDA Supports for family 0x15 model 0X10-1F (Trinity) processors
+        * Support for new Linux distribution Ubuntu-11.10
+        * Support to profile applications compiled using Open64 compilers
+        * Enhancements and bug fixes on the Source View which was intoduced in CodeAnalyst 3.0
+        * Bug Fixes
+
+----------------------------------------------------------------------------------
+Revision : 3.0
+Date 	 : 07/2011
+Author   : Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+
+	* Please see README for general information.
+	* Please see INSTALLATION file for detail on how to install CodeAnalyst.
+
+This release includes the following enhancements:
+
+	* Public Supports for family 0x15 model 0X00-0F (Orochi) processors
+	* NDA Supports for family 0x15 model 0X10-1F (Trinity) processors
+	* CAKM supports for kernel-2.6.38 (Ubuntu-11.04)
+	* Call-Stack Sampling (for kernel 2.6.32 and above)
+	* New System Data tab which integrates the Tasks tab and Task's Module tab
+	* New Source/Dasm tab which integrates the old Source tab and Dasm tab
+	* Inline function source annotation
+	* Enhance separate-process and-separate thread in view configuration
+	* libCAdata integration which introduce new version of TBP/EBP and IMD files
+	* Deprecate Graph tabs
+	* Deprecate DiffAnalyst
+	* Bug fixes
+
+----------------------------------------------------------------------------------
+Revision : 2.13
+Date 	 : 04/2011
+Author   : Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+
+	* Please see README for general information.
+	* Please see INSTALLATION file for detail on how to install CodeAnalyst.
+
+This release includes the following enhancements:
+
+	* Supports public launch for family12h processors
+	* CAKM supports for kernel-2.6.35 (Ubuntu-10.10)
+	* Bug fixes
+
+----------------------------------------------------------------------------------
+
+Revision : 2.12
+Date 	 : 12/2010
+Author   : Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+
+	* Please see README for general information.
+	* Please see INSTALLATION file for detail on how to install CodeAnalyst.
+
+This release includes the following enhancements:
+
+	* Support public launch for family14h
+	* Bug fixes
+
+----------------------------------------------------------------------------------
+
+Revision : 2.11
+Date     : 09/30/2010
+Author   : Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+
+Features/Enhancements:
+
+	* Family15h (Orochi) fully supported. 
+
+----------------------------------------------------------------------------------
+
+Revision : 2.10
+Date     : 07/31/2010
+Author   : Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+
+Features/Enhancements:
+
+	* Family14h (Ontario) fully supported. 
+
+----------------------------------------------------------------------------------
+
+Revision : 2.9
+Date     : 03/31/2010
+Author   : Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+
+Features/Enhancements:
+
+	* New CA-OProfile based on OProfile-0.9.6
+	* New Session Setting Dialog
+	* New Event Selection
+	* Session Setting Template allowing multiple profile settings to be 
+          stored and reused.
+	* Combining event-based and IBS profile to allow simultaneous data
+          collection from GUI
+	* Introducing OProfile daemon/driver monitoring tool
+
+Known Bugs:
+
+* BUG193276
+    Description : The CPU affinity always enable in the "Session Settings" dialog.
+    Workaround  : In general case, please specify affinity mask to select all cpus
+                  by default since the affinity mask value will always be used
+                  when running profile.
+
+* BUG176057
+    Description : CA GUI is throwing SegFault continiously on RHEL5 U4 x32 during 
+                  processing profile data.
+    Resolution  : There is a known bug on RHEL5U4 32-bit distribution which 
+                  should be fixed in RHEL5U5 
+                  (https://bugzilla.redhat.com/show_bug.cgi?id=529028).  
+                  This bug prevents CodeAnalyst from being able to process 
+                  OProfile samples and accessing symbol data.
+

@@ -1,0 +1,18 @@
+[C:\Windows\System32\drivers\dxgkrnl.sys]
+BASE=fffff88004c5e000
+SIZE=0
+SAMPS=6
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=6
+684,840,1,1,[9 5] 1,0x10e8
+3360,1028,1,1,[23 6] 1,0x958d
+684,840,1,1,[11 3] 1,0x458c1
+684,840,1,1,[10 6] 1,0x459fc
+684,840,1,1,[9 3] 1,0x5ff6b
+684,840,1,1,[9 5] 1,0x68c85
+[SUB_END]
+[END]
+

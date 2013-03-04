@@ -1,0 +1,13 @@
+[C:\Program Files\Java\jre6\bin\java.dll]
+BASE=6d330000
+SIZE=0
+SAMPS=1
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+4284,380,1,1,[1 5] 1,0x1aa9
+[SUB_END]
+[END]
+

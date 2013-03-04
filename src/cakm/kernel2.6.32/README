@@ -1,0 +1,95 @@
+          *******************************************
+          * Build and Installation Instructions for *
+          *                                         *
+          *        CodeAnalyst Kernel Driver        *
+          *                                         *
+          *      Last Updated: 3 / 2011             *
+          *                                         *
+          *******************************************
+
+*****************
+* RELEASE NOTES * 
+*****************
+
+CodeAnalyst requires minor modifications to the oProfile kernel 
+module in order to run on the Barcelona (family10h) and later 
+platforms.  
+
+The modification mainly adds supports for: 
+    - Fix crash when enable MUX with more than 28 events
+    - Fix issue which failed ot set up CPU node on 32-bit in init_ibs_nmi()
+    - Add IBS Op counter randomizagion.
+    - Add family12h/14h/15h support
+    - Fix MUX + IBS issue
+    - Add Non-contiguous MUX support
+    - Add MUX normalization
+    - Add 6 PMC support
+    - Add ON IBS workaround
+    - Add IBS-extended:BTA support (Experimental)
+    - Port CA-CSS
+    - Add IBS support for CA-CSS
+    - Add return address verification
+    - Add BD IBS workaround (UBTS 299030, 227027)
+    - Add family15h_1xh (TN) supports
+    - Fix CSS crash due to NMI race condition when copy_from_user_inatomic
+
+
+This driver comes from linux-2.6.32-rc5 source and has been modified
+to be compatible with the following kernels:
+    - linux-2.6.30
+    - linux-2.6.31
+    - linux-2.6.34
+    - linux-2.6.35
+
+****************
+* INSTALLATION *
+****************
+
+NOTE: Perform following steps as "root":
+
+1) Check the kernel by running "uname -r" and check make sure the running
+   kernel is based on supported kernels in the above list
+	
+
+2) Some Linux distributions might require kernel source RPM package
+   is installed. (Please check by running "rpm -qa | grep kernel")
+	
+   NOTE: These RPM packages can be found on the installation CD, 
+   the update CD or via the internet.
+
+
+3) Make sure the GCC C/C++ compiler package is installed.
+	[root@localhost ~]# rpm -qa | grep gcc
+	libgcc-4.1.2-33
+	libgcc-4.1.2-33
+	gcc-4.1.2-33
+	gcc-c++-4.1.2-33
+
+
+4) In this directory, run "make ARCH=`uname -i`" to build the kernel module. 
+   This will create the kernel module file called "oprofile.ko".
+
+
+5) [Optional] Please save the original oprofile.ko file. It is located at, 
+    
+	"/lib/module/`uname -r`/kernel/arch/x86/oprofile/oprofile.ko" 
+
+
+6) Run "make install" to install the previously created "oprofile.ko" 
+   to the proper kernel module directory.
+
+   NOTE: "make install" first back up the original "oprofile.ko" to 
+         "oprofile.ko.orig" before replace it with the newly buid driver.
+         "make uninstall" should restore the original driver 
+         (from "oprofile.ko.orig".
+
+7) [Optional] Some distributions (i.e. SLES11 )require 
+   "allow_unsupported_modules" variable (in file /etc/modprobe.d/unsupported-modules") 
+   set to 1 in order to load the driver.
+
+
+8) Please reload the new kernel module by 
+	opcontrol --deinit" 
+	opcontrol --init" 
+   or
+	rebooting the sytem 

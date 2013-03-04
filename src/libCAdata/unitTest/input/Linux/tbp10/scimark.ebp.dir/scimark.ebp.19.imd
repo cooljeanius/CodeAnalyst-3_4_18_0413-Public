@@ -1,0 +1,13 @@
+[/usr/lib64/libpango-1.0.so.0.2400.1]
+BASE=0
+SIZE=0
+SAMPS=1
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+9,0,1,1,[2 0] 1,0x3c83014434
+[SUB_END]
+[END]
+

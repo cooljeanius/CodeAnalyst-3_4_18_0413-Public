@@ -1,0 +1,75 @@
+          *******************************************
+          * Build and Installation Instructions for *
+          *                                         *
+          *        CodeAnalyst Kernel Driver        *
+          *                                         *
+          *      Last Updated: 5 / 2011             *
+          *                                         *
+          *******************************************
+
+*****************
+* RELEASE NOTES * 
+*****************
+
+CodeAnalyst requires minor modifications to the OProfile kernel 
+module in order to add supports for latest processors and additional
+features.  
+
+The modification mainly adds supports for: 
+    - Port CA_CSS
+    - Port CA_MUX
+    - Port Errata for workarounds
+    - Add family15h_1xh (TN) supports
+    - Fix ctr_running race condition (with Robert's patch)
+    - Fix CSS crash due to NMI race condition when copy_from_user_inatomic
+    - Add OR workaround to clear the IbsOpData3 MSR after reading
+    - Add supports for kernel 3.0.0, 3.1.0, 3.2.0
+
+This driver comes from linux-2.6.38-7 source and has been modified
+to be compatible with the following kernels:
+    - N/A
+
+****************
+* INSTALLATION *
+****************
+
+NOTE: Perform following steps as "root":
+
+1) Check the kernel by running "uname -r" and check make sure the running
+   kernel is based on supported kernels in the above list
+	
+
+2) Some Linux distributions might require kernel source package
+   is installed.
+
+
+3) Make sure the GCC C/C++ compiler package is installed.
+
+
+4) In this directory, run "make" to build the kernel module. 
+   This will create the kernel module file called "oprofile.ko".
+
+
+5) [Optional] Please save the original oprofile.ko file. It is located at, 
+    
+	"/lib/module/`uname -r`/kernel/arch/x86/oprofile/oprofile.ko" 
+
+
+6) Run "make install" to install the previously created "oprofile.ko" 
+   to the proper kernel module directory.
+
+   NOTE: "make install" first back up the original "oprofile.ko" to 
+         "oprofile.ko.orig" before replace it with the newly buid driver.
+         "make uninstall" should restore the original driver 
+         (from "oprofile.ko.orig".
+
+7) [Optional] Some distributions (i.e. SLES11 )require 
+   "allow_unsupported_modules" variable (in file /etc/modprobe.d/unsupported-modules") 
+   set to 1 in order to load the driver.
+
+
+8) Please reload the new kernel module by 
+	opcontrol --deinit" 
+	opcontrol --init" 
+   or
+	rebooting the sytem 

@@ -1,0 +1,53 @@
+#!/bin/sh
+# postinst script for codeanalyst
+#
+# see: dh_installdeb(1)
+
+set -e
+
+# summary of how this script can be called:
+#        * <postinst> `configure' <most-recently-configured-version>
+#        * <old-postinst> `abort-upgrade' <new version>
+#        * <conflictor's-postinst> `abort-remove' `in-favour' <package>
+#          <new-version>
+#        * <postinst> `abort-remove'
+#        * <deconfigured's-postinst> `abort-deconfigure' `in-favour'
+#          <failed-install-package> <version> `removing'
+#          <conflicting-package> <version>
+# for details, see http://www.debian.org/doc/debian-policy/ or
+# the debian-policy package
+
+
+case "$1" in
+    configure)
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+CA_lin_dir=/opt/CodeAnalyst/lib
+CA_bin_dir=/opt/CodeAnalyst/bin
+CA_sbin_dir=/opt/CodeAnalyst/sbin
+
+echo "*************************************************************************"
+echo "* CodeAnalyst Linux has finished installation, please do the followings:"
+echo "* 1) Ensure that ${CA_bin_dir} and ${CA_sbin_dir} are in the"
+echo '     $PATH environment variable.'
+echo "*"
+echo "* 2) Ensure that ${CA_lib_dir} is in the \"/etc/ld.so.conf\" file, and run ldconfig"
+echo "*"
+echo "* 3) [Optional]" 
+echo "*    To allow non-root users to run CodeAnalyst, please run "
+echo "*    ${CA_sbin_dir}/ca_user_manager\" "
+echo "*"
+echo "*************************************************************************"
+
+exit 0

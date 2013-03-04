@@ -1,0 +1,14 @@
+[/usr/lib64/libavahi-common.so.3.5.1]
+BASE=0
+SIZE=0
+SAMPS=4
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=2
+9,0,2,2,[0 6] 1,[0 5] 1,0x3c87a0575c
+9,0,2,2,[0 0] 1,[0 5] 1,0x3c87a05768
+[SUB_END]
+[END]
+

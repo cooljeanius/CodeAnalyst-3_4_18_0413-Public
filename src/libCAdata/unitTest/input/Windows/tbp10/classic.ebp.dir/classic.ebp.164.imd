@@ -1,0 +1,13 @@
+[C:\Windows\system32\winsrv.DLL]
+BASE=7fefdaa0000
+SIZE=0
+SAMPS=1
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+2924,2940,1,1,[20 3] 1,0x1255
+[SUB_END]
+[END]
+

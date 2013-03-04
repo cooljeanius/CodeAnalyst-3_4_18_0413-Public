@@ -1,0 +1,15 @@
+[c:\program files\common files\symantec shared\ssc\ScsComms.dll]
+BASE=65a40000
+SIZE=0
+SAMPS=3
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=3
+3992,2136,1,1,[2 3] 1,0x2115d
+3992,2136,1,1,[3 4] 1,0x29e4d
+3992,2136,1,1,[2 3] 1,0x2ae00
+[SUB_END]
+[END]
+

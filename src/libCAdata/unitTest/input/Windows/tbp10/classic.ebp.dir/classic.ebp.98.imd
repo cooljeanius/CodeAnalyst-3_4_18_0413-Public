@@ -1,0 +1,18 @@
+[C:\Windows\system32\DRIVERS\cdrom.sys]
+BASE=fffff88002a76000
+SIZE=0
+SAMPS=7
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=6
+0,0,1,1,[0 4] 1,0x396f
+4,56,2,2,[13 3] 1,[13 5] 1,0x43a0
+4,52,1,1,[20 3] 1,0x4515
+4,68,1,1,[20 3] 1,0xbb1c
+4,52,1,1,[20 0] 1,0xda9b
+4,52,1,1,[20 3] 1,0x16d98
+[SUB_END]
+[END]
+

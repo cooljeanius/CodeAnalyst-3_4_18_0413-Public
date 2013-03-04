@@ -1,0 +1,364 @@
+# -*- Python -*-
+#
+# rgorton - 11-June-2012 - SConstruct file for libCAdata
+#   The general flow is:
+#   Check and validate supported OS
+#   command line arg processing
+#   Construct compile switches
+#   compute directory tree structure
+#   construct IPATH and Link path content (they need to know
+#       how to find the common directory based upon topdir)
+
+import os
+import time
+import platform
+
+# The name of the deliverable for this component
+TheLibraryName = 'CAdata'
+LibraryVersionNum = '1.0'
+PromotedLibPathName = 'libCaData'
+
+uname_tuple = platform.uname()
+os_major_type = uname_tuple[0]
+os_subtype = 'unknown'
+
+if os_major_type == 'Windows':
+    os_subtype = uname_tuple[2]
+    # os        subtype
+    # XP        XP      (uname_tuple[3] is 5.1.2600)
+    # Vista     Vista   (uname_tuple[3] is 6.0.6002)
+    # Windows7  Vista   (uname_tuple[3] is 6.1.7600)
+    # Default to 32-bit
+    archtype = '32'
+elif os_major_type == 'Linux':
+    valid_distribution = 0
+    # Default to 64-bit
+    archtype = '64'
+    # Detect which version of Linux, and if it is supported
+    # SLES11 SP1 was formerly a target - no longer
+    # RHEL5.7
+    # CentOS 5 (to be Added)
+    # CentOS 6
+    # TODO: Make this some sort of table or loop driven thing
+    etc_SuSE_release = "/etc/SuSE-release"
+    if os.path.exists(etc_SuSE_release):
+        Linux_version_file = open(etc_SuSE_release)
+        SLES_string = Linux_version_file.readline()
+        if (SLES_string == "SUSE Linux Enterprise Server 11 (x86_64)\n"):
+            # next line is VERSION = 11
+            SLES_version = Linux_version_file.readline().split()
+            # next line is PATCHLEVEL = 1
+            SLES_patchlevel = Linux_version_file.readline().split()
+            # if ((SLES_version[2] == '11') and (SLES_patchlevel[2] == '1')):
+            #     valid_distribution = 1
+    # RHEL5.7, CentOS 5.4/6
+    etc_RHEL_release = "/etc/redhat-release"
+    if os.path.exists(etc_RHEL_release):
+        Linux_version_file = open(etc_RHEL_release)
+        RHEL_string = Linux_version_file.readline()
+        if (RHEL_string == "CentOS Linux release 6.0 (Final)\n"):
+            valid_distribution = 1
+        if (RHEL_string == "CentOS release 6.2 (Final)\n"):
+            valid_distribution = 1
+    # Look for other valid distributions (none yet)
+    if (valid_distribution == 0):
+        print "****\nWarning: Unknown Linux variant - the compile may fail\n****\n"
+        time.sleep(3)
+
+# The command line variables the scons script accepts
+vars = Variables(None)
+vars.AddVariables(EnumVariable('build',
+                               'Choose a build type',
+                               'release',
+                               allowed_values=('release', 'debug', 'proto')))
+# proto build: forces debug, x86_64 only
+#   Unusable for production, but good for end-to-end scoping
+
+# arch type (32-bit vs. 64-bit) - default to x64
+# permit "arch=<type>" where type is x86, x64, x86_64
+vars.AddVariables(EnumVariable('arch',
+                               'Specify architecture (64 bit)',
+                               'x64',
+                               allowed_values=('x86', 'x64', 'x86_64')))
+
+# Enable a fascist mode - which will always treat all warnings as errors
+if (os_major_type == 'Linux'):
+    vars.AddVariables(EnumVariable('fascist',
+                                   'Treat all warnings as errors',
+                                   '1',
+                                   allowed_values=('0', '1')))
+
+# Make the master environment including the command line options.
+env = Environment(variables = vars, ENV={'PATH':os.environ['PATH']})
+
+Help(vars.GenerateHelpText(env))
+
+# consistency checking of any flags/args
+# Also deal with command line synonyms
+archlevel = env['arch'];
+if (archlevel == 'x86'):
+    archtype = '32'
+elif (archlevel == 'x64'):
+    archlevel = 'x86_64'
+    archtype = '64'
+elif (archlevel == 'x86_64'):
+    archtype = '64'
+
+buildlevel = env['build'];
+
+# Set compilation switches
+compiler_base_flags = {
+    # high level of warning reporting, warnings as errors
+    # For Windows (for any type of build) add:
+    #     /Zi (pdb)
+    #     /Oy- (do not omit frame pointers)
+    #     /Gm- (no minimal rebuilds)
+    #     /EHsc (C++ exceptions)
+    #     /GS (buffer security checks)
+    #     /fp:precise (precise fp exceptions)
+    #     /Zc:wchar_t (wchar_t is a built-in)
+    #     /Zc:forScope (fors conformance for loop scope)
+    #     /FR (enable browse information)
+    #     /Gd (__cdecl calling convention)
+    #     /Gd (__cdecl calling convention)
+    #     /errorReport:queue (Internal Compiler Error Reporting) ??
+    'Windows' : '/nologo /W4 /WX /Zi /Oy- /GF /Gm- /EHsc /GS /fp:precise /Zc:wchar_t /Zc:forScope /FR /Gd /errorReport:queue',
+    # For Linux (for any type of build)
+    #     add <tbd>
+    # RHEL5 and -Werror kicks up a lot of errors, some of which we do care about
+    # But some of these are really lame, like no eol at the end of the file
+    # So do not turn on -Werror on RHEL5 (handled later)
+    'Linux'   : ' -Wall -Wno-strict-aliasing'
+}
+
+compiler_debug_flags = {
+    # /Od (disable opt) /RTC1 (both) /MTd (Multi-threaded debug)
+    'Windows' : ' /Od /RTC1 /MTd',
+    'Linux'   : ' -g -D_DEBUG'
+}
+
+compiler_opt_flags = {
+    #     /GL (whole program optimization)
+    #     /GF (enable string pooling)
+    #     /MT (Multi-threaded)
+    #     /D NDEBUG
+    'Windows' : ' /O2 /GL /GF /MT /D NDEBUG',
+    'Linux'   : ' -O3 -DNDEBUG'
+}
+
+# Driving 32-bit vs. 64-bit.
+compiler_arch32_flags = {
+    # /analyze is a static analysis tool, only in enterprise/x86
+    # /analyze- says to turn it off in any case, so ignore it
+    # 'Windows' : '/analyze-',
+    'Windows' : '',
+    'Linux'   : ' -m32'
+}
+compiler_arch64_flags = {
+    'Windows' : ' /D X64',
+    'Linux'   : ' -m64'
+}
+
+# Now build all of the CCFLAGS
+# We will prepend defines and append -I paths to try to make
+# the resulting command line readable.
+# Also start constructing the bin directory tree name
+# see below - part1Name is for that
+part1Name=""
+# Put the warning-ness at the very beginning so that later relaxations
+# will take hold
+env.Prepend(CCFLAGS = compiler_base_flags[os_major_type])
+
+# For gcc, treat all warnings as errors, (ignore any fascist mode settings)
+# Also turn this on in "fascist" mode.  Use quoted strings to match the env[] value
+fascistmode = '1'
+if (os_major_type == 'Linux'):
+   fascistmode = env['fascist'];
+
+if (fascistmode == '1'):
+    if (os_major_type == 'Linux'):
+        env.Append(CCFLAGS = " -Werror")
+
+if (buildlevel == 'debug'):
+    part1Name="Debug"
+    env.Append(CCFLAGS = compiler_debug_flags[os_major_type])
+elif (buildlevel == 'release'):
+    part1Name="Release"
+    env.Append(CCFLAGS = compiler_opt_flags[os_major_type])
+else:
+    print ("Error: no known build level")
+    exit(1)
+
+part2Name = os_major_type
+if (os_major_type == 'Windows'):
+    part2Name = 'Win'
+
+if (archtype == '32'):
+    env.Append(CCFLAGS = compiler_arch32_flags[os_major_type])
+else:
+    env.Append(CCFLAGS = compiler_arch64_flags[os_major_type])
+
+# Compute the name of the subdirectory to use for the build
+# For windows, the final bits location under MSVC are currently:
+# Main api library
+#     Lib/x86 or Lib/x64
+# Tests:
+#     Tests/Bin/[Debug|Release]-[Win32|x64]
+# Refactor main api library location to be Lib/[Debug|Release]-[Win32|Win64]
+# Put tests in UnitTests/[Debug|Release]-[Win32|x64]
+# If we switch over to scons driven builds for windows later on, we can either
+# fiddle the locations to match the current MSVC values or create a kit creation step
+# For Linux, use similar dir structure:
+#     bin/[Debug|Release]-linux[32|64]
+#     UnitTests/[Debug|Release]-linux[32|64]
+# construct these paths via part1Name/part2Name
+buildtype = part1Name + '-' + part2Name + archtype
+
+# defaults of where to put stuff
+topdir = os.getcwd()
+builddir='#obj/'+buildtype
+
+# Assume that the Common tree is ../Common.
+commondir=Dir(topdir+'/../../Common/').abspath
+AMDCommonLibs = commondir + '/Lib/AMD/'
+
+# This component uses the promotion model - we install to Common/Lib/AMD/<library>/<version>
+BuildHostPath = '/Build/CentOS6.2'
+installdir=AMDCommonLibs + '/' + PromotedLibPathName + '/' + LibraryVersionNum
+installdir = installdir + BuildHostPath + '/' + archlevel + '/' + buildlevel
+bindir = installdir + '/bin'
+includedir = installdir + '/include'
+libdir = installdir + '/lib'
+
+# Tack on _d to the name for debug builds
+# Silly, but it is one of our conventions
+dbg_addon = ''
+if (buildlevel == 'debug'):
+    dbg_addon = '_d'
+TheLibraryName += dbg_addon
+
+# Out of common, we use: Qt 4.7.4
+
+# QT 4.7.4
+# See scons man page
+qtdir=commondir+'/Lib/Ext/Qt/4.7.4'
+if (os_major_type == 'Linux'):
+    qtdir += BuildHostPath
+qtdir = qtdir + '/' + archlevel
+qtdir += '/' + buildlevel
+qt_bin = qtdir + '/bin'
+UIC_tool = qt_bin + '/uic'
+MOC_tool = qt_bin + '/moc'
+qt_inc = qtdir + '/include'
+qt_lib = qtdir + '/lib'
+# have to set this so moc/uic builders can do their things...
+# And the default is to have runs of uic also generate some other stuff that we do not
+# actually do.  The default qt tool source code is in /usr/lib/scons/SCons/Tool/qt.py
+# Unfortnately, the qt tool support is for qt rev 3, so we are going to need
+# to perform some custom glop instead of being able to utilize the builtin qt tooling
+# However, leave this here in case scons supports qt4 by default some day
+# Look for QT_UICCOM - we are going to stomp on that env var
+# env = Environment(tools=['default', 'qt'],
+#                   QTDIR=qtdir, QTINC=qt_inc, QTLIB=qt_lib,
+#                   QT_UICCOM=['$QT_UIC $QT_UICDECLFLAGS -o ${TARGETS[0]} $SOURCE']
+#                   )
+env.Append(CCFLAGS=" -I" + qt_inc)
+env.Append(CCFLAGS=" -I" + qt_inc + '/Qt')
+env.Append(CCFLAGS=" -I" + qt_inc + '/QtCore')
+env.Append(CCFLAGS=" -I" + qt_inc + '/QtGui')
+env.Append(CCFLAGS=" -I" + qt_inc + '/QtXml')
+
+if (buildlevel == 'debug'):
+    env.Append(LIBS = ['QtCoreAmdDt474d', 'QtGuiAmdDt474d', 'QtXmlAmdDt474d'])
+else:
+    env.Append(LIBS = ['QtCoreAmdDt474', 'QtGuiAmdDt474', 'QtXmlAmdDt474'])
+env.Append(LIBPATH = [qt_lib])
+
+comm_hdr = commondir + '/Src/CommonProjectsHdr'
+env.Append(CCFLAGS=" -I" + comm_hdr)
+
+# local .h files to this component are in 'inc'
+env.Append(CCFLAGS=" -I" + topdir + '/inc')
+
+# Finally, the linker content
+# Link flags, then libraries/libpaths
+if (os_major_type == 'Windows'):
+    # /def:OpenCLDebug.def - the link map, in the build directory
+    linkmap = topdir + 'Build/OpenCLDebug.def'
+    # /manifest:no
+    # /allowisolation
+    commonstuff = " /nologo /manifest:no /allowisolation /tlbid:1 /dynamicbase /nxcompat /errorreport:queue"
+    # /machine:x86 or /machine:x64
+    if (archtype == '32'):
+        commonstuff = commonstuff + " /machine:x86"
+    else:
+        commonstuff = commonstuff + " /machine:x64"
+    blinkswitch = ""
+    if (buildlevel == 'debug'):
+      blinkswitch = " /incremental:no /debug"
+    else:
+      blinkswitch = " /incremental /opt:ref /opt:icf /ltcg"
+    env.Append(LINKFLAGS=" /def:" + linkmap + commonstuff + blinkswitch)
+else:
+    # env.Append(LINKFLAGS=" -Wl,--discard-all -Wl,-z,combreloc -Wl,-Bsymbolic -Wl,--version-script=Build/OpenCLDebug.linux.map")
+    # First guess
+    env.Append(LINKFLAGS=" -Wl,--discard-all -Wl,-z,combreloc -Wl,-Bsymbolic")
+
+if (archtype == '32'):
+    env.Append(LINKFLAGS = compiler_arch32_flags[os_major_type])
+else:
+    env.Append(LINKFLAGS = compiler_arch64_flags[os_major_type])
+
+if os_major_type == 'Windows':
+    env.Append(LIBS = ['OpenCL.lib', 'kernel32.lib', 'user32.lib', 'gdi32.lib', 'winspool.lib', 'comdlg32.lib', 'advapi32.lib', 'shell32.lib', 'ole32.lib', 'oleaut32.lib', 'uuid.lib', 'odbc32.lib', 'odbccp32.lib'])
+
+# else:
+    # Anything special for Linux
+    # env.Append(LIBS = ['dl'])
+
+
+ThisLibrary_Lib = [];
+ThisLibrary_Hdrs = [];
+
+public_dot_h = Split(
+                'src/CaDataReader.h '
+                + 'src/CaProfileReader.h  '
+                + 'src/ImdReader.h '
+                + 'src/libCAdata.h '
+                + 'src/Module.h '
+                + 'src/CaDataWriter.h '
+                + 'src/CaProfileWriter.h '
+                + 'src/ImdWriter.h '
+                + 'src/libCAdata_Process.h '
+                + 'src/SampleInfo.h '
+                + 'src/CaProfileInfo.h '
+                + 'src/Function.h '
+                + 'src/InlineInstance.h '
+                + 'src/libCAdata_typedefs.h '
+                )
+docfiles = [];
+
+Export('buildtype os_major_type archtype ' +
+       'env docfiles ' +
+       'buildlevel ' +
+       'builddir ' +
+       'installdir ' +
+       'bindir includedir libdir ' +
+       'topdir ' +
+       'commondir ' +
+       'qtdir ' +
+       'ThisLibrary_Lib ThisLibrary_Hdrs '
+       )
+
+ThisLibrary_Lib = SConscript('#src/SConscript', variant_dir=builddir)
+
+env.Replace(SHLIBSUFFIX = '.so.$SHLIB_VERSION')
+ThisLibrary_Lib = env.SharedLibrary(TheLibraryName, ThisLibrary_Lib, SHLIB_VERSION = LibraryVersionNum)
+ThisLibrary_Lib = env.Install(libdir, ThisLibrary_Lib)
+# There is no good way to generate the symbolic links from scons.
+# Do that in the parent shell script
+ThisLibrary_Lib += env.Install(includedir, public_dot_h)
+
+Default(ThisLibrary_Lib)
+
+Alias(target='CAdata', source=ThisLibrary_Lib)

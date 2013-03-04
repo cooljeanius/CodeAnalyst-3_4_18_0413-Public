@@ -1,0 +1,13 @@
+[C:\Windows\System32\Drivers\ksecdd.sys]
+BASE=fffff8800129a000
+SIZE=0
+SAMPS=1
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+1216,2912,1,1,[5 3] 1,0x1080
+[SUB_END]
+[END]
+

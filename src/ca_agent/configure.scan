@@ -1,0 +1,49 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ([2.69])
+AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
+AC_CONFIG_SRCDIR([include/ca_agent_types.h])
+AC_CONFIG_HEADERS([config.h])
+
+# Checks for programs.
+AC_PROG_CXX
+AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_INSTALL
+
+# Checks for libraries.
+# FIXME: Replace `main' with a function in `-lCAagent':
+AC_CHECK_LIB([CAagent], [main])
+# FIXME: Replace `main' with a function in `-lbfd':
+AC_CHECK_LIB([bfd], [main])
+# FIXME: Replace `main' with a function in `-lc':
+AC_CHECK_LIB([c], [main])
+# FIXME: Replace `main' with a function in `-liberty':
+AC_CHECK_LIB([iberty], [main])
+# FIXME: Replace `main' with a function in `-lpopt':
+AC_CHECK_LIB([popt], [main])
+# FIXME: Replace `main' with a function in `-lz':
+AC_CHECK_LIB([z], [main])
+
+# Checks for header files.
+AC_CHECK_HEADERS([fcntl.h limits.h memory.h stdlib.h string.h strings.h sys/time.h unistd.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_CHECK_HEADER_STDBOOL
+AC_C_INLINE
+AC_TYPE_PID_T
+
+# Checks for library functions.
+AC_FUNC_MALLOC
+AC_CHECK_FUNCS([bzero gettimeofday memset mkdir strstr])
+
+AC_CONFIG_FILES([Makefile
+                 jnc/Makefile
+                 jvmpi/Makefile
+                 jvmti/Makefile
+                 jvmti/testing/Makefile
+                 libCAagent/Makefile
+                 m4/Makefile
+                 utils/Makefile])
+AC_OUTPUT

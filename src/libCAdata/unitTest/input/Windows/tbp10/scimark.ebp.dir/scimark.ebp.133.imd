@@ -1,0 +1,13 @@
+[C:\WINDOWS\system32\drivers\VolSnap.sys]
+BASE=ba0e8000
+SIZE=0
+SAMPS=1
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+4284,380,1,1,[2 3] 1,0x45f
+[SUB_END]
+[END]
+

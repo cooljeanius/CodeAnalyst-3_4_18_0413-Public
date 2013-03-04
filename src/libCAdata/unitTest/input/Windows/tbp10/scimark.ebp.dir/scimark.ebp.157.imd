@@ -1,0 +1,13 @@
+[C:\WINDOWS\system32\services.exe]
+BASE=1000000
+SIZE=0
+SAMPS=2
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=1
+988,4312,2,2,[2 5] 1,[2 6] 1,0x14ce
+[SUB_END]
+[END]
+

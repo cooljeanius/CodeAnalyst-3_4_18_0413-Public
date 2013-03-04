@@ -1,0 +1,637 @@
+<cpu_events>
+
+<!--
+       K8 microarchitecture performance monitor events (public)
+
+       Source: BIOS and Kernel Developer's Guide for
+       AMD NPT Family 0Fh Processors, Publication# 32559,
+       Revision 3.08, July 2007
+
+       LOG: Last updated (10 January 2009) By PJD
+       - Made consistent with Revision 3.08 of the BKDG
+       - Incorporated OProfile event names as of OProfile release 0.9.3
+
+       (11/10/2006)
+       - Sync the cvs version 1.2 from CA_Lin_26 with 
+              the cvs version 1.4 from CA_Lin_24 tree
+ 
+       (08/31/2006) By Suravee
+       - No Oprofile support for event: 
+            65, 67, 6C, 6D, E5, E8 E9, EA, EC, EE.
+
+       Copyright (c) 2006-2008 Advanced Micro Devices
+ -->
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; FP Unit
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+<source unit="FP">
+
+<event name="Dispatched FPU operations" abbreviation="FPU ops" value="0" >
+	<mask name="Add pipe ops" value="0"></mask>
+	<mask name="Multiply pipe ops" value="1"></mask>
+	<mask name="Store pipe ops" value="2"></mask>
+	<mask name="Add pipe load ops" value="3"></mask>
+	<mask name="Multiply pipe load ops" value="4"></mask>
+	<mask name="Store pipe load ops" value="5"></mask>
+        <op_name name="op" value="DISPATCHED_FPU_OPS" />
+</event>
+
+<event name="Cycles with no FPU ops retired"
+       abbreviation="No FPU op cycles" value="1" >
+	<op_name name="op" value="CYCLES_NO_FPU_OPS_RETIRED" />
+</event>
+
+<event name="Dispatched fast flag FPU operations" 
+       abbreviation="Fast flag FPU ops" value="2" >
+        <op_name name="op" value="DISPATCHED_FPU_OPS_FAST_FLAG" />
+</event>
+
+</source>
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Load Store Unit = 1
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+<source unit="LS">
+
+<event name="Segment register loads"
+       abbreviation="Seg reg loads"  value="20" >
+	<mask name="ES" value="0"></mask>
+	<mask name="CS" value="1"></mask>
+	<mask name="SS" value="2"></mask>
+	<mask name="DS" value="3"></mask>
+	<mask name="FS" value="4"></mask>
+	<mask name="GS" value="5"></mask>
+	<mask name="HS" value="6"></mask>
+        <op_name name="op" value="SEGMENT_REGISTER_LOADS" />
+</event>
+
+<event name="Pipeline restart due to self-modifying code"
+        abbreviation="Restart self-mod code"  value="21" >
+	<op_name name="op" value="PIPELINE_RESTART_DUE_TO_SELF_MODIFYING_CODE" />
+</event>
+
+<event name="Pipeline restart due to probe hit"
+       abbreviation="Restart probe hit"  value="22" >
+        <op_name name="op" value="PIPELINE_RESTART_DUE_TO_PROBE_HIT" />
+</event>
+ 
+<event name="LS buffer 2 full"  abbreviation="LS2 buffer full"  value="23" >
+        <op_name name="op" value="LS_BUFFER_2_FULL_CYCLES" />
+</event>
+
+<event name="Locked operations" abbreviation="Locked ops"  value="24" >
+	<mask name="Number of locked instructions executed" value="0"></mask>
+	<mask name="Number of cycles spent in speculative phase" value="1"></mask>
+	<mask name="Number of cycles spent in non-speculative phase" value="2"></mask>
+        <op_name name="op" value="LOCKED_OPS" />
+</event>
+
+</source>
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+<source unit="EU">
+
+<event name="Retired CLFLUSH Instructions"
+       abbreviation="Ret CLFLUSH inst" value="26" >
+        <op_name name="op" value="RETIRED_CLFLUSH_INSTRUCTIONS" />
+</event>
+
+<event name="Retired CPUID Instructions"
+       abbreviation="Ret CPUID inst" value="27" >
+        <op_name name="op" value="RETIRED_CPUID_INSTRUCTIONS" />
+</event>
+
+</source>
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Data Cache Unit = 3
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+<source unit="DC">
+
+<event name="Data cache accesses"  abbreviation="DC accesses"  value="40" >
+        <op_name name="op" value="DATA_CACHE_ACCESSES" />
+</event>
+
+<event name="Data cache misses" abbreviation="DC misses"  value="41" >
+        <op_name name="op" value="DATA_CACHE_MISSES" />
+</event>
+
+<event name="Data cache refills from L2 or system" 
+       abbreviation="DC refills L2/sys"  value="42" >
+	<mask name="Refill from System" value="0" />
+	<mask name="Shared-state line from L2" value="1" />
+	<mask name="Exclusive-state line from L2" value="2" />
+	<mask name="Owned-state line from L2" value="3" />
+	<mask name="Modified-state line from L2" value="4" />
+        <op_name name="op" value="DATA_CACHE_REFILLS_FROM_L2_OR_SYSTEM" />
+</event>
+
+<event name="Data cache refills from system"
+       abbreviation="DC refills sys"  value="43" >
+	<mask name="Invalid" value="0" />
+	<mask name="Shared" value="1" />
+	<mask name="Exclusive" value="2" />
+	<mask name="Owned" value="3" />
+	<mask name="Modified" value="4" />
+        <op_name name="op" value="DATA_CACHE_REFILLS_FROM_SYSTEM" />
+</event>
+
+<event name="Data cache lines evicted" 
+        abbreviation="DC evicted" value="44" >
+	<mask name="Invalid" value="0" />
+	<mask name="Shared" value="1" />
+	<mask name="Exclusive" value="2" />
+	<mask name="Owned" value="3" />
+	<mask name="Modified" value="4" />
+        <op_name name="op" value="DATA_CACHE_LINES_EVICTED" />
+</event>
+
+<event name="L1 DTLB miss and L2 DTLB hit" 
+       abbreviation="DTLB L1M L2H"  value="45">
+        <op_name name="op" value="L1_DTLB_MISS_AND_L2_DTLB_HIT" />
+</event>
+
+<event name="L1 DTLB miss and L2 DTLB miss"  
+       abbreviation="DTLB L1M L2M" value="46">
+        <op_name name="op" value="L1_DTLB_AND_L2_DTLB_MISS" />
+</event>
+
+<event name="Misaligned accesses" 
+       abbreviation="Misalign access" value="47" >
+        <op_name name="op" value="MISALIGNED_ACCESSES" />
+</event>
+<event name="Microarchitectural late cancel of an access" 
+       abbreviation="Late cancel" value="48"  >
+	<op_name name="op" value="MICROARCHITECTURAL_LATE_CANCEL_OF_AN_ACCESS" />
+</event>
+
+<event name="Microarchitectural early cancel of an access"
+       abbreviation="Early cancel" value="49">
+	<op_name name="op" value="MICROARCHITECTURAL_EARLY_CANCEL_OF_AN_ACCESS" />
+</event>
+
+<event name="Single-bit ECC errors recorded by scrubber" 
+       abbreviation="1-bit ECC errors"  value="4A" >
+	<mask name="Scrubber error" value="0" />
+	<mask name="Piggyback scrubber errors" value="1" />
+        <op_name name="op" value="SCRUBBER_SINGLE_BIT_ECC_ERRORS" />
+</event>
+
+<event name="Prefetch instructions dispatched"
+       abbreviation="Prefetch inst" value="4B" >
+	<mask name="Load (Prefetch, PrefetchT0/T1/T2)" value="0" />
+	<mask name="Store (PrefetchW)" value="1" />
+	<mask name="NTA (PrefetchNTA)" value="2" />
+        <op_name name="op" value="PREFETCH_INSTRUCTIONS_DISPATCHED" />
+</event>
+
+<event name="DCACHE misses by locked instructions"  
+       abbreviation="DC misses locked inst" value="4C" >
+	<mask name="Data cache misses by locked instructions" value="1" />
+        <op_name name="op" value="DCACHE_MISS_LOCKED_INSTRUCTIONS" />
+</event>
+
+</source>
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; L2 Cache and System Interface
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+<source unit="LS">
+
+<event name="Memory requests by type"
+        abbreviation="Memory req"  value="65" >
+	<mask name="Requests to non-cacheable (UC) memory" value="0"></mask>
+	<mask name="Requests to write-combining (WC) memory" value="1"></mask>
+	<mask name="Streaming store (SS) requests" value="7"></mask>
+        <op_name name="op" value="MEMORY_REQUESTS" />
+</event>
+
+</source>
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; L2 Cache and System Interface
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+<source unit="L2">
+<event name="Data prefetcher" abbreviation="Data prefetcher" value="67">
+	<mask name="Cancelled prefetches" value="0" />
+	<mask name="Prefetch attempts" value="1" />
+        <op_name name="op" value="DATA_PREFETCHES" />
+</event>
+
+<event name="System read responses by coherency state"
+       abbreviation="Sys read resp" value="6C">
+	<mask name="Exclusive" value="0" />
+	<mask name="Modified" value="1" />
+	<mask name="Shared" value="2" />
+        <op_name name="op" value="SYSTEM_READ_RESPONSES" />
+</event>
+
+<event name="Quadwords written to system"
+       abbreviation="Quad written to sys" value="6D">
+	<mask name="Quadword write transfer" value="0" />
+        <op_name name="op" value="QUADWORD_WRITE_TRANSFERS" />
+</event>
+</source>
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+<source unit="EU">
+<event name="CPU clocks not halted (cycles)"
+       abbreviation="CPU clocks" value="76" >
+        <op_name name="op" value="CPU_CLK_UNHALTED" />
+</event>
+</source>
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+<source unit="L2">
+<event name="Requests to L2 cache" abbreviation="L2 requests" value="7D">
+	<mask name="IC fill" value="0" />
+	<mask name="DC fill" value="1" />
+	<mask name="TLB fill (page table walks)" value="2" />
+	<mask name="Tag snoop request" value="3" />
+	<mask name="Cancelled request" value="4" />
+        <op_name name="op" value="REQUESTS_TO_L2" />
+</event>
+
+<event name="L2 cache misses" abbreviation="L2 misses" value="7E">
+	<mask name="IC fill" value="0" />
+	<mask name="DC fill (includes possible replays)" value="1" />
+	<mask name="TLB page table walk" value="2" />
+        <op_name name="op" value="L2_CACHE_MISS" />
+</event>
+
+<event name="L2 fill/writeback" abbreviation="L2 fill/write" value="7F">
+	<mask name="L2 fills" value="0" />
+	<mask name="L2 writebacks to system" value="1" />
+        <op_name name="op" value="L2_CACHE_FILL_WRITEBACK" />
+</event>
+
+</source>
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; IC source unit
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+<source unit="IC">
+
+<event name="Instruction cache fetches" abbreviation="IC fetches" value="80">
+        <op_name name="op" value="INSTRUCTION_CACHE_FETCHES" />
+</event>
+
+<event name="Instruction cache misses" abbreviation="IC misses" value="81">
+        <op_name name="op" value="INSTRUCTION_CACHE_MISSES" />
+</event>
+
+<event name="Instruction cache refills from L2"
+       abbreviation="IC refills from L2" value="82">
+        <op_name name="op" value="INSTRUCTION_CACHE_REFILLS_FROM_L2" />
+</event>
+
+<event name="Instruction cache refills from system"
+       abbreviation="IC refills from sys" value="83" >
+        <op_name name="op" value="INSTRUCTION_CACHE_REFILLS_FROM_SYSTEM" />
+</event>
+
+<event name="L1 ITLB miss and L2 ITLB hit"
+       abbreviation="ITLB L1M L2H" value="84">
+        <op_name name="op" value="L1_ITLB_MISS_AND_L2_ITLB_HIT" />
+</event>
+
+<event name="L1 ITLB miss and L2 ITBL miss" 
+       abbreviation="ITLB L1M L2M" value="85" >
+        <op_name name="op" value="L1_ITLB_MISS_AND_L2_ITLB_MISS" />
+</event>
+
+<event name="Pipeline restart due to instruction stream probe" 
+       abbreviation="Restart i-stream probe" value="86" >
+        <op_name name="op" value="PIPELINE_RESTART_DUE_TO_INSTRUCTION_STREAM_PROBE" />
+</event>
+
+<event name="Instruction fetch stall"
+       abbreviation="Inst fetch stall" value="87" >
+        <op_name name="op" value="INSTRUCTION_FETCH_STALL" />
+</event>
+
+<event name="Return stack hits" 
+       abbreviation="RET stack hits" value="88" >
+        <op_name name="op" value="RETURN_STACK_HITS" />
+</event>
+
+<event name="Return stack overflows" 
+       abbreviation="RET stack overflows" value="89" >
+        <op_name name="op" value="RETURN_STACK_OVERFLOWS" />
+</event>
+
+</source>
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; EU source unit
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+<source unit="EU">
+
+<event name="Retired Instructions" abbreviation="Ret inst" value="C0" >
+        <op_name name="op" value="RETIRED_INSTRUCTIONS"/>
+</event>
+
+<event name="Retired uops" abbreviation="Ret uops" value="C1" >
+        <op_name name="op" value="RETIRED_UOPS"/>
+</event>
+
+<event name="Retired branch instructions"
+       abbreviation="Ret branch" value="C2" >
+        <op_name name="op" value="RETIRED_BRANCH_INSTRUCTIONS"/>
+</event>
+
+<event name="Retired mispredicted branch instructions" 
+       abbreviation="Ret misp branch" value="C3" >
+        <op_name name="op" value="RETIRED_MISPREDICTED_BRANCH_INSTRUCTIONS"/>
+</event>
+
+<event name="Retired taken branch instructions"
+       abbreviation="Ret taken branch" value="C4" >
+        <op_name name="op" value="RETIRED_TAKEN_BRANCH_INSTRUCTIONS"/>
+</event>
+
+<event name="Retired taken branch instructions mispredicted"
+       abbreviation="Ret taken branch misp" value="C5" >
+        <op_name name="op" value="RETIRED_TAKEN_BRANCH_INSTRUCTIONS_MISPREDICTED" />
+</event>
+
+<event name="Retired far control transfers"
+       abbreviation="Ret far xfers" value="C6" >
+        <op_name name="op" value="RETIRED_FAR_CONTROL_TRANSFERS" />
+</event>
+
+<event name="Retired branch resyncs"
+       abbreviation="Ret branch resyncs" value="C7" >
+        <op_name name="op" value="RETIRED_BRANCH_RESYNCS" />
+</event>
+
+<event name="Retired near returns"
+       abbreviation="Ret near RET" value="C8" >
+        <op_name name="op" value="RETIRED_NEAR_RETURNS" />
+</event>
+
+<event name="Retired near returns mispredicted"
+       abbreviation="Ret near RET misp" value="C9" >
+        <op_name name="op" value="RETIRED_NEAR_RETURNS_MISPREDICTED" />
+</event>
+
+<event name="Retired indirect branches mispredicted"
+       abbreviation="Ret ind branch misp" value="CA" >
+        <op_name name="op" value="RETIRED_INDIRECT_BRANCHES_MISPREDICTED" />
+</event>
+
+<event name="Retired MMX/FP Instructions"
+       abbreviation="Ret MMX/FP inst" value="CB">
+	<mask name="x87 instructions" value="0" />
+	<mask name="MMX and 3DNow! instructions" value="1" />
+	<mask name="Packed SSE and SSE2 instructions" value="2" />
+	<mask name="Scalar SSE and SSE2 instructions" value="3" />
+        <op_name name="op" value="RETIRED_MMX_FP_INSTRUCTIONS" />
+</event>
+
+<event name="Retired fastpath double op instructions"
+       abbreviation="Ret fastpath double op" value="CC">
+	<mask name="With low op in position 0" value="0" />
+	<mask name="With low op in position 1" value="1" />
+	<mask name="With low op in position 2" value="2" />
+	<op_name name="op" value="RETIRED_FASTPATH_DOUBLE_OP_INSTRUCTIONS" />
+</event>
+
+<event name="Interrupts-masked cycles"
+       abbreviation="Int-masked cycles" value="CD" >
+        <op_name name="op" value="INTERRUPTS_MASKED_CYCLES" />
+</event>
+
+<event name="Interrupts-masked cycles with interrupt pending" 
+       abbreviation="Int-masked pending" value="CE" >
+        <op_name name="op" value="INTERRUPTS_MASKED_CYCLES_WITH_INTERRUPT_PENDING" />
+</event>
+
+<event name="Interrupts taken" abbreviation="Int taken" value="CF" >
+        <op_name name="op" value="INTERRUPTS_TAKEN" />
+</event>
+
+<event name="Decoder empty" abbreviation="Decoder empty" value="D0" >
+        <op_name name="op" value="DECODER_EMPTY" />
+</event>
+
+<event name="Dispatch stalls" abbreviation="Dispatch stalls" value="D1" >
+        <op_name name="op" value="DISPATCH_STALLS" />
+</event>
+
+<event name="Dispatch stalls for branch abort to retire"
+       abbreviation="Stall branch abort" value="D2" >
+        <op_name name="op" value="DISPATCH_STALL_FOR_BRANCH_ABORT" />
+</event>
+
+<event name="Dispatch stall for serialization"
+       abbreviation="Stall serialization" value="D3" >
+        <op_name name="op" value="DISPATCH_STALL_FOR_SERIALIZATION" />
+</event>
+
+<event name="Dispatch stall for segment load"
+       abbreviation="Stall seg load" value="D4" >
+        <op_name name="op" value="DISPATCH_STALL_FOR_SEGMENT_LOAD" />
+</event>
+
+<event name="Dispatch stall for reorder buffer full"
+       abbreviation="Stall reorder full" value="D5" >
+       <op_name name="op" value="DISPATCH_STALL_FOR_REORDER_BUFFER_FULL" />
+</event>
+
+<event name="Dispatch stall for reservation station full"
+       abbreviation="Stall res station full" value="D6" >
+        <op_name name="op" value="DISPATCH_STALL_FOR_RESERVATION_STATION_FULL" />
+</event>
+
+<event name="Dispatch stall for FPU full"
+       abbreviation="Stall FPU full" value="D7" >
+        <op_name name="op" value="DISPATCH_STALL_FOR_FPU_FULL" />
+</event>
+
+<event name="Dispatch stall for LS full"
+       abbreviation="Stall LS full" value="D8" >
+        <op_name name="op" value="DISPATCH_STALL_FOR_LS_FULL" />
+</event>
+
+<event name="Dispatch stall waiting for all quiet"
+       abbreviation="Stall waiting quiet" value="D9" >
+        <op_name name="op" value="DISPATCH_STALL_WAITING_FOR_ALL_QUIET" />
+</event>
+
+<event name="Dispatch stall for far control transfer or resync to retire" 
+       abbreviation="Stall far/resync" value="DA" >
+        <op_name name="op" value="DISPATCH_STALL_FOR_FAR_TRANSFER_OR_RESYNC" />
+</event>
+
+<event name="FPU exceptions" abbreviation="FPU except" value="DB">
+	<mask name="x87 reclass microfaults" value="0" />
+	<mask name="SSE retype microfaults" value="1" />
+	<mask name="SSE reclass microfaults" value="2" />
+	<mask name="SSE and x87 microtraps" value="3" />
+        <op_name name="op" value="FPU_EXCEPTIONS" />
+</event>
+
+<event name="DR0 Breakpoint Matches" abbreviation="DR0 matches" value="DC" >
+        <op_name name="op" value="DR0_BREAKPOINTS" />
+</event>
+
+<event name="DR1 Breakpoint Matches" abbreviation="DR1 matches" value="DD" >
+        <op_name name="op" value="DR1_BREAKPOINTS" />
+</event>
+<event name="DR2 Breakpoint Matches" abbreviation="DR2 matches" value="DE" >
+        <op_name name="op" value="DR2_BREAKPOINTS" />
+</event>
+<event name="DR3 Breakpoint Matches" abbreviation="DR3 matches" value="DF" >
+       <op_name name="op" value="DR3_BREAKPOINTS" />
+</event>
+	
+</source>
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Memory Controller: source unit
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+<source unit="NB">
+
+<event value="E0" name="DRAM accesses" abbreviation="DRAM accesses" >
+	<mask value="0" name="Page hit" />
+	<mask value="1" name="Page miss" />
+	<mask value="2" name="Page conflict" />
+        <op_name name="op" value="DRAM_ACCESSES" />
+</event>
+
+<event value="E1" name="Memory controller page table overflows"
+       abbreviation="Page table overflows">
+        <op_name name="op" value="MEMORY_CONTROLLER_PAGE_TABLE_OVERFLOWS" />
+</event>
+
+<event value="E3" name="Memory controller turnarounds"
+       abbreviation="Turnarounds" >
+	<mask value="0" name="DIMM (chip select) turnaround" />
+	<mask value="1" name="Read to write turnaround" />
+	<mask value="2" name="Write to read turnaround" />
+        <op_name name="op" value="MEMORY_CONTROLLER_TURNAROUNDS" />
+</event>
+
+<event value="E4" name="Memory controller bypass counter saturation"
+       abbreviation="Bypass ctr sat" >
+	<mask value="0" name="Memory controller high priority bypass" />
+	<mask value="1" name="Memory controller low priority bypass" />
+	<mask value="2" name="DRAM controller interface bypass" />
+	<mask value="3" name="DRAM controller queue bypass" />
+	<op_name name="op" value="MEMORY_CONTROLLER_BYPASS_COUNTER_SATURATION" />
+</event>
+
+<event value="E5" name="Sized blocks" abbreviation="Sized blocks" >
+	<mask value="2" name="32-byte sized writes (Rev D and later)" />
+	<mask value="3" name="64-byte sized writes (Rev D and later)" />
+	<mask value="4" name="32-byte sized reads (Rev D and later)" />
+	<mask value="5" name="64-byte sized reads (Rev D and later)" />
+	<op_name name="op" value="SIZED_BLOCKS" />
+</event>
+
+<event value="E8" name="Thermal Status and ECC errors" 
+       abbreviation="Thermal/ECC" >
+        <mask value="0" name="Number of clocks CPU is active when HTC is active (RevF)" />
+        <mask value="1" name="Number of clocks CPU clock is inactive when HTC is active (RevF)" />
+        <mask value="2" name="Number of clocks when die temperature is higher than the software high temperature threshold (RevF)" />
+        <mask value="3" name="Number of clocks when high temperature threshold was exceeded (RevF)" />
+	<mask value="7" name="Correctable and uncorrectable DRAM ECC Errors (Rev E)" />
+	<op_name name="op" value="THERMAL_STATUS_AND_DRAM_ECC_ERRORS" />
+</event>
+
+<event value="E9" name="CPU/IO requests to memory/IO (RevE)"
+       abbreviation="CPU/IO req mem/IO" >
+	<mask value="0" name="I/O to I/O" />
+	<mask value="1" name="I/O to memory" />
+	<mask value="2" name="CPU to I/O" />
+	<mask value="3" name="CPU to memory" />
+	<mask value="4" name="To remote node" />
+	<mask value="5" name="To local node" />
+	<mask value="6" name="From remote node" />
+	<mask value="7" name="From local node" />
+        <op_name name="op" value="CPU_IO_REQUESTS_TO_MEMORY_IO" />
+</event>
+
+<event value="EA" name="Cache block commands (RevE)" 
+       abbreviation="Cache block cmd" >
+	<mask value="0" name="Victim block (writeback)" />
+	<mask value="2" name="Read block (Dcache load miss refill)" />
+	<mask value="3" name="Read block Shared (ICache refill)" />
+	<mask value="4" name="Read block Modified (DCache store miss refill)" />
+	<mask value="5" name="Change to Dirty" />
+        <op_name name="op" value="CACHE_BLOCK_COMMANDS" />
+</event>
+
+<event value="EB" name="Sized commands" abbreviation="Sized cmd" >
+	<mask value="0" name="Non-posted SzWr byte (1-32 bytes)" />
+	<mask value="1" name="Non-posted SzWr DWORD (1-16 DWORDs)" />
+	<mask value="2" name="Posted SzWr byte (1-32 bytes)" />
+	<mask value="3" name="Posted SzWr DWORD (1-16 DWORDs)" />
+	<mask value="4" name="SzRd byte (4 bytes)" />
+	<mask value="5" name="SzRd DWORD (1-16 DWORDs)" />
+	<mask value="6" name="RdModWr" />
+        <op_name name="op" value="SIZED_COMMANDS" />
+</event>
+
+<event value="EC" name="Probe responses and upstream requests"
+       abbreviation="Probe resp/up req" >
+	<mask value="0" name="Probe miss" />
+	<mask value="1" name="Probe hit clean" />
+	<mask value="2" name="Probe hit dirty without memory cancel" />
+	<mask value="3" name="Probe hit dirty with memory cancel" />
+	<mask value="4" name="Upstream display refresh reads" />
+	<mask value="5" name="Upstream non-display refresh reads" />
+	<mask value="6" name="Upstream writes (Rev D and later)" />
+        <op_name name="op" value="PROBE_RESPONSES_AND_UPSTREAM_REQUESTS" />
+</event>
+
+<event value="EE" name="GART events" abbreviation="GART events" >
+	<mask value="0" name="GART aperture hit on access from CPU" />
+	<mask value="1" name="GART aperture hit on access from I/O" />
+	<mask value="2" name="GART miss" />
+        <op_name name="op" value="GART_EVENTS" />
+</event>
+
+<event value="F6" name="HyperTransport link 0 transmit bandwidth"
+       abbreviation="HT0 bandwidth" >
+	<mask value="0" name="Command DWORD sent" />
+	<mask value="1" name="Data DWORD sent" />
+	<mask value="2" name="Buffer release DWORD sent" />
+	<mask value="3" name="NOP DWORD sent (idle)" />
+        <op_name name="op" value="HYPERTRANSPORT_LINK0_BANDWIDTH" />
+</event>
+
+<event value="F7" name="HyperTransport link 1 transmit bandwidth"
+       abbreviation="HT1 bandwidth" >
+	<mask value="0" name="Command DWORD sent" />
+	<mask value="1" name="Data DWORD sent" />
+	<mask value="2" name="Buffer release DWORD sent" />
+	<mask value="3" name="NOP DWORD sent (idle)" />
+        <op_name name="op" value="HYPERTRANSPORT_LINK1_BANDWIDTH" />
+</event>
+
+<event value="F8" name="HyperTransport link 2 transmit bandwidth"
+       abbreviation="HT2 bandwidth" >
+	<mask value="0" name="Command DWORD sent" />
+	<mask value="1" name="Data DWORD sent" />
+	<mask value="2" name="Buffer release DWORD sent" />
+	<mask value="3" name="NOP DWORD sent (idle)" />
+        <op_name name="op" value="HYPERTRANSPORT_LINK2_BANDWIDTH" />
+</event>
+
+</source>
+
+</cpu_events>

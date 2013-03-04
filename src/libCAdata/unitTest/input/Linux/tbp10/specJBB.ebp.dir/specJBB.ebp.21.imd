@@ -1,0 +1,15 @@
+[/usr/bin/gvim]
+BASE=0
+SIZE=0
+SAMPS=3
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=3
+8,0,1,1,[1 0] 1,0x59033b
+8,0,1,1,[1 0] 1,0x5904b2
+8,0,1,1,[1 6] 1,0x597382
+[SUB_END]
+[END]
+

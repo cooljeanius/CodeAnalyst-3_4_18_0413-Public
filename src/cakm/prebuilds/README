@@ -1,0 +1,27 @@
+Pre-built CodeAnalyst Kernel Modules
+====================================
+
+This directory contains pre-built CodeAnalyst kernel 
+modules (CAKM) for the following kernels:
+
+	SLES11			2.6.27.19-5-default
+
+	SLES10SP3		2.6.16.60-0.54.5-smp
+
+	RHEL5U4			2.6.18-164.el5
+
+	RHEL4U8			2.6.9-89.ELsmp
+
+
+Older CAKM:
+
+	SLES10SP1		2.6.16.46-0.12-smp
+	SLES10SP2		2.6.16.60-0.21-smp
+
+	RHEL5U1			2.6.18-53.el5
+	RHEL5U2			2.6.18-92.el5
+	
+	RHEL4U4			2.6.9-42.ELsmp
+	RHEL4U5			2.6.9-55.ELsmp
+	RHEL4U6			2.6.9-67.ELsmp
+	RHEL4U7			2.6.9-78.ELsmp

@@ -1,0 +1,15 @@
+[/usr/lib64/libcairo.so.2.10800.6]
+BASE=0
+SIZE=0
+SAMPS=3
+ModuleType=1
+NUMSUBSECTIONS=1
+
+[SUB]
+LINECOUNT=3
+8,0,1,1,[1 5] 1,0x3c8580fc41
+8,0,1,1,[1 0] 1,0x3c8582a413
+8,0,1,1,[1 5] 1,0x3c8582d125
+[SUB_END]
+[END]
+
