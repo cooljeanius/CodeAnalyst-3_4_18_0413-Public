@@ -5,22 +5,19 @@ dnl currently work only with type typedef'ed in stddef.h
 AC_DEFUN([AX_CHECK_TYPEDEF], [
 dnl AC_LANG_PUSH(C) not in autoconf 2.13
 AC_LANG_SAVE
-AC_LANG_C
+AC_LANG([C])
 SAVE_CFLAGS=$CFLAGS
 CFLAGS="-Werror $CFLAGS"
 
-AC_TRY_COMPILE(
-  [
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
   #include <stddef.h>
-  ],
-  [
+  ]], [[
   typedef void (*fct1)($1);
   typedef void (*fct2)($2);
   fct1 f1 = 0;
   fct2 f2 = 0;
   if (f1 == f2) {}
-  ],
-[$3],[$4])
+  ]])],[$3],[$4])
 
 CFLAGS=$SAVE_CFLAGS
 AC_LANG_RESTORE

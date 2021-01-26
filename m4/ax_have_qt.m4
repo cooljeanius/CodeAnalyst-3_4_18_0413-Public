@@ -88,10 +88,10 @@
 #   and this notice are preserved. This file is offered as-is, without any
 #   warranty.
 
-#serial 10
+#serial 11
 
 dnl Calls AX_PATH_QT_DIRECT (contained in this file) as a subroutine.
-AU_ALIAS([BNV_HAVE_QT], [AX_HAVE_QT])
+#AU_ALIAS([BNV_HAVE_QT], [AX_HAVE_QT])
 AC_DEFUN([AX_HAVE_QT],
 [
   AC_REQUIRE([AC_PROG_CXX])
@@ -433,35 +433,29 @@ AC_DEFUN([AX_PATH_QT_DIRECT],
       ax_qt_LIBS="$LIBS"
       ax_save_CXXFLAGS="$CXXFLAGS"
       CXXFLAGS="-I$ax_qt_include_dir"
-      AC_TRY_LINK([#include <$qt_direct_test_header>],
-        $qt_direct_test_main,
-      [
+      AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <$qt_direct_test_header>]], [[$qt_direct_test_main]])],[
         # Success.
         # We can link with no special library directory.
         ax_qt_lib_dir=
-      ], [
+      ],[
         # That did not work. Try the multi-threaded version
         echo "Non-critical error, please neglect the above." >&AS_MESSAGE_LOG_FD
         ax_qt_lib=qt-mt
         LIBS="-l$ax_qt_lib $X_PRE_LIBS $X_LIBS -lX11 -lXext -lXmu -lXt -lXi $X_EXTRA_LIBS"
-        AC_TRY_LINK([#include <$qt_direct_test_header>],
-          $qt_direct_test_main,
-        [
+        AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <$qt_direct_test_header>]], [[$qt_direct_test_main]])],[
           # Success.
           # We can link with no special library directory.
           ax_qt_lib_dir=
-        ], [
+        ],[
           # That did not work. Try the OpenGL version
           echo "Non-critical error, please neglect the above." >&AS_MESSAGE_LOG_FD
           ax_qt_lib=qt-gl
           LIBS="-l$ax_qt_lib $X_PRE_LIBS $X_LIBS -lX11 -lXext -lXmu -lXt -lXi $X_EXTRA_LIBS"
-          AC_TRY_LINK([#include <$qt_direct_test_header>],
-            $qt_direct_test_main,
-          [
+          AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <$qt_direct_test_header>]], [[$qt_direct_test_main]])],[
             # Success.
             # We can link with no special library directory.
             ax_qt_lib_dir=
-          ], [
+          ],[
             # That did not work. Maybe a library version I don't know about?
             echo "Non-critical error, please neglect the above." >&AS_MESSAGE_LOG_FD
             # Look for some Qt lib in a standard set of common directories.
@@ -491,13 +485,11 @@ AC_DEFUN([AX_PATH_QT_DIRECT],
             done
             # Try with that one
             LIBS="-l$ax_qt_lib $X_PRE_LIBS $X_LIBS -lX11 -lXext -lXmu -lXt -lXi $X_EXTRA_LIBS"
-            AC_TRY_LINK([#include <$qt_direct_test_header>],
-              $qt_direct_test_main,
-            [
+            AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <$qt_direct_test_header>]], [[$qt_direct_test_main]])],[
               # Success.
               # We can link with no special library directory.
               ax_qt_lib_dir=
-            ], [
+            ],[
              : # Leave ax_qt_lib_dir defined
             ])
           ])

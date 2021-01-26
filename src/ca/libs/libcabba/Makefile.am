@@ -6,11 +6,11 @@ libVersion = 1:0:0
 SUBDIRS = .
 #	bbatest
 
-INCLUDES = \
+AM_INCLUDES = \
     ${LIBDWARF_INC} \
     -I /usr/include/libelf 
 
-AM_CPPFLAGS = $(INCLUDES) $(FLAG64)\
+AM_CPPFLAGS = $(AM_INCLUDES) $(FLAG64)\
     	-pipe -Wno-unused -Wno-parentheses ${CA_CXXFLAGS}
 
 libCAbba_la_LDFLAGS = -fPIC --no-undefined -version-number ${libVersion}

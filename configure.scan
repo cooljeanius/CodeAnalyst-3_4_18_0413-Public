@@ -1,9 +1,9 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])
+AC_PREREQ([2.70])
 AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
-AC_CONFIG_SRCDIR([samples/classic/classic.cpp])
+AC_CONFIG_SRCDIR([samples/classic/inlined_classic_stress.cpp])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
@@ -15,31 +15,30 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_RANLIB
+AC_PROG_MKDIR_P
+AC_PROG_OBJC
+AC_PROG_OBJCXX
 
 # Checks for libraries.
-# FIXME: Replace `main' with a function in `-lCAdata':
+# FIXME: Replace 'main' with a function in '-lCAdata':
 AC_CHECK_LIB([CAdata], [main])
-# FIXME: Replace `main' with a function in `-ldl':
+# FIXME: Replace 'main' with a function in '-ldl':
 AC_CHECK_LIB([dl], [main])
-# FIXME: Replace `main' with a function in `-ldwarf':
+# FIXME: Replace 'main' with a function in '-ldwarf':
 AC_CHECK_LIB([dwarf], [main])
-# FIXME: Replace `main' with a function in `-liberty':
-AC_CHECK_LIB([iberty], [main])
-# FIXME: Replace `main' with a function in `-lm':
+# FIXME: Replace 'main' with a function in '-lm':
 AC_CHECK_LIB([m], [main])
-# FIXME: Replace `main' with a function in `-lpopt':
-AC_CHECK_LIB([popt], [main])
-# FIXME: Replace `main' with a function in `-lpthread':
-AC_CHECK_LIB([pthread], [main])
 
 # Checks for header files.
-AC_CHECK_HEADERS([fcntl.h inttypes.h limits.h memory.h stdint.h stdlib.h string.h strings.h sys/time.h unistd.h values.h])
+AC_CHECK_HEADERS([fcntl.h stdint.h strings.h sys/time.h unistd.h values.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_HEADER_STDBOOL
 AC_C_INLINE
+AC_TYPE_INT16_T
 AC_TYPE_INT32_T
-AC_TYPE_INT64_T
+AC_TYPE_INT8_T
+AC_TYPE_MODE_T
 AC_TYPE_OFF_T
 AC_TYPE_PID_T
 AC_C_RESTRICT
@@ -49,24 +48,24 @@ AC_TYPE_UID_T
 AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
 AC_TYPE_UINT64_T
+AC_TYPE_UINT8_T
+AC_CHECK_TYPES([ptrdiff_t])
 
 # Checks for library functions.
+AC_FUNC_ERROR_AT_LINE
+AC_FUNC_FORK
+AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
 AC_FUNC_MALLOC
 AC_FUNC_MKTIME
-AC_CHECK_FUNCS([gettimeofday memset mkdir rmdir select strtoul])
+AC_FUNC_MMAP
+AC_CHECK_FUNCS([alarm atexit ftruncate gettimeofday memmove memset mkdir mkfifo munmap realpath regcomp select setenv strchr strerror strstr strtoul strtoull uname])
 
 AC_CONFIG_FILES([Makefile
-                 doc/Makefile
                  doc/cadoc/Makefile
-                 doc/dadoc/Makefile
-                 m4/Makefile
                  samples/classic/Makefile
                  src/Makefile
                  src/ca/Makefile
-                 src/ca/cg/Makefile
-                 src/ca/diffgui/Makefile
                  src/ca/events/Makefile
-                 src/ca/gui/Makefile
                  src/ca/libs/Makefile
                  src/ca/libs/libca/Makefile
                  src/ca/libs/libcabba/Makefile
@@ -74,15 +73,30 @@ AC_CONFIG_FILES([Makefile
                  src/ca/libs/libopdata/Makefile
                  src/ca/libs/libopdata/opxmltest/Makefile
                  src/ca/libs/liboutput/Makefile
-                 src/ca/scripts/Makefile
-                 src/ca/utils/Makefile
-                 src/cakm/kernel2.6.16/Makefile
-                 src/cakm/kernel2.6.32/Makefile
-                 src/cakm/kernel2.6.38/Makefile
-                 src/cakm/prebuilds/Makefile])
+                 src/libCAdata/m4/Makefile
+                 src/oprofile-0.9.6cvs/Makefile
+                 src/oprofile-0.9.6cvs/agents/jvmpi/Makefile
+                 src/oprofile-0.9.6cvs/daemon/Makefile
+                 src/oprofile-0.9.6cvs/doc/Makefile
+                 src/oprofile-0.9.6cvs/gui/Makefile
+                 src/oprofile-0.9.6cvs/gui/ui/Makefile
+                 src/oprofile-0.9.6cvs/libabi/Makefile
+                 src/oprofile-0.9.6cvs/libabi/tests/Makefile
+                 src/oprofile-0.9.6cvs/libdb/Makefile
+                 src/oprofile-0.9.6cvs/libop/Makefile
+                 src/oprofile-0.9.6cvs/libopagent/Makefile
+                 src/oprofile-0.9.6cvs/libopt++/Makefile
+                 src/oprofile-0.9.6cvs/libpp/Makefile
+                 src/oprofile-0.9.6cvs/libregex/Makefile
+                 src/oprofile-0.9.6cvs/libutil++/Makefile
+                 src/oprofile-0.9.6cvs/libutil++/tests/Makefile
+                 src/oprofile-0.9.6cvs/libutil/tests/Makefile
+                 src/oprofile-0.9.6cvs/m4/Makefile
+                 src/oprofile-0.9.6cvs/module/Makefile
+                 src/oprofile-0.9.6cvs/opjitconv/Makefile
+                 src/oprofile-0.9.6cvs/pp/Makefile
+                 src/oprofile-0.9.6cvs/utils/Makefile])
 AC_CONFIG_SUBDIRS([src/CAPerf
                    src/ca_agent
-                   src/dwarf-20111214/libdwarf
-                   src/libCAdata
-                   src/oprofile-0.9.6cvs])
+                   src/dwarf-20111214/libdwarf])
 AC_OUTPUT

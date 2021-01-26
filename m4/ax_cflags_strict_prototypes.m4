@@ -58,7 +58,7 @@
 #   modified version of the Autoconf Macro, you may extend this special
 #   exception to the GPL to apply to your modified version as well.
 
-#serial 12
+#serial 14
 
 AC_DEFUN([AX_FLAGS_STRICT_PROTOTYPES],[dnl
 AS_VAR_PUSHDEF([FLAGS],[_AC_LANG_PREFIX[]FLAGS])dnl
@@ -75,21 +75,18 @@ in "-pedantic -Werror % -fstrict-prototypes -Wstrict-prototypes" dnl   GCC
    "-pedantic % -Wstrict-prototypes %% no, unsupported" dnl oops
    #
 do FLAGS="$ac_save_[]FLAGS "`echo $ac_arg | sed -e 's,%%.*,,' -e 's,%,,'`
-   AC_TRY_COMPILE([],[return 0;],
-   [VAR=`echo $ac_arg | sed -e 's,.*% *,,'` ; break])
+   AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[return 0;]])],[VAR=`echo $ac_arg | sed -e 's,.*% *,,'` ; break],[])
 done
 case ".$VAR" in
    .|.no|.no,*) ;;
    *) # sanity check with signal() from sys/signal.h
     cp config.log config.tmp
-    AC_TRY_COMPILE([#include <signal.h>],[
+    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <signal.h>]], [[
     if (signal (SIGINT, SIG_IGN) == SIG_DFL) return 1;
-    if (signal (SIGINT, SIG_IGN) != SIG_DFL) return 2;],
-    dnl the original did use test -n `$CC testprogram.c`
-    [if test `diff config.log config.tmp | grep -i warning | wc -l` != 0
+    if (signal (SIGINT, SIG_IGN) != SIG_DFL) return 2;]])],[dnl the original did use test -n `$CC testprogram.c`
+    if test `diff config.log config.tmp | grep -i warning | wc -l` != 0
 then if test `diff config.log config.tmp | grep -i warning | wc -l` != 1
-then VAR="no, suppressed, signal.h," ; fi ; fi],
-    [VAR="no, suppressed, signal.h"])
+then VAR="no, suppressed, signal.h," ; fi ; fi],[VAR="no, suppressed, signal.h"])
     rm config.tmp
   ;;
 esac

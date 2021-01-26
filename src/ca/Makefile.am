@@ -3,9 +3,8 @@ SUBDIRS = \
 	gui \
 	events \
 	utils \
-	scripts \
-	cg
-# FIXME	[3.0] diffgui \
+	scripts
+# FIXME	[3.0] cg diffgui \
 #    $(CA_RELEASE_TYPE)
 
 install-exec-hook:

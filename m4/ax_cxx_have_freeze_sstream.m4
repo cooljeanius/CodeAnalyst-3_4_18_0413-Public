@@ -57,7 +57,7 @@
 #   modified version of the Autoconf Macro, you may extend this special
 #   exception to the GPL to apply to your modified version as well.
 
-#serial 5
+#serial 6
 
 AU_ALIAS([AC_CXX_HAVE_FREEZE_SSTREAM], [AX_CXX_HAVE_FREEZE_SSTREAM])
 AC_DEFUN([AX_CXX_HAVE_FREEZE_SSTREAM],
@@ -66,18 +66,16 @@ ax_cv_cxx_have_freeze_sstream,
 [AC_REQUIRE([AX_CXX_NAMESPACES])
   AC_REQUIRE([AX_CXX_HAVE_SSTREAM])
   AC_LANG_SAVE
-  AC_LANG_CPLUSPLUS
-  AC_TRY_COMPILE([#include <sstream>
+  AC_LANG([C++])
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <sstream>
 #ifdef HAVE_NAMESPACES
 using namespace std;
-#endif],
-[#ifdef HAVE_SSTREAM
+#endif]], [[#ifdef HAVE_SSTREAM
 stringstream message;
 #else
 strstream message;
 #endif
-message << "Hello"; message.freeze(0); return 0;],
-  ax_cv_cxx_have_freeze_sstream=yes, ax_cv_cxx_have_freeze_sstream=no)
+message << "Hello"; message.freeze(0); return 0;]])],[ax_cv_cxx_have_freeze_sstream=yes],[ax_cv_cxx_have_freeze_sstream=no])
   AC_LANG_RESTORE
 ])
 if test "$ax_cv_cxx_have_freeze_sstream" = yes; then

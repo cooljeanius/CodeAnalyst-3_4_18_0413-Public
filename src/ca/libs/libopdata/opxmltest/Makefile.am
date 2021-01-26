@@ -2,12 +2,12 @@ bin_PROGRAMS=opxmltest
 
 SUBDIRS = .
 
-INCLUDES = \
+AM_INCLUDES = \
 	-I ../ -I ../../../include \
 	-I ../../libca/ @QT_INCLUDES@ 
 		 
 
-AM_CPPFLAGS = -g $(FLAG64)\
+AM_CPPFLAGS = $(AM_INCLUDES) -g $(FLAG64) \
 	-W -Wall  -g -pipe -Wno-unused -Wno-parentheses \
 	${CA_CXXFLAGS}
 

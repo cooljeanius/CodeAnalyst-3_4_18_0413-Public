@@ -23,29 +23,30 @@
 # Initialization
 ###############################################
 
-AC_INIT([CodeAnalyst], [3.4.18-public], [CodeAnalyst.support@amd.com])
+AC_INIT([CodeAnalyst],[3.4.18-public],[CodeAnalyst.support@amd.com])
 
 CA_RELEASE_TYPE="public"
-AC_SUBST(CA_RELEASE_TYPE)
+AC_SUBST([CA_RELEASE_TYPE])dnl
 
-AC_CONFIG_SRCDIR([src/ca/gui/application.cpp])
-
+AC_CONFIG_SRCDIR([samples/classic/inlined_classic_stress.cpp])
+AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_HEADERS([src/ca/gui/config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
-AC_DEFINE_UNQUOTED(CA_CONFIG_ARG,"$ac_configure_args", [CodeAnalyst configuration flags])
+AC_DEFINE_UNQUOTED([CA_CONFIG_ARG],["${ac_configure_args}"],
+                   [CodeAnalyst configuration flags])
 
-AC_PREREQ([2.13])
+AC_PREREQ([2.70])
 AC_CANONICAL_HOST
 
 # Initialize Libtool
-AC_PROG_LIBTOOL
+LT_INIT([dlopen])
 AC_PROG_RANLIB
 
 # Fix issue with basename in gcc-4.4
 AC_CHECK_DECLS([basename], [], [], [[#include <libgen.h>]])
 
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([foreign])
 AM_MAINTAINER_MODE
 
 # Default installation directory
@@ -159,20 +160,20 @@ AC_PROG_AWK
 AC_PROG_CC
 AM_PROG_CC_C_O
 AC_PROG_CPP
-AC_MSG_CHECKING([$CC path])
-if test -z `which $CC` ; then 
+AC_MSG_CHECKING([${CC} path])
+if test -z "`which $CC`"; then 
 	AC_MSG_RESULT([no])	
-	AC_MSG_ERROR(C compiler not found)
+	AC_MSG_ERROR([C compiler not found])
 else
 	AC_MSG_RESULT([yes])	
 fi
 
 AC_PROG_CXX
 AC_PROG_CXXCPP
-AC_MSG_CHECKING([$CXX path])
-if test -z `which $CXX` ; then 
+AC_MSG_CHECKING([${CXX} path])
+if test -z "`which $CXX`"; then 
 	AC_MSG_RESULT([no])	
-	AC_MSG_ERROR(C++ compiler not found)
+	AC_MSG_ERROR([C++ compiler not found])
 else
 	AC_MSG_RESULT([yes])	
 fi
@@ -180,7 +181,9 @@ AC_PROG_OBJC
 AC_PROG_OBJCXX
 AM_PROG_AS
 AM_PROG_GCJ
-AM_PROG_UPC
+if test "x${NEED_UPC}" = "xyes"; then
+  AM_PROG_UPC
+fi
 
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
@@ -214,71 +217,130 @@ AC_C_INLINE
 AC_C_RESTRICT
 
 # Check for types
+AC_TYPE_INT8_T
+AC_TYPE_INT16_T
 AC_TYPE_INT32_T
 AC_TYPE_INT64_T
+AC_TYPE_MODE_T
 AC_TYPE_OFF_T
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
 AC_TYPE_UID_T
+AC_TYPE_UINT8_T
 AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
 AC_TYPE_UINT64_T
+AC_CHECK_TYPES([ptrdiff_t])
 
 # Check for headers
-AC_HEADER_STDC
+dnl# autoupdate says:
+dnl# The preprocessor macro `STDC_HEADERS' is obsolete.
+dnl# Except in unusual embedded environments, you can safely include all
+dnl# ISO C90 headers unconditionally.
+# Autoupdate added the next few lines to ensure that your configure
+# script's behavior did not change.  They are probably safe to remove.
+AC_CHECK_INCLUDES_DEFAULT
+if test "x${EGREP}" = "x"; then
+  test -z "${EGREP}"
+  AC_PROG_EGREP
+fi
+AC_HEADER_STDBOOL dnl# also "_CHECK"s it
 AC_CHECK_HEADERS([demangle.h fcntl.h limits.h stdio.h sys/time.h values.h])
 AC_HEADER_SYS_WAIT
-AC_CHECK_HEADER_STDBOOL
+if test "x${ac_cv_header_stdint_h}" = "x"; then
+  test -z "${ac_cv_header_stdint_h}"
+  AC_CHECK_HEADERS([stdint.h])
+fi
+if test "x${ac_cv_header_strings_h}" = "x"; then
+  test -z "${ac_cv_header_strings_h}"
+  AC_CHECK_HEADERS([strings.h])
+fi
+if test "x${ac_cv_header_unistd_h}" = "x"; then
+  test -z "${ac_cv_header_unistd_h}"
+  AC_CHECK_HEADERS([unistd.h])
+fi
 
 # Check for functions
+AC_FUNC_ERROR_AT_LINE
+AC_FUNC_FORK
+AC_FUNC_LSTAT dnl# also checks whether it "_FOLLOWS_SLASHED_SYMLINK"
 AC_FUNC_MALLOC
 AC_FUNC_MKTIME
-AC_CHECK_FUNCS([gettimeofday memset mkdir rmdir select strchr strncasecmp strrchr strtoul])
+AC_FUNC_MMAP
+AC_CHECK_FUNCS([alarm atexit ftruncate gettimeofday memmove memset mkdir \
+                mkfifo munmap realpath regcomp rmdir select setenv strchr \
+                strerror strncasecmp strrchr strstr strtoul strtoull uname])
 AC_CHECK_FUNCS([malloc xcalloc xmemdup])
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-lCAdata':
-AC_CHECK_LIB([CAdata], [main])
-# FIXME: Replace `main' with a function in `-ldwarf':
-AC_CHECK_LIB([dwarf], [main])
+AC_CHECK_LIB([CAdata],[main])
+AC_CHECK_LIB([dwarf],[dwarf_init],[],[
+  AC_CHECK_LIB([dwarf],[dwarf_finish],[],[
+    AC_CHECK_LIB([dwarf],[dwarf_next_cu_header],[],[
+      AC_CHECK_LIB([dwarf],[dwarf_siblingof],[],[
+        AC_CHECK_LIB([dwarf],[dwarf_child],[],[
+          AC_CHECK_LIB([dwarf],[dwarf_tag],[],[
+            AC_CHECK_LIB([dwarf],[dwarf_attr],[],[
+              AC_CHECK_LIB([dwarf],[dwarf_dealloc],[],[
+                AC_CHECK_LIB([dwarf],[main],[],[])dnl
+              ])dnl
+            ])dnl
+          ])dnl
+        ])dnl
+      ])dnl
+    ])dnl
+  ])dnl
+])dnl
 # FIXME: Replace `main' with a function in `-lm':
-AC_CHECK_LIB([m], [main])
-# FIXME: Replace `main' with a function in `-lpthread':
-AC_CHECK_LIB([pthread], [main])
+AC_CHECK_LIB([m],[main])
+LT_LIB_M
+AC_CHECK_LIB([pthread],[pthread_mutex_lock],[],[
+  AC_CHECK_LIB([pthread],[pthread_mutex_unlock],[],[
+    AC_CHECK_LIB([pthread],[main],[],[])dnl
+  ])dnl
+])dnl
 
 dnl check for gelf
 AC_CHECK_HEADERS([gelf.h],[],
-	[AC_CHECK_HEADERS([libelf/gelf.h],[],[AC_MSG_ERROR([gelf.h not found])])]
-)
+	[AC_CHECK_HEADERS([libelf/gelf.h],[],
+	                  [AC_MSG_WARN([gelf.h not found])
+	                   AC_MSG_NOTICE([(this ought to be an error, but we are downgrading it to a warning to facilitate work on this configure script)])
+	])dnl
+])dnl
 
-dnl check for elf
+dnl# check for elf
 LDCONFIG="`which ldconfig`"
-if test "x$LDCONFIG" != "x"; then
+if test "x${LDCONFIG}" != "x"; then
 	CHECK_LELF
 else
 	ELF="elf"
 fi
-AC_CHECK_LIB([$ELF], [gelf_getehdr],
-		ELF_LIB="-l$ELF"; AC_SUBST(ELF_LIB), 
-		ELF_LIB=""; AC_MSG_ERROR([libelf liberary not found]))
-LIBS="$ELF_LIB $LIBS"
+AC_CHECK_LIB([${ELF}],[gelf_getehdr],
+	     [ELF_LIB="-l${ELF}"; AC_SUBST([ELF_LIB])], 
+	     [ELF_LIB=""; AC_MSG_WARN([libelf liberary not found])
+	      AC_MSG_NOTICE([(this ought to be an error, but we are downgrading it to a warning to facilitate work on this configure script)])])
+LIBS="${ELF_LIB} ${LIBS}"
 
-dnl check for popt
-AC_CHECK_LIB([popt], [poptGetContext],
-		[POPT_LIB="-lpopt"; AC_SUBST(POPT_LIB)],
-		[POPT_LIB=""; AC_MSG_ERROR([popt library not found])])
-LIBS="$POPT_LIB $LIBS"
+dnl# check for popt
+AC_CHECK_LIB([popt],[poptGetContext],
+	     [POPT_LIB="-lpopt"; AC_SUBST(POPT_LIB)],
+	     [POPT_LIB=""; AC_MSG_WARN([popt library not found])
+	      AC_MSG_NOTICE([(this ought to be an error, but we are downgrading it to a warning to facilitate work on this configure script)])])
+LIBS="${POPT_LIB} ${LIBS}"
 
-dnl check for dl
+dnl# check for dl
 AC_CHECK_LIB([dl], [dlopen], 
 		DL_LIB="-ldl", 
 		DL_LIB=""; AC_MSG_ERROR([dl library not found]))
 LIBS="$DL_LIB $LIBS"
 
-# FIXME: Replace `main' with a function in `-liberty':
-AC_CHECK_LIB([iberty], [main])
-dnl some distro have a libiberty.a but does not have a libiberty.h
+dnl# check for libiberty
+AC_CHECK_LIB([iberty],[xmalloc],[],[
+  AC_CHECK_LIB([iberty],[main],[],[])
+])
+dnl# some distro have a libiberty.a but does not have a libiberty.h
 AC_CHECK_HEADERS([libiberty.h],[],[AC_MSG_WARN([libiberty.h not found])])
 AC_CHECK_LIB([iberty_pic], [cplus_demangle],
 		[IBERTY_LIB="-liberty_pic";AC_SUBST(IBERTY_LIB)],
@@ -355,10 +417,6 @@ AC_SUBST(topdir)
 dnl Used in symbolengine
 AX_BFD_VERSION
 
-#AX_MALLOC_ATTRIBUTE
-#AX_POPT_CONST
-#AX_CHECK_SSTREAM
-
 dnl Setting CFLAGS
 AX_CFLAGS_OPTION(CA_CFLAGS,[-W])
 AX_CFLAGS_OPTION(CA_CFLAGS,[-Wall])
@@ -397,19 +455,22 @@ if test "$enable_werror" = "yes"; then
 	fi
 fi
 
-AC_SUBST(CA_CXXFLAGS)
+AC_SUBST([CA_CXXFLAGS])dnl
 
-dnl bfd.h pre 1998 check only for gnu 2.xx series, so gcc 3.0 can't compile it
+dnl# bfd.h pre-1998 only checks for gnu 2.xx series, so gcc 3.0 cannot compile
+dnl# it:
 AC_MSG_CHECKING([whether bfd defines bool])
-AC_TRY_COMPILE([#include <bfd.h>], [], 
-AC_MSG_RESULT([no]);,
-AC_MSG_RESULT([yes]); AC_DEFINE([TRUE_FALSE_ALREADY_DEFINED], [1], [whether bfd.h defines bool values]))
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <bfd.h>]],[[]])],
+                  [AC_MSG_RESULT(no);],
+                  [AC_MSG_RESULT(yes);
+                   AC_DEFINE([TRUE_FALSE_ALREADY_DEFINED],[1],
+                             [whether bfd.h defines bool values])])dnl
 
-dnl smart demangler need to know what are the underlined type for some typedef
-AX_TYPEDEFED_NAME(size_t, "unsigned" "unsigned long", SIZE_T_TYPE)
-AC_SUBST(SIZE_T_TYPE)
-AX_TYPEDEFED_NAME(ptrdiff_t, "int" "long", PTRDIFF_T_TYPE)
-AC_SUBST(PTRDIFF_T_TYPE)
+dnl# smart demangler need to know what are the underlined type for some typedef
+AX_TYPEDEFED_NAME([size_t],"unsigned" "unsigned long",[SIZE_T_TYPE])
+AC_SUBST([SIZE_T_TYPE])
+AX_TYPEDEFED_NAME([ptrdiff_t],"int" "long",[PTRDIFF_T_TYPE])
+AC_SUBST([PTRDIFF_T_TYPE])dnl
 
 ############################################
 # Setup for CA 

@@ -3,10 +3,10 @@ dnl add option to var-name if $CC support it.
 AC_DEFUN([AX_CFLAGS_OPTION], [
 AC_MSG_CHECKING([whether ${CC} $2 is understood])
 AC_LANG_SAVE
-AC_LANG_C
+AC_LANG([C])
 SAVE_CFLAGS=$CFLAGS
 CFLAGS=$2
-AC_TRY_COMPILE(,[;],AC_MSG_RESULT([yes]); $1="${$1} $2",AC_MSG_RESULT([no]))
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[;]])],[AC_MSG_RESULT(yes); $1="${$1} $2"],[AC_MSG_RESULT(no)])
 CFLAGS=$SAVE_CFLAGS
 AC_LANG_RESTORE
 ])
@@ -17,10 +17,10 @@ dnl add option to var-name if $CXX support it.
 AC_DEFUN([AX_CXXFLAGS_OPTION], [
 AC_MSG_CHECKING([whether ${CXX} $2 is understood])
 AC_LANG_SAVE
-AC_LANG_CPLUSPLUS
+AC_LANG([C++])
 SAVE_CXXFLAGS=$CXXFLAGS
 CXXFLAGS=$2
-AC_TRY_COMPILE(,[;],AC_MSG_RESULT([yes]); $1="${$1} $2",AC_MSG_RESULT([no]))
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[;]])],[AC_MSG_RESULT(yes); $1="${$1} $2"],[AC_MSG_RESULT(no)])
 CXXFLAGS=$SAVE_CXXFLAGS
 AC_LANG_RESTORE
 ])
