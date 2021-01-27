@@ -65,7 +65,7 @@ then
 	exit 1	
 fi
 
-echo ".... checking automake "
+echo ".... checking automake"
 AUTOMAKE=`which automake 2> /dev/null`
 if test $? != 0
 then
@@ -85,16 +85,21 @@ fi
 
 echo ".... creating configure"
 
-rm -rf autom4te.cache/*
-${ACLOCAL} -I m4
-${AUTOHEADER}
-${LIBTOOLIZE} --automake --force
-${AUTOMAKE} --add-missing
-${AUTOCONF}
+rm -rf autom4te.cache/* || rmdir autom4te.cache
+${ACLOCAL} -I m4 --install
+${AUTOHEADER} --force
+${LIBTOOLIZE} --automake --force --copy --install
+${AUTOMAKE} --add-missing --copy --force-missing
+${AUTOCONF} --force
 
-echo ""
-echo "Configuration script is ready. Next please  run"
-echo ""
-echo "    ./configure"
-echo ""
-echo "to configure CodeAnalyst. See ./configure --help for list of options."
+if test -e ./configure; then
+  echo ""
+  echo "Configuration script is ready. Next please run"
+  echo ""
+  echo "    ./configure"
+  echo ""
+  echo "to configure CodeAnalyst. See ./configure --help for list of options."
+else
+  echo "It appears we (autogen.sh) have failed to generate a configure script;"
+  echo "please check and see what happened."
+fi

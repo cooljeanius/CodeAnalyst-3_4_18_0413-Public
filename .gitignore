@@ -4,3 +4,17 @@
 *.log
 *.o
 *.status
+confdefs.h
+conftest*
+Makefile
+src/oprofile
+libtool
+config.h
+stamp-h*
+*.Plo
+*deps/*.Po
+*/*deps/*.Po
+*/*/*deps/*.Po
+*/*/*/*deps/*.Po
+*/*/*/*/*deps/*.Po
+*/*/*/*/*/*deps/*.Po

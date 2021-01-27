@@ -181,9 +181,9 @@ AC_PROG_OBJC
 AC_PROG_OBJCXX
 AM_PROG_AS
 AM_PROG_GCJ
-if test "x${NEED_UPC}" = "xyes"; then
-  AM_PROG_UPC
-fi
+# UPC probably isn't actually needed, but conditionalizing use of this macro
+# leads to errors, so we'll need to find another way to avoid this:
+AM_PROG_UPC
 
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
@@ -396,28 +396,32 @@ if test x$debug = xfalse; then
 fi
 
 # Set 64-bit flags, if necessary
-case $host_cpu in
+case ${host_cpu} in
  x86_64)
 	FLAG64="-D_x86_64_"
 	;;
  *)
-	FLAG64=
+	FLAG64=""
 	;;
 esac
-AC_SUBST(FLAG64)
+AC_SUBST([FLAG64])dnl
 
-dnl get date
+dnl# get date
 DATE="`date '+%a %d %B %Y'`"
-AC_SUBST(DATE)
+AC_SUBST([DATE])dnl
 
-dnl get topdir
-topdir=`pwd`
-AC_SUBST(topdir)
+dnl# get topdir
+topdir="`pwd`"
+AC_SUBST([topdir])dnl
 
-dnl Used in symbolengine
+dnl# Used in symbolengine
+m4_ifdef([AX_BFD_VERSION],[
 AX_BFD_VERSION
+],[
+AC_MSG_WARN([missing check for BFD version])
+])dnl
 
-dnl Setting CFLAGS
+dnl# Setting CFLAGS
 AX_CFLAGS_OPTION(CA_CFLAGS,[-W])
 AX_CFLAGS_OPTION(CA_CFLAGS,[-Wall])
 AX_CFLAGS_OPTION(CA_CFLAGS,[-fno-common])
@@ -507,154 +511,171 @@ CA_AGENT_CONFIG()
 ############################################
 
 dnl Check with_libdwarf_includes
-if test "$with_libdwarf_includes" != "" ; then
-	LIBDWARF_INC="-I $with_libdwarf_includes"
+if test "x${with_libdwarf_includes}" != "x"; then
+  test -n "${with_libdwarf_includes}" && export LIBDWARF_INC="-I ${with_libdwarf_includes}"
 fi
 
 dnl Check with_libdwarf_libraries
-if test "$with_libdwarf_libraries" != "" ; then
-	LIBDWARF_LIB="$with_libdwarf_libraries"
+if test "x${with_libdwarf_libraries}" != "x"; then
+  test -n "${with_libdwarf_libraries}" && export LIBDWARF_LIB="${with_libdwarf_libraries}"
 fi
 
-if test "$LIBDWARF_INC" = "" ; then
-if test "$LIBDWARF_LIB" = "" ; then
-	echo "---------- Begin Setup for libdwarf ----------"
-	CA_LIBDWARF_CONFIG()
-	if test "$LIBDWARF_DIR" != "" ; then
-		LIBDWARF_INC="-I $LIBDWARF_DIR"
-		LIBDWARF_LIB="$LIBDWARF_DIR"
-	fi
-	echo "---------- Finish Setup for libdwarf ----------"
+if test "x${LIBDWARF_INC}" = "x"; then
+if test "x${LIBDWARF_LIB}" = "x"; then
+  echo "---------- Begin Setup for libdwarf ----------"
+  CA_LIBDWARF_CONFIG()
+  if test "x${LIBDWARF_DIR}" != "x"; then
+    test -n "${LIBDWARF_DIR}" && export LIBDWARF_INC="-I ${LIBDWARF_DIR}"
+    test -n "${LIBDWARF_DIR}" && export LIBDWARF_LIB="${LIBDWARF_DIR}"
+  fi
+  echo "---------- Finish Setup for libdwarf ----------"
 fi fi
-AC_SUBST(LIBDWARF_INC)
-AC_SUBST(LIBDWARF_LIB)
+AC_SUBST([LIBDWARF_INC])dnl
+AC_SUBST([LIBDWARF_LIB])dnl
 
 ############################################
 # Setup for libCAJnc
 ############################################
 LIBCAJNC_INC="-I ${topdir}/src/ca_agent/jnc"
-AC_SUBST(LIBCAJNC_INC)
+AC_SUBST([LIBCAJNC_INC])
 jnc_lib="${topdir}/src/ca_agent/jnc/libCAJnc.la"
-AC_SUBST(jnc_lib)
+AC_SUBST([jnc_lib])dnl
 
 ############################################
 # Setup for Oprofile
 ############################################
 
-dnl Check with_oprofile
-if test ! -z $with_oprofile; then
-	OPINST="$with_oprofile"
+dnl# Check with_oprofile
+if test ! -z "${with_oprofile}"; then
+	OPINST="${with_oprofile}"
 
 	# TODO: check where the default bin should be
-	OPBIN=$OPINST/bin
+	OPBIN=${OPINST}/bin
 
 	# TODO: check where the default headers should be
-	OPINC=$OPINST/include
+	OPINC=${OPINST}/include
 
 	# TODO: check where the default libraries should be
-	OPLIB=$OPINST/lib
+	OPLIB=${OPINST}/lib
 fi
 
-dnl Check with_oprofile_includes
-if test ! -z $with_oprofile_includes; then
-	OPINC="$with_oprofile_includes/"
+dnl# Check with_oprofile_includes
+if test ! -z "${with_oprofile_includes}"; then
+	OPINC="${with_oprofile_includes}/"
 fi
 
-dnl Check with_oprofile_libraries
-if test ! -z $with_oprofile_libraries; then
-	OPLIB="$with_oprofile_libraries/"
+dnl# Check with_oprofile_libraries
+if test ! -z "${with_oprofile_libraries}"; then
+	OPLIB="${with_oprofile_libraries}/"
 fi
 
-dnl Check with_oprofile_bin
-if test ! -z $with_oprofile_bin; then
-	OPBIN="$with_oprofile_bin/"
-	AC_SUBST(OPBIN)
+dnl# Check with_oprofile_bin
+if test ! -z "${with_oprofile_bin}"; then
+	OPBIN="${with_oprofile_bin}/"
+	AC_SUBST([OPBIN])
 fi
 
-dnl Setup oprofile specific dir
-if test ! -z $OPBIN ; then
-	AC_DEFINE_UNQUOTED(OP_DATADIR, "$OPINST/share/oprofile",[The defined directory of oprofile binaries])
-	AC_DEFINE_UNQUOTED(OP_BINDIR, "$OPBIN",[The defined directory of oprofile binaries])
+dnl# Setup oprofile specific dir
+if test ! -z "${OPBIN}"; then
+	AC_DEFINE_UNQUOTED([OP_DATADIR],["${OPINST}/share/oprofile"],
+	                   [The defined directory of oprofile binaries])
+	AC_DEFINE_UNQUOTED([OP_BINDIR],["${OPBIN}"],
+	                   [The defined directory of oprofile binaries])dnl
 	
-	dnl Check if oprofiled supports option "--ibs-op-dispatch-op"
+	dnl# Check if oprofiled supports option "--ibs-op-dispatch-op"
 	OPD_NO_DISPATCH_OP_OPTION=`fgrep ibs-op-dispatch-op ${OPBIN}/opcontrol 2> /dev/null > /dev/null; echo $?`
-	AC_DEFINE_UNQUOTED(OPD_NO_DISPATCH_OP_OPTION, $OPD_NO_DISPATCH_OP_OPTION, [Oprofile daemon does not support IBS-Op dispatched-op option])
+	AC_DEFINE_UNQUOTED([OPD_NO_DISPATCH_OP_OPTION],
+	                   [${OPD_NO_DISPATCH_OP_OPTION}],
+	   [Oprofile daemon does not support IBS-Op dispatched-op option])dnl
 	
-	dnl Check if oprofiled supports option "--ibs-op-dcmissinfo-enable"
+	dnl# Check if oprofiled supports option "--ibs-op-dcmissinfo-enable"
 	OPD_NO_DCMISSINFO_OPTION=`fgrep ibs-op-dcmissinfo-enable ${OPBIN}/opcontrol 2> /dev/null > /dev/null; echo $?`
-	AC_DEFINE_UNQUOTED(OPD_NO_DCMISSINFO_OPTION, $OPD_NO_DCMISSINFO_OPTION, [Oprofile daemon does not support IBS-Op DC Miss Info option])
+	AC_DEFINE_UNQUOTED([OPD_NO_DCMISSINFO_OPTION],
+	                   [${OPD_NO_DCMISSINFO_OPTION}],
+	   [Oprofile daemon does not support IBS-Op DC Miss Info option])dnl
 	
-	dnl Check Oprofile version
-	CHECK_OPROFILE_VERSION($OPBIN)
+	dnl# Check Oprofile version, if possible
+	m4_ifdef([CHECK_OPROFILE_VERSION],[
+	CHECK_OPROFILE_VERSION([${OPBIN}])
+	],[
+	AC_MSG_WARN([unable to check Oprofile version])dnl
+	])
 fi
 
-dnl If no oprofile specified, used default CA Oprofile
-if test -z $with_oprofile_source ; then
-if test -z $OPINST; then
-if test -z $OPINC; then
-if test -z $OPLIB; then
-if test -z $OPBIN; then
-#if test "$disable_oprofile_lib" != "yes"; then
+dnl# If no oprofile specified, used default CA Oprofile
+if test -z ${with_oprofile_source}; then
+if test -z ${OPINST}; then
+if test -z ${OPINC}; then
+if test -z ${OPLIB}; then
+if test -z ${OPBIN}; then
+if test "x${disable_oprofile_lib}" != "xyes"; then
 	echo "---------- Begin Setup for CA Oprofile ----------"
 	with_oprofile_source="${topdir}/src/oprofile/"
-	echo " .... with_oprofile_source = $with_oprofile_source"
+	echo " .... with_oprofile_source = ${with_oprofile_source}"
 
-	CA_OPROFILE_CONFIG()
+	CA_OPROFILE_CONFIG([])
 	CA_OPROFILE_DIR="oprofile"
-	AC_SUBST(CA_OPROFILE_DIR)
+	AC_SUBST([CA_OPROFILE_DIR])dnl
 
 	echo "---------- Finish Setup for CA Oprofile ----------"
-#fi 
+fi 
 fi fi fi fi fi
 
-dnl Setup oprofile src dir
-if test ! -z $with_oprofile_source ; then
-	OPSRC="$with_oprofile_source/"
-	AC_SUBST(OPSRC)
-	CHECK_OPROFILE_CONFIG($OPSRC)
+dnl# Setup oprofile src dir
+if test ! -z "${with_oprofile_source}"; then
+	OPSRC="${with_oprofile_source}/"
+	AC_SUBST([OPSRC])dnl
+	m4_ifdef([CHECK_OPROFILE_CONFIG],[
+	CHECK_OPROFILE_CONFIG([${OPSRC}])
+	],[
+	AC_MSG_WARN([unable to check Oprofile config])dnl
+	])
 fi
 
-dnl Setup include/library flags
-if test -z "${OPINC}" -a -z "${OPLIB}" ; then
-
+dnl# Setup include/library flags
+if test -z "${OPINC}" -a -z "${OPLIB}"; then
 	# Use default value
 	op_includes="-I ${OPSRC}/libutil -I ${OPSRC}/daemon -I ${OPSRC}/libop -I ${OPSRC}/libutil -I ${OPSRC}/libdb -I ${OPSRC}/libopt++ -I ${OPSRC}/libutil++ -I ${OPSRC}/libregex -I ${OPSRC}/libpp -I ${OPSRC}/pp"
 
 	op_libs="${OPSRC}/libpp/libpp.a ${OPSRC}/libregex/libop_regex.a ${OPSRC}/libutil++/libutil++.a ${OPSRC}/libop/libop.a ${OPSRC}/libutil/libutil.a ${OPSRC}/libdb/libodb.a"
 	
 	### FUTURE OPTIONS: Oprofile shared object.
-	#op_libs="${OPSRC}/libpp/libpp.la ${OPSRC}/libregex/libop_regex.la ${OPSRC}/libutil++/libutil++.la ${OPSRC}/libop/libop.la ${OPSRC}/libutil/libutil.la ${OPSRC}/libdb/libodb.la"
-
+	future_op_libs_so="${OPSRC}/libpp/libpp.la ${OPSRC}/libregex/libop_regex.la ${OPSRC}/libutil++/libutil++.la ${OPSRC}/libop/libop.la ${OPSRC}/libutil/libutil.la ${OPSRC}/libdb/libodb.la"
+	AC_SUBST([future_op_libs_so])
 else 
 	# Use user-specified value
 	op_includes="-I ${OPINC}"
 	op_libs="-L${OPLIB} -lpp -lop_regex -lutil++ -lop -lutil -lodb"
 fi
 
-if test "$disable_oprofile_lib" = "yes"; then
+if test "x${disable_oprofile_lib}" = "xyes"; then
 	op_libs=""
 fi
 
-AC_SUBST(op_includes)
-AC_SUBST(op_libs)
+AC_SUBST([op_includes])dnl
+AC_SUBST([op_libs])dnl
 
-dnl Disable CA JVMTIA if not using CA version of Oprofile
-USE_CA_OPROFILE=`cat $with_oprofile_source/configure.in | grep "CA-X" 2> /dev/null` 
-if test -z "$USE_CA_OPROFILE"; then
-	AC_DEFINE(DISABLE_CA_JVMTIA,, [Disable CA Java profiling Agent])
+dnl# Disable CA JVMTIA if not using CA version of Oprofile
+if test -e ${with_oprofile_source}/configure.in; then
+  USE_CA_OPROFILE="`cat ${with_oprofile_source}/configure.in | grep "CA-X" 2>/dev/null`"
+elif test -e ${with_oprofile_source}/configure.ac; then
+  USE_CA_OPROFILE="`cat ${with_oprofile_source}/configure.ac | grep "CA-X" 2>/dev/null`"
+fi
+if test -z "${USE_CA_OPROFILE}"; then
+	AC_DEFINE([DISABLE_CA_JVMTIA],[],[Disable CA Java profiling Agent])
 fi
 
 ############################################
 # Setup for libCAdata
 ############################################
 echo "---------- Begin Setup for libCAdata ----------"
-CA_LIBCADATA_CONFIG()
-if test "$LIBCADATA_DIR" != "" ; then
-	LIBCADATA_INC="-I $LIBCADATA_DIR/src -I ${topdir}/src/CommonProjectsHdr"
-	LIBCADATA_LIB="$LIBCADATA_DIR/src"
+CA_LIBCADATA_CONFIG([])
+if test "x${LIBCADATA_DIR}" != "x"; then
+  test -n "${LIBCADATA_DIR}" && export LIBCADATA_INC="-I ${LIBCADATA_DIR}/src -I ${topdir}/src/CommonProjectsHdr"
+  test -n "${LIBCADATA_DIR}" && export LIBCADATA_LIB="${LIBCADATA_DIR}/src"
 fi
-AC_SUBST(LIBCADATA_INC)
-AC_SUBST(LIBCADATA_LIB)
+AC_SUBST([LIBCADATA_INC])dnl
+AC_SUBST([LIBCADATA_LIB])dnl
 
 echo "---------- Finish Setup for libCAdata ----------"
 
@@ -662,13 +683,13 @@ echo "---------- Finish Setup for libCAdata ----------"
 # Setup for CAPerf
 ############################################
 echo "---------- Begin Setup for CAPerf ----------"
-CA_CAPERF_CONFIG()
-if test "$CAPERF_DIR" != "" ; then
-	CAPERF_INC="-I $CAPERF_DIR/src/include -I $CAPERF_DIR/src/CAPerfControl -I $CAPERF_DIR/src/CAPerfData -I $CAPERF_DIR/src/CAPerfTranslate -I $CAPERF_DIR/src/PerfData"
+CA_CAPERF_CONFIG([])
+if test "x${CAPERF_DIR}" != "x"; then
+  test -n "${CAPERF_DIR}" && export CAPERF_INC="-I ${CAPERF_DIR}/src/include -I ${CAPERF_DIR}/src/CAPerfControl -I ${CAPERF_DIR}/src/CAPerfData -I ${CAPERF_DIR}/src/CAPerfTranslate -I ${CAPERF_DIR}/src/PerfData"
 fi
-AC_SUBST(CAPERF_INC)
+AC_SUBST([CAPERF_INC])dnl
 
-AM_CONDITIONAL(caperf_support, test "$CAPERF_SUPPORT" = "yes")
+AM_CONDITIONAL([caperf_support],[test "x${CAPERF_SUPPORT}" = "xyes"])dnl
 
 echo "---------- Finish Setup for CAPerf ----------"
 
@@ -676,27 +697,28 @@ echo "---------- Finish Setup for CAPerf ----------"
 # Define Misc variable
 ############################################
 CADIR="src/ca/"
-AC_SUBST(CADIR)
+AC_SUBST([CADIR])dnl
 
 PACKAGE="oprofile"
 
-if test "x$CA_SAMPLE_DIR" = x; then
+if test "x${CA_SAMPLE_DIR}" = "x"; then
 	#note if you change the CA_SAMPLE_DIR here, you also need to change it in the Setup.sh
 	CA_SAMPLE_DIR="/var/lib/oprofile/Java"
 fi
-AC_DEFINE_UNQUOTED(CA_SAMPLE_DIR, "$CA_SAMPLE_DIR", [CodeAnalyst java sample directory])
+AC_DEFINE_UNQUOTED([CA_SAMPLE_DIR],["${CA_SAMPLE_DIR}"],
+                   [CodeAnalyst java sample directory])dnl
 
-if test "yes" == "$create_libbfd_so"; then
-	echo "Warning: no libbfd.so found. Soft link created linking to $usr_lib/$bfd_so"
+if test "xyes" == "x${create_libbfd_so}"; then
+	echo "Warning: no libbfd.so found. Soft link created linking to ${usr_lib}/${bfd_so}"
 fi
-if test "error" == "$create_libbfd_so"; then
+if test "xerror" == "x${create_libbfd_so}"; then
 	echo "Warning: Could not create softlink for libbfd.so."
 fi
 
-if test "yes" == "$create_libelf_so"; then
-	echo "Warning: no libelf.so found. Soft link created linking to $usr_lib/$elf_so"
+if test "xyes" == "x${create_libelf_so}"; then
+	echo "Warning: no libelf.so found. Soft link created linking to ${usr_lib}/${elf_so}"
 fi
-if test "error" == "$create_libelf_so"; then
+if test "xerror" == "${create_libelf_so}"; then
 	echo "Warning: Could not create softlink for libelf.so."
 fi
 
@@ -707,8 +729,6 @@ fi
 AC_CONFIG_FILES([ Makefile \
 	src/Makefile \
 	src/ca/Makefile \
-	src/ca/gui/Makefile \
-	src/ca/diffgui/Makefile \
 	src/ca/libs/Makefile
 	src/ca/libs/libca/Makefile \
 	src/ca/libs/libopdata/Makefile \
@@ -716,12 +736,8 @@ AC_CONFIG_FILES([ Makefile \
 	src/ca/libs/libcabba/Makefile \
 	src/ca/libs/libcabba/bbatest/Makefile \
 	src/ca/libs/liboutput/Makefile \
-	src/ca/utils/Makefile \
-	src/ca/scripts/Makefile \
-	src/ca/cg/Makefile \
 	src/ca/events/Makefile \
 	doc/Makefile \
-	doc/cadoc/Makefile \
-	doc/dadoc/Makefile \
+	doc/cadoc/Makefile
 	])
 AC_OUTPUT
