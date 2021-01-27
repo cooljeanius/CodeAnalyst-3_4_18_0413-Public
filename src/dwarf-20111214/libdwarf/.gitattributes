@@ -1,0 +1,3 @@
+config.guess linguist-vendored
+config.sub linguist-vendored
+install-sh linguist-vendored

@@ -481,36 +481,37 @@ AC_SUBST([PTRDIFF_T_TYPE])dnl
 ############################################
 
 # fixups for config.h
-if test "$prefix" = "NONE"; then
-	my_prefix="$ac_default_prefix"
+if test "x${prefix}" = "xNONE"; then
+	my_prefix="${ac_default_prefix}"
 else
-	my_prefix="$prefix"
+	my_prefix="${prefix}"
 fi
-my_datadir="$my_prefix/share"
+my_datadir="${my_prefix}/share"
 
-if test "$exec_prefix" = "NONE"; then
-	my_exec_prefix="$my_prefix"
+if test "x${exec_prefix}" = "xNONE"; then
+	my_exec_prefix="${my_prefix}"
 else
-	my_exec_prefix="$exec_prefix"
+	my_exec_prefix="${exec_prefix}"
 fi
-my_bindir="$my_exec_prefix/bin"
+my_bindir="${my_exec_prefix}/bin"
 
-CA_DATA_DIR="$my_datadir/codeanalyst/"
-AC_DEFINE_DIR(CA_DATA_DIR, CA_DATA_DIR,[Defines the data directory])
-AC_DEFINE_DIR(CA_BIN_DIR, bindir, [Defines the binary directory])
-AC_DEFINE_DIR(CA_SBIN_DIR, sbindir, [Defines the super-user binary directory])
-AC_DEFINE_DIR(CA_LIB_DIR, libdir, [Defines the library directory])
+CA_DATA_DIR="${my_datadir}/codeanalyst/"
+AC_DEFINE_DIR([CA_DATA_DIR],[CA_DATA_DIR],[Defines the data directory])
+AC_DEFINE_DIR([CA_BIN_DIR],[bindir],[Defines the binary directory])
+AC_DEFINE_DIR([CA_SBIN_DIR],[sbindir],
+              [Defines the super-user binary directory])
+AC_DEFINE_DIR([CA_LIB_DIR],[libdir],[Defines the library directory])dnl
 
 ############################################
 # Setup for ca_agent
 ############################################
-CA_AGENT_CONFIG()
+CA_AGENT_CONFIG([])
 
 ############################################
 # Setup for libdwarf
 ############################################
 
-dnl Check with_libdwarf_includes
+dnl# Check with_libdwarf_includes
 if test "x${with_libdwarf_includes}" != "x"; then
   test -n "${with_libdwarf_includes}" && export LIBDWARF_INC="-I ${with_libdwarf_includes}"
 fi
@@ -523,7 +524,7 @@ fi
 if test "x${LIBDWARF_INC}" = "x"; then
 if test "x${LIBDWARF_LIB}" = "x"; then
   echo "---------- Begin Setup for libdwarf ----------"
-  CA_LIBDWARF_CONFIG()
+  CA_LIBDWARF_CONFIG([])
   if test "x${LIBDWARF_DIR}" != "x"; then
     test -n "${LIBDWARF_DIR}" && export LIBDWARF_INC="-I ${LIBDWARF_DIR}"
     test -n "${LIBDWARF_DIR}" && export LIBDWARF_LIB="${LIBDWARF_DIR}"

@@ -28,13 +28,15 @@ AC_DEFUN([CA_AGENT_CONFIG],
 		CA_AGENT_CONFIG_RET="$?"
 		popd
 	],[
+		CA_AGENT_CONFIG_RET=1
 		AC_MSG_NOTICE([skipping configuring for ca_agent])dnl
 	])dnl
 	## end
 	echo "---------- Finish Setup for ca_agent ----------"
 	
 	AS_IF([test "${CA_AGENT_CONFIG_RET}" -ne "0"],[
-		AC_MSG_ERROR(["Failed to configure ca_agent."])
+		AC_MSG_WARN(["Failed to configure ca_agent."])
+		AC_MSG_NOTICE([(this ought to be an error, but we are downgrading it to a warning to facilitate work on this configure script)])
 	])dnl
 ])dnl
 

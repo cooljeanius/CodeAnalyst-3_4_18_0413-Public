@@ -27649,21 +27649,21 @@ printf "%s\n" "${PTRDIFF_T_TYPE}" >&6; }
 ############################################
 
 # fixups for config.h
-if test "$prefix" = "NONE"; then
-	my_prefix="$ac_default_prefix"
+if test "x${prefix}" = "xNONE"; then
+	my_prefix="${ac_default_prefix}"
 else
-	my_prefix="$prefix"
+	my_prefix="${prefix}"
 fi
-my_datadir="$my_prefix/share"
+my_datadir="${my_prefix}/share"
 
-if test "$exec_prefix" = "NONE"; then
-	my_exec_prefix="$my_prefix"
+if test "x${exec_prefix}" = "xNONE"; then
+	my_exec_prefix="${my_prefix}"
 else
-	my_exec_prefix="$exec_prefix"
+	my_exec_prefix="${exec_prefix}"
 fi
-my_bindir="$my_exec_prefix/bin"
+my_bindir="${my_exec_prefix}/bin"
 
-CA_DATA_DIR="$my_datadir/codeanalyst/"
+CA_DATA_DIR="${my_datadir}/codeanalyst/"
 
 	test "x$prefix" = xNONE && prefix="$ac_default_prefix"
 	test "x$exec_prefix" = xNONE && exec_prefix='${prefix}'
@@ -27708,7 +27708,6 @@ printf "%s\n" "#define CA_SBIN_DIR \"$ac_define_dir\"" >>confdefs.h
 printf "%s\n" "#define CA_LIB_DIR \"$ac_define_dir\"" >>confdefs.h
 
 
-
 ############################################
 # Setup for ca_agent
 ############################################
@@ -27748,6 +27747,7 @@ then :
 
 else $as_nop
 
+		CA_AGENT_CONFIG_RET=1
 		{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: skipping configuring for ca_agent" >&5
 printf "%s\n" "$as_me: skipping configuring for ca_agent" >&6;}
 fi	## end
@@ -27756,7 +27756,10 @@ fi	## end
 	if test "${CA_AGENT_CONFIG_RET}" -ne "0"
 then :
 
-		as_fn_error $? "\"Failed to configure ca_agent.\"" "$LINENO" 5
+		{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: \"Failed to configure ca_agent.\"" >&5
+printf "%s\n" "$as_me: WARNING: \"Failed to configure ca_agent.\"" >&2;}
+		{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: (this ought to be an error, but we are downgrading it to a warning to facilitate work on this configure script)" >&5
+printf "%s\n" "$as_me: (this ought to be an error, but we are downgrading it to a warning to facilitate work on this configure script)" >&6;}
 
 fi
 
