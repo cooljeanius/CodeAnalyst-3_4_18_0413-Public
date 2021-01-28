@@ -41,114 +41,132 @@ AC_CANONICAL_HOST
 
 # Initialize Libtool
 LT_INIT([dlopen])
-AC_PROG_RANLIB
+if test "x${RANLIB}" = "x"; then
+  test -z "${RANLIB}"
+  AC_PROG_RANLIB
+fi
 
 # Fix issue with basename in gcc-4.4
-AC_CHECK_DECLS([basename], [], [], [[#include <libgen.h>]])
+AC_CHECK_DECLS([basename],[],[],[[#include <libgen.h>]])dnl
 
 AM_INIT_AUTOMAKE([foreign])
 AM_MAINTAINER_MODE
 
 # Default installation directory
-AC_PREFIX_DEFAULT([/opt/CodeAnalyst])
+AC_PREFIX_DEFAULT([/opt/CodeAnalyst])dnl
 
 ###############################################
 # Checking configure flags
 ###############################################
 # Get Java configuration
 AC_ARG_WITH([java],
-[  --with-java=java-home        Path to Java home directory], JAVA_HOMEDIR=$withval)
-AC_SUBST(JAVA_HOMEDIR)
+[AS_HELP_STRING([--with-java=java-home],[Path to Java home directory])], [JAVA_HOMEDIR=${withval}])
+AC_SUBST([JAVA_HOMEDIR])dnl
 
 # Get Oprofile configuration 
 AC_ARG_WITH([oprofile], 
-	[  --with-oprofile=DIR                  absolute location where the Oprofile is installed])
+	[AS_HELP_STRING([--with-oprofile=DIR],
+	                [absolute location where the Oprofile is installed])])
 AC_ARG_WITH([oprofile-includes], 
-	[  --with-oprofile-includes=DIR         absolute location where the Oprofile includes are])
+	[AS_HELP_STRING([--with-oprofile-includes=DIR],
+	                [absolute location where the Oprofile includes are])])
 AC_ARG_WITH([oprofile-libraries], 
-	[  --with-oprofile-libraries=DIR        absolute location where the Oprofile libraries are])
+	[AS_HELP_STRING([--with-oprofile-libraries=DIR],
+	                [absolute location where the Oprofile libraries are])])
 AC_ARG_WITH([oprofile-source], 
-	[  --with-oprofile-source=DIR           absolute location where the Oprofile source code is])
+	[AS_HELP_STRING([--with-oprofile-source=DIR],
+	                [absolute location where the Oprofile sourcecode is])])
 
 # Get libdwarf configuration 
 AC_ARG_WITH([libdwarf-includes], 
-	[  --with-libdwarf-includes=DIR         absolute location where the libdwarf includes are])
+	[AS_HELP_STRING([--with-libdwarf-includes=DIR],
+	                [absolute location where the libdwarf includes are])])
 AC_ARG_WITH([libdwarf-libraries], 
-	[  --with-libdwarf-libraries=DIR        absolute location where the libdwarf libraries are])
+	[AS_HELP_STRING([--with-libdwarf-libraries=DIR],
+	                [absolute location where the libdwarf libraries are])])
 
 # Disable dwarf library
 AC_ARG_ENABLE([dwarf],
-	[  --disable-dwarf		disable usage of Dwarf Library (default is enabled)],
-	enable_dwarf=$enableval, 
-	enable_dwarf=yes)
-AM_CONDITIONAL(enable_dwarf, test "$enable_dwarf" = yes)
-if test "$enable_dwarf" = "yes"; then
-	AC_DEFINE_UNQUOTED(ENABLE_DWARF,1, [Enable dwarf-symbol-engine])
+	[AS_HELP_STRING([--disable-dwarf],
+	                [disable usage of Dwarf Library (default: enabled)])],
+	[enable_dwarf=${enableval}], 
+	[enable_dwarf=yes])
+AM_CONDITIONAL([enable_dwarf],[test "x${enable_dwarf}" = "xyes"])
+if test "x${enable_dwarf}" = "xyes"; then
+	AC_DEFINE_UNQUOTED([ENABLE_DWARF],[1],[Enable dwarf-symbol-engine])
 fi
 
 # Turn on debug
 AC_ARG_ENABLE([debug],
-	[  --enable-debug		Turn on debugging],
+	[AS_HELP_STRING([--enable-debug],[Turn on debugging])],
 	[case "${enableval}" in
 		yes) debug=true ;;
 		no)  debug=false ;;
-		*) AC_MSG_ERROR(bad value ${enableval} for --enable-debug) ;;
+		*) AC_MSG_ERROR([bad value ${enableval} for --enable-debug]) ;;
 	esac],
 	[debug=false])
-AM_CONDITIONAL(DEBUG, test x$debug = xtrue)
+AM_CONDITIONAL([DEBUG],[test "x${debug}" = "xtrue"])dnl
 
-dnl enable code to handle separate debug info
+dnl# enable code to handle separate debug info
 debugdir=/usr/lib/debug
 
-AC_ARG_WITH(separate-debug-dir,
-	[  --with-separate-debug-dir=path	Look for global separate debug info in this path [LIBDIR/debug]],
+AC_ARG_WITH([separate-debug-dir],
+	[AS_HELP_STRING([--with-separate-debug-dir=path],
+	                [Look for global separate debug info in this path [LIBDIR/debug]])],
 [debugdir="${withval}"])
 
-if test "z$debugdir" == "zyes"; then
+if test "z${debugdir}" == "zyes"; then
 	debugdir=/usr/lib/debug
 fi
 
-AC_DEFINE_UNQUOTED([DEBUGDIR], "$debugdir", [Directory with separate debug info files])
+AC_DEFINE_UNQUOTED([DEBUGDIR],["${debugdir}"],
+                   [Directory with separate debug info files])dnl
 
-dnl enable -Werr flag
+dnl# enable -Werr flag
 AC_ARG_ENABLE([werror],
-	[  --enable-werror		enable -Werror flag (default is disabled)],
-        enable_werror=$enableval, 
-	enable_werror=no)
+	[AS_HELP_STRING([--enable-werror],
+	                [enable -Werror flag (default is disabled)])],
+        [enable_werror=${enableval}], 
+	[enable_werror=no])dnl
 
-dnl disable-optimization flag
+dnl# disable-optimization flag
 AC_ARG_ENABLE([optimization],
-	[  --disable-optimization	disable optimization flags (default is enabled)],
-	enable_optimization=$enableval, 
-	enable_optimization=yes)
+	[AS_HELP_STRING([--disable-optimization],
+	                [disable optimization flags (default is enabled)])],
+	[enable_optimization=${enableval}], 
+	[enable_optimization=yes])dnl
 
 # Enable Oprofile XML library
 AC_ARG_ENABLE([oprofile-lib],
-	[  --disable-oprofile-lib	disable usage of Oprofile Library (default is enabled)],
-	disable_oprofile_lib=$enableval, 
-	disable_oprofile_lib=no)
-AM_CONDITIONAL(disable_oprofile_lib, test "$disable_oprofile_lib" = yes)
-if test "$disable_oprofile_lib" = "yes"; then
-	AC_DEFINE_UNQUOTED(DISABLE_OPROFILE_LIB,1, [Disable Oprofile Lib])
+	[AS_HELP_STRING([--disable-oprofile-lib],
+	                [disable use of Oprofile Library (default: enabled)])],
+	[disable_oprofile_lib=${enableval}], 
+	[disable_oprofile_lib=no])
+AM_CONDITIONAL([disable_oprofile_lib],
+               [test "x${disable_oprofile_lib}" = "xyes"])
+if test "x${disable_oprofile_lib}" = "xyes"; then
+	AC_DEFINE_UNQUOTED([DISABLE_OPROFILE_LIB],[1],[Disable Oprofile Lib])
 fi
 
 # disable CA CSS
 AC_ARG_ENABLE([ca-css],
-[  --disable-ca-css              disable CA Call-stack Sampling (CSS) and use OProfile Call-graph instead], 
-	enable_ca_css=$enableval, enable_ca_css=yes)
-if test "$enable_ca_css" = "yes"; then
+[AS_HELP_STRING([--disable-ca-css],
+                [disable CA Call-stack Sampling (CSS) and use OProfile Call-graph instead])], 
+	[enable_ca_css=$enableval],[enable_ca_css=yes])
+if test "x${enable_ca_css}" = "xyes"; then
 	OP_CA_CSS="--enable-ca-css"
 fi
-AM_CONDITIONAL(ENABLE_CA_CSS, test "$enable_ca_css" = "yes")
+AM_CONDITIONAL([ENABLE_CA_CSS],[test "x${enable_ca_css}" = "xyes"])dnl
 
 # Get set of events
 AC_ARG_WITH([events], 
-	[  --with-events=DIR       specify the set of events to use [public|nda|internal]])
-CA_EVENTS_DIR=$CA_RELEASE_TYPE
-if test "$with_events" != "" ; then
-	CA_EVENTS_DIR="$with_events"
+	[AS_HELP_STRING([--with-events=DIR],
+	                [specify the set of events to use [public|nda|internal]])])
+CA_EVENTS_DIR=${CA_RELEASE_TYPE}
+if test "x${with_events}" != "x"; then
+	test -n "${with_events}" && export CA_EVENTS_DIR="${with_events}"
 fi
-AC_SUBST(CA_EVENTS_DIR)
+AC_SUBST([CA_EVENTS_DIR])dnl
 
 ###############################################
 # Environment Testing / Library Checking
@@ -156,26 +174,34 @@ AC_SUBST(CA_EVENTS_DIR)
 
 # Testing 
 # Check for programs
-AC_PROG_AWK
-AC_PROG_CC
-AM_PROG_CC_C_O
+if test "x${AWK}" = "x"; then
+  test -z "${AWK}"
+  AC_PROG_AWK
+fi
+if test "x${CC}" = "x"; then
+  test -z "${CC}"
+  AC_PROG_CC
+  AM_PROG_CC_C_O
+fi
 AC_PROG_CPP
 AC_MSG_CHECKING([${CC} path])
-if test -z "`which $CC`"; then 
+if test -z "`which ${CC}`"; then 
 	AC_MSG_RESULT([no])	
 	AC_MSG_ERROR([C compiler not found])
 else
-	AC_MSG_RESULT([yes])	
+	AC_MSG_RESULT([yes])
+	LT_LANG([C])
 fi
 
 AC_PROG_CXX
 AC_PROG_CXXCPP
 AC_MSG_CHECKING([${CXX} path])
-if test -z "`which $CXX`"; then 
+if test -z "`which ${CXX}`"; then 
 	AC_MSG_RESULT([no])	
 	AC_MSG_ERROR([C++ compiler not found])
 else
-	AC_MSG_RESULT([yes])	
+	AC_MSG_RESULT([yes])
+	LT_LANG([C++])
 fi
 AC_PROG_OBJC
 AC_PROG_OBJCXX
@@ -186,27 +212,30 @@ AM_PROG_GCJ
 AM_PROG_UPC
 
 AC_PROG_INSTALL
-AC_PROG_MAKE_SET
+if test "x${ac_cv_prog_make_make_set}" = "x"; then
+  test -z "${ac_cv_prog_make_make_set}"
+  AC_PROG_MAKE_SET
+fi
 
 # check pidof path
 AC_CHECK_PROG([PIDOF],[pidof],[`which pidof`],[""])
-if test -z "$PIDOF" ; then
+if test -z "${PIDOF}"; then
 	# Try to check in /sbin/pidof
 	PIDOF=/sbin/pidof			
-	if test ! -f "$PIDOF" ; then
+	if test ! -f "${PIDOF}"; then
 		AC_MSG_ERROR([pidof not found in PATH environment variable.])
 	fi
 fi
 
-AC_DEFINE_UNQUOTED(PIDOF, "$PIDOF", [path to pidof])
+AC_DEFINE_UNQUOTED([PIDOF],["${PIDOF}"],[path to pidof])dnl
 
 # check xterm path
-AC_CHECK_PROG([XTERM], [xterm], [`which xterm`],[""])
-if test -z "$XTERM" ; then
+AC_CHECK_PROG([XTERM],[xterm],[`which xterm`],[""])
+if test -z "${XTERM}"; then
 	AC_MSG_WARN([xterm not found in PATH environment variable.])
 fi
 
-AC_DEFINE_UNQUOTED(XTERM, "$XTERM", [path to xterm])
+AC_DEFINE_UNQUOTED([XTERM],["${XTERM}"],[path to xterm])dnl
 
 # check if ln -s works
 AC_PROG_LN_S
@@ -231,7 +260,7 @@ AC_TYPE_UINT8_T
 AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
 AC_TYPE_UINT64_T
-AC_CHECK_TYPES([ptrdiff_t])
+AC_CHECK_TYPES([ptrdiff_t])dnl
 
 # Check for headers
 dnl# autoupdate says:
@@ -246,15 +275,23 @@ if test "x${EGREP}" = "x"; then
   AC_PROG_EGREP
 fi
 AC_HEADER_STDBOOL dnl# also "_CHECK"s it
-AC_CHECK_HEADERS([demangle.h fcntl.h limits.h stdio.h sys/time.h values.h])
+AC_CHECK_HEADERS([demangle.h fcntl.h limits.h values.h])
 AC_HEADER_SYS_WAIT
 if test "x${ac_cv_header_stdint_h}" = "x"; then
   test -z "${ac_cv_header_stdint_h}"
   AC_CHECK_HEADERS([stdint.h])
 fi
+if test "x${ac_cv_header_stdio_h}" = "x"; then
+  test -z "${ac_cv_header_stdio_h}"
+  AC_CHECK_HEADERS([stdint.h])
+fi
 if test "x${ac_cv_header_strings_h}" = "x"; then
   test -z "${ac_cv_header_strings_h}"
   AC_CHECK_HEADERS([strings.h])
+fi
+if test "x${ac_cv_header_sys_time_h}" = "x"; then
+  test -z "${ac_cv_header_sys_time_h}"
+  AC_CHECK_HEADERS([sys/time.h])
 fi
 if test "x${ac_cv_header_unistd_h}" = "x"; then
   test -z "${ac_cv_header_unistd_h}"
@@ -268,10 +305,14 @@ AC_FUNC_LSTAT dnl# also checks whether it "_FOLLOWS_SLASHED_SYMLINK"
 AC_FUNC_MALLOC
 AC_FUNC_MKTIME
 AC_FUNC_MMAP
-AC_CHECK_FUNCS([alarm atexit ftruncate gettimeofday memmove memset mkdir \
+AC_CHECK_FUNCS([atexit ftruncate gettimeofday memmove memset mkdir \
                 mkfifo munmap realpath regcomp rmdir select setenv strchr \
                 strerror strncasecmp strrchr strstr strtoul strtoull uname])
 AC_CHECK_FUNCS([malloc xcalloc xmemdup])
+if test "x${ac_cv_func_alarm}" = "x"; then
+  test -n "${ac_cv_func_alarm}"
+  AC_CHECK_FUNCS([alarm])
+fi
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-lCAdata':
@@ -284,7 +325,13 @@ AC_CHECK_LIB([dwarf],[dwarf_init],[],[
           AC_CHECK_LIB([dwarf],[dwarf_tag],[],[
             AC_CHECK_LIB([dwarf],[dwarf_attr],[],[
               AC_CHECK_LIB([dwarf],[dwarf_dealloc],[],[
-                AC_CHECK_LIB([dwarf],[main],[],[])dnl
+                AC_CHECK_LIB([dwarf],[main],[],[
+                  AS_IF([test "x${enable_dwarf}" = "xyes"],[
+                    AS_IF([test ! -d src/dwarf-20111214/libdwarf],[
+                      AC_MSG_ERROR([libdwarf requested but not found; try configuring with --disable-dwarf to work around this issue.])
+                    ])dnl
+                  ])dnl
+                ])dnl
               ])dnl
             ])dnl
           ])dnl
@@ -302,7 +349,7 @@ AC_CHECK_LIB([pthread],[pthread_mutex_lock],[],[
   ])dnl
 ])dnl
 
-dnl check for gelf
+dnl# check for gelf
 AC_CHECK_HEADERS([gelf.h],[],
 	[AC_CHECK_HEADERS([libelf/gelf.h],[],
 	                  [AC_MSG_WARN([gelf.h not found])
@@ -331,10 +378,11 @@ AC_CHECK_LIB([popt],[poptGetContext],
 LIBS="${POPT_LIB} ${LIBS}"
 
 dnl# check for dl
-AC_CHECK_LIB([dl], [dlopen], 
-		DL_LIB="-ldl", 
-		DL_LIB=""; AC_MSG_ERROR([dl library not found]))
-LIBS="$DL_LIB $LIBS"
+dnl# (libtool already checked for dlopen, so do a different symbol here)
+AC_CHECK_LIB([dl],[dlclose], 
+	     [DL_LIB="-ldl"], 
+	     [DL_LIB=""; AC_MSG_ERROR([dl library not found])])
+LIBS="${DL_LIB} ${LIBS}"
 
 dnl# check for libiberty
 AC_CHECK_LIB([iberty],[xmalloc],[],[
@@ -342,57 +390,60 @@ AC_CHECK_LIB([iberty],[xmalloc],[],[
 ])
 dnl# some distro have a libiberty.a but does not have a libiberty.h
 AC_CHECK_HEADERS([libiberty.h],[],[AC_MSG_WARN([libiberty.h not found])])
-AC_CHECK_LIB([iberty_pic], [cplus_demangle],
-		[IBERTY_LIB="-liberty_pic";AC_SUBST(IBERTY_LIB)],
-		[AC_CHECK_LIB([iberty], [cplus_demangle],
-			[IBERTY_LIB="-liberty";AC_SUBST(IBERTY_LIB)], 
-			[IBERTY_LIB=""; AC_MSG_WARN([liberty library not found])])])
-LIBS="$IBERTY_LIB $LIBS"
+AC_CHECK_LIB([iberty_pic],[cplus_demangle],
+	     [IBERTY_LIB="-liberty_pic"; AC_SUBST([IBERTY_LIB])],
+	     [AC_CHECK_LIB([iberty],[cplus_demangle],
+		   [IBERTY_LIB="-liberty"; AC_SUBST([IBERTY_LIB])], 
+		   [IBERTY_LIB=""; AC_MSG_WARN([liberty library not found])])])
+LIBS="${IBERTY_LIB} ${LIBS}"
 
-dnl check for libz (needed by libbfd)
-AC_CHECK_LIB([z], [compress],
-		[Z_LIB="-lz"; AC_SUBST(Z_LIB)], 
-		[Z_LIB=""; AC_MSG_ERROR([libz library not found; required by libbfd])])
-LIBS="$Z_LIB $LIBS"
+dnl# check for libz (needed by libbfd)
+AC_CHECK_LIB([z],[compress],
+	     [Z_LIB="-lz"; AC_SUBST(Z_LIB)], 
+	     [Z_LIB="";
+	      AC_MSG_ERROR([libz library not found; required by libbfd])])
+LIBS="${Z_LIB} ${LIBS}"
 
-dnl check for bfd
+dnl# check for bfd
 LDCONFIG="`which ldconfig`"
-if test "x$LDCONFIG" != "x"; then
+if test "x${LDCONFIG}" != "x"; then
 	CHECK_LBFD
 else
 	BFD_LIB="bfd"
 fi
-AC_CHECK_LIB([$BFD_LIB], [bfd_openr], 
-		[BFD_LIB="-l$BFD_LIB"; AC_SUBST(BFD_LIB)], 
-		[BFD_LIB=""; AC_MSG_WARN([bfd_openr bfd library not found])])
-LIBS="$BFD_LIB $LIBS"
+AC_CHECK_LIB([${BFD_LIB}],[bfd_openr], 
+	     [BFD_LIB="-l${BFD_LIB}"; AC_SUBST([BFD_LIB])], 
+	     [BFD_LIB=""; AC_MSG_WARN([bfd_openr bfd library not found])])
+LIBS="${BFD_LIB} ${LIBS}"
 
-ORIG_SAVE_LIBS="$LIBS"
+ORIG_SAVE_LIBS="${LIBS}"
 
-dnl Check for X Window stuff
+dnl# Check for X Window stuff
 AC_PATH_XTRA
-X_LIBS="$X_PRE_LIBS $X_LIBS -lX11 $X_EXTRA_LIBS"
-AC_SUBST(X_LIBS)
-ORIG_SAVE_X_LIBS="$X_LIBS"
+X_LIBS="${X_PRE_LIBS} ${X_LIBS} -lX11 ${X_EXTRA_LIBS}"
+AC_SUBST([X_LIBS])
+ORIG_SAVE_X_LIBS="${X_LIBS}"
 
-dnl Check for QT stuff
+dnl# Check for QT stuff
 AX_HAVE_QT
 if test "`uname`" != "Darwin"; then
 	QT_DO_IT_ALL
+else
+	AC_MSG_NOTICE([skipping some Qt stuff on Darwin])
 fi
 
 ###############################################
 # Setup Compiler Flags
 ###############################################
 
-if test "$enable_optimization" = "no"; then
-	CFLAGS=`echo $CFLAGS | sed 's/-O2//g'`
-	CXXFLAGS=`echo $CXXFLAGS | sed 's/-O2//g'`
+if test "x${enable_optimization}" = "xno"; then
+	CFLAGS="`echo ${CFLAGS} | sed 's/-O2//g'`"
+	CXXFLAGS="`echo ${CXXFLAGS} | sed 's/-O2//g'`"
 fi
 
-if test x$debug = xfalse; then
-	CFLAGS=`echo $CFLAGS | sed 's/-g//g'`
-	CXXFLAGS=`echo $CXXFLAGS | sed 's/-g//g'`
+if test "x${debug}" = "xfalse"; then
+	CFLAGS="`echo ${CFLAGS} | sed 's/-g//g'`"
+	CXXFLAGS="`echo ${CXXFLAGS} | sed 's/-g//g'`"
 fi
 
 # Set 64-bit flags, if necessary
@@ -422,40 +473,50 @@ AC_MSG_WARN([missing check for BFD version])
 ])dnl
 
 dnl# Setting CFLAGS
-AX_CFLAGS_OPTION(CA_CFLAGS,[-W])
-AX_CFLAGS_OPTION(CA_CFLAGS,[-Wall])
-AX_CFLAGS_OPTION(CA_CFLAGS,[-fno-common])
-AX_CFLAGS_OPTION(CA_CFLAGS,[-Wdeclaration-after-statement])
-AX_CFLAGS_OPTION(CA_CFLAGS,[-fPIC])
-if test x$debug = xtrue; then
-	AX_CFLAGS_OPTION(CA_CFLAGS,[-DCA_ENABLE_DEBUG])
+AX_CFLAGS_OPTION([CA_CFLAGS],[-Wall])
+AX_CFLAGS_OPTION([CA_CFLAGS],[-Wextra])
+AX_CFLAGS_OPTION([CA_CFLAGS],[-fno-common])
+AX_CFLAGS_OPTION([CA_CFLAGS],[-Wdeclaration-after-statement])
+AX_CFLAGS_OPTION([CA_CFLAGS],[-fPIC])
+if test "x${debug}" = "xtrue"; then
+	AX_CFLAGS_OPTION([CA_CFLAGS],[-DCA_ENABLE_DEBUG])
 fi
 
-if test "$enable_werror" = "yes"; then
+if test "x${enable_werror}" = "xyes"; then
 	# enable -Werror for non-release versions.
 	ls `pwd`/.svn > /dev/null
-	if test "$?" = "0" ; then
-		AX_CFLAGS_OPTION(CA_CFLAGS,[-Werror])
+	if test "$?" = "0"; then
+		AX_CFLAGS_OPTION([CA_CFLAGS],[-Werror])
+	else
+		ls `pwd`/.git > /dev/null
+		if test "$?" = "0" ; then
+			AX_CFLAGS_OPTION([CA_CFLAGS],[-Werror])
+		fi
 	fi
 fi
 
-AC_SUBST(CA_CFLAGS)
+AC_SUBST([CA_CFLAGS])dnl
 
-dnl Setting CXXFLAGS
-AX_CXXFLAGS_OPTION(CA_CXXFLAGS,[-W])
-AX_CXXFLAGS_OPTION(CA_CXXFLAGS,[-Wall])
-AX_CXXFLAGS_OPTION(CA_CXXFLAGS,[-fno-common])
-AX_CXXFLAGS_OPTION(CA_CXXFLAGS,[-ftemplate-depth-50])
-AX_CXXFLAGS_OPTION(CA_CXXFLAGS,[-fPIC])
-if test x$debug = xtrue; then
-	AX_CXXFLAGS_OPTION(CA_CXXFLAGS,[-DCA_ENABLE_DEBUG])
+dnl# Setting CXXFLAGS
+AX_CXXFLAGS_OPTION([CA_CXXFLAGS],[-Wall])
+AX_CXXFLAGS_OPTION([CA_CXXFLAGS],[-Wextra])
+AX_CXXFLAGS_OPTION([CA_CXXFLAGS],[-fno-common])
+AX_CXXFLAGS_OPTION([CA_CXXFLAGS],[-ftemplate-depth-50])
+AX_CXXFLAGS_OPTION([CA_CXXFLAGS],[-fPIC])
+if test "x${debug}" = "xtrue"; then
+	AX_CXXFLAGS_OPTION([CA_CXXFLAGS],[-DCA_ENABLE_DEBUG])
 fi
 
-if test "$enable_werror" = "yes"; then
+if test "x${enable_werror}" = "xyes"; then
 	# enable -Werror for non-release versions.
 	ls `pwd`/.svn > /dev/null
 	if test "$?" = "0" ; then
-		AX_CXXFLAGS_OPTION(CA_CXXFLAGS,[-Werror])
+		AX_CXXFLAGS_OPTION([CA_CXXFLAGS],[-Werror])
+	else
+		ls `pwd`/.git > /dev/null
+		if test "$?" = "0" ; then
+			AX_CXXFLAGS_OPTION([CA_CXXFLAGS],[-Werror])
+		fi
 	fi
 fi
 
@@ -465,8 +526,8 @@ dnl# bfd.h pre-1998 only checks for gnu 2.xx series, so gcc 3.0 cannot compile
 dnl# it:
 AC_MSG_CHECKING([whether bfd defines bool])
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <bfd.h>]],[[]])],
-                  [AC_MSG_RESULT(no);],
-                  [AC_MSG_RESULT(yes);
+                  [AC_MSG_RESULT([no]);],
+                  [AC_MSG_RESULT([yes]);
                    AC_DEFINE([TRUE_FALSE_ALREADY_DEFINED],[1],
                              [whether bfd.h defines bool values])])dnl
 

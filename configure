@@ -1583,12 +1583,13 @@ Optional Features:
   --enable-maintainer-mode
                           enable make rules and dependencies not useful (and
                           sometimes confusing) to the casual installer
-  --disable-dwarf		disable usage of Dwarf Library (default is enabled)
-  --enable-debug		Turn on debugging
-  --enable-werror		enable -Werror flag (default is disabled)
-  --disable-optimization	disable optimization flags (default is enabled)
-  --disable-oprofile-lib	disable usage of Oprofile Library (default is enabled)
-  --disable-ca-css              disable CA Call-stack Sampling (CSS) and use OProfile Call-graph instead
+  --disable-dwarf         disable usage of Dwarf Library (default: enabled)
+  --enable-debug          Turn on debugging
+  --enable-werror         enable -Werror flag (default is disabled)
+  --disable-optimization  disable optimization flags (default is enabled)
+  --disable-oprofile-lib  disable use of Oprofile Library (default: enabled)
+  --disable-ca-css        disable CA Call-stack Sampling (CSS) and use
+                          OProfile Call-graph instead
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -1601,15 +1602,23 @@ Optional Packages:
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
   --with-sysroot[=DIR]    Search for dependent libraries within DIR (or the
                           compiler's sysroot if not specified).
-  --with-java=java-home        Path to Java home directory
-  --with-oprofile=DIR                  absolute location where the Oprofile is installed
-  --with-oprofile-includes=DIR         absolute location where the Oprofile includes are
-  --with-oprofile-libraries=DIR        absolute location where the Oprofile libraries are
-  --with-oprofile-source=DIR           absolute location where the Oprofile source code is
-  --with-libdwarf-includes=DIR         absolute location where the libdwarf includes are
-  --with-libdwarf-libraries=DIR        absolute location where the libdwarf libraries are
-  --with-separate-debug-dir=path	Look for global separate debug info in this path LIBDIR/debug
-  --with-events=DIR       specify the set of events to use public|nda|internal
+  --with-java=java-home   Path to Java home directory
+  --with-oprofile=DIR     absolute location where the Oprofile is installed
+  --with-oprofile-includes=DIR
+                          absolute location where the Oprofile includes are
+  --with-oprofile-libraries=DIR
+                          absolute location where the Oprofile libraries are
+  --with-oprofile-source=DIR
+                          absolute location where the Oprofile sourcecode is
+  --with-libdwarf-includes=DIR
+                          absolute location where the libdwarf includes are
+  --with-libdwarf-libraries=DIR
+                          absolute location where the libdwarf libraries are
+  --with-separate-debug-dir=path
+                          Look for global separate debug info in this path
+                          [LIBDIR/debug]
+  --with-events=DIR       specify the set of events to use
+                          [public|nda|internal]
   --with-x                use the X Window System
   --with-Qt-dir=DIR       DIR is equal to $QTDIR if you have followed the
                           installation instructions of Trolltech. Header files
@@ -12601,7 +12610,9 @@ CC=$lt_save_CC
 # Only expand once:
 
 
-if test -n "$ac_tool_prefix"; then
+if test "x${RANLIB}" = "x"; then
+  test -z "${RANLIB}"
+  if test -n "$ac_tool_prefix"; then
   # Extract the first word of "${ac_tool_prefix}ranlib", so it can be a program name with args.
 set dummy ${ac_tool_prefix}ranlib; ac_word=$2
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -12703,6 +12714,7 @@ else
   RANLIB="$ac_cv_prog_RANLIB"
 fi
 
+fi
 
 # Fix issue with basename in gcc-4.4
 # The Clang compiler raises a warning for an undeclared identifier that matches
@@ -12808,7 +12820,6 @@ else $as_nop
 fi
 
 printf "%s\n" "#define HAVE_DECL_BASENAME $ac_have_decl" >>confdefs.h
-
 
 am__api_version='1.16'
 
@@ -13581,7 +13592,6 @@ fi
 
 # Default installation directory
 
-
 ###############################################
 # Checking configure flags
 ###############################################
@@ -13590,9 +13600,8 @@ fi
 # Check whether --with-java was given.
 if test ${with_java+y}
 then :
-  withval=$with_java; JAVA_HOMEDIR=$withval
+  withval=$with_java; JAVA_HOMEDIR=${withval}
 fi
-
 
 
 # Get Oprofile configuration
@@ -13645,12 +13654,12 @@ fi
 # Check whether --enable-dwarf was given.
 if test ${enable_dwarf+y}
 then :
-  enableval=$enable_dwarf; enable_dwarf=$enableval
+  enableval=$enable_dwarf; enable_dwarf=${enableval}
 else $as_nop
   enable_dwarf=yes
 fi
 
- if test "$enable_dwarf" = yes; then
+ if test "x${enable_dwarf}" = "xyes"; then
   enable_dwarf_TRUE=
   enable_dwarf_FALSE='#'
 else
@@ -13658,7 +13667,7 @@ else
   enable_dwarf_FALSE=
 fi
 
-if test "$enable_dwarf" = "yes"; then
+if test "x${enable_dwarf}" = "xyes"; then
 
 printf "%s\n" "#define ENABLE_DWARF 1" >>confdefs.h
 
@@ -13677,14 +13686,13 @@ else $as_nop
   debug=false
 fi
 
- if test x$debug = xtrue; then
+ if test "x${debug}" = "xtrue"; then
   DEBUG_TRUE=
   DEBUG_FALSE='#'
 else
   DEBUG_TRUE='#'
   DEBUG_FALSE=
 fi
-
 
 debugdir=/usr/lib/debug
 
@@ -13696,42 +13704,39 @@ then :
 fi
 
 
-if test "z$debugdir" == "zyes"; then
+if test "z${debugdir}" == "zyes"; then
 	debugdir=/usr/lib/debug
 fi
 
 
-printf "%s\n" "#define DEBUGDIR \"$debugdir\"" >>confdefs.h
-
+printf "%s\n" "#define DEBUGDIR \"${debugdir}\"" >>confdefs.h
 
 # Check whether --enable-werror was given.
 if test ${enable_werror+y}
 then :
-  enableval=$enable_werror; enable_werror=$enableval
+  enableval=$enable_werror; enable_werror=${enableval}
 else $as_nop
   enable_werror=no
 fi
 
-
 # Check whether --enable-optimization was given.
 if test ${enable_optimization+y}
 then :
-  enableval=$enable_optimization; enable_optimization=$enableval
+  enableval=$enable_optimization; enable_optimization=${enableval}
 else $as_nop
   enable_optimization=yes
 fi
-
 
 # Enable Oprofile XML library
 # Check whether --enable-oprofile-lib was given.
 if test ${enable_oprofile_lib+y}
 then :
-  enableval=$enable_oprofile_lib; disable_oprofile_lib=$enableval
+  enableval=$enable_oprofile_lib; disable_oprofile_lib=${enableval}
 else $as_nop
   disable_oprofile_lib=no
 fi
 
- if test "$disable_oprofile_lib" = yes; then
+ if test "x${disable_oprofile_lib}" = "xyes"; then
   disable_oprofile_lib_TRUE=
   disable_oprofile_lib_FALSE='#'
 else
@@ -13739,7 +13744,7 @@ else
   disable_oprofile_lib_FALSE=
 fi
 
-if test "$disable_oprofile_lib" = "yes"; then
+if test "x${disable_oprofile_lib}" = "xyes"; then
 
 printf "%s\n" "#define DISABLE_OPROFILE_LIB 1" >>confdefs.h
 
@@ -13754,17 +13759,16 @@ else $as_nop
   enable_ca_css=yes
 fi
 
-if test "$enable_ca_css" = "yes"; then
+if test "x${enable_ca_css}" = "xyes"; then
 	OP_CA_CSS="--enable-ca-css"
 fi
- if test "$enable_ca_css" = "yes"; then
+ if test "x${enable_ca_css}" = "xyes"; then
   ENABLE_CA_CSS_TRUE=
   ENABLE_CA_CSS_FALSE='#'
 else
   ENABLE_CA_CSS_TRUE='#'
   ENABLE_CA_CSS_FALSE=
 fi
-
 
 # Get set of events
 
@@ -13774,11 +13778,10 @@ then :
   withval=$with_events;
 fi
 
-CA_EVENTS_DIR=$CA_RELEASE_TYPE
-if test "$with_events" != "" ; then
-	CA_EVENTS_DIR="$with_events"
+CA_EVENTS_DIR=${CA_RELEASE_TYPE}
+if test "x${with_events}" != "x"; then
+	test -n "${with_events}" && export CA_EVENTS_DIR="${with_events}"
 fi
-
 
 ###############################################
 # Environment Testing / Library Checking
@@ -13786,7 +13789,9 @@ fi
 
 # Testing
 # Check for programs
-for ac_prog in gawk mawk nawk awk
+if test "x${AWK}" = "x"; then
+  test -z "${AWK}"
+  for ac_prog in gawk mawk nawk awk
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
@@ -13833,7 +13838,10 @@ fi
   test -n "$AWK" && break
 done
 
-ac_ext=c
+fi
+if test "x${CC}" = "x"; then
+  test -z "${CC}"
+  ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
@@ -14633,6 +14641,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
+fi
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -14767,13 +14776,14 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking ${CC} path" >&5
 printf %s "checking ${CC} path... " >&6; }
-if test -z "`which $CC`"; then
+if test -z "`which ${CC}`"; then
 	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
 	as_fn_error $? "C compiler not found" "$LINENO" 5
 else
 	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
+
 fi
 
 
@@ -18741,13 +18751,14 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking ${CXX} path" >&5
 printf %s "checking ${CXX} path... " >&6; }
-if test -z "`which $CXX`"; then
+if test -z "`which ${CXX}`"; then
 	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
 	as_fn_error $? "C++ compiler not found" "$LINENO" 5
 else
 	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
+
 fi
 ac_ext=m
 ac_cpp='$OBJCPP $CPPFLAGS'
@@ -22553,7 +22564,9 @@ fi
 
 
 
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether ${MAKE-make} sets \$(MAKE)" >&5
+if test "x${ac_cv_prog_make_make_set}" = "x"; then
+  test -z "${ac_cv_prog_make_make_set}"
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether ${MAKE-make} sets \$(MAKE)" >&5
 printf %s "checking whether ${MAKE-make} sets \$(MAKE)... " >&6; }
 set x ${MAKE-make}
 ac_make=`printf "%s\n" "$2" | sed 's/+/p/g; s/[^a-zA-Z0-9_]/_/g'`
@@ -22585,6 +22598,7 @@ printf "%s\n" "no" >&6; }
   SET_MAKE="MAKE=${MAKE-make}"
 fi
 
+fi
 
 # check pidof path
 # Extract the first word of "pidof", so it can be a program name with args.
@@ -22630,17 +22644,16 @@ printf "%s\n" "no" >&6; }
 fi
 
 
-if test -z "$PIDOF" ; then
+if test -z "${PIDOF}"; then
 	# Try to check in /sbin/pidof
 	PIDOF=/sbin/pidof
-	if test ! -f "$PIDOF" ; then
+	if test ! -f "${PIDOF}"; then
 		as_fn_error $? "pidof not found in PATH environment variable." "$LINENO" 5
 	fi
 fi
 
 
-printf "%s\n" "#define PIDOF \"$PIDOF\"" >>confdefs.h
-
+printf "%s\n" "#define PIDOF \"${PIDOF}\"" >>confdefs.h
 
 # check xterm path
 # Extract the first word of "xterm", so it can be a program name with args.
@@ -22686,14 +22699,13 @@ printf "%s\n" "no" >&6; }
 fi
 
 
-if test -z "$XTERM" ; then
+if test -z "${XTERM}"; then
 	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: xterm not found in PATH environment variable." >&5
 printf "%s\n" "$as_me: WARNING: xterm not found in PATH environment variable." >&2;}
 fi
 
 
-printf "%s\n" "#define XTERM \"$XTERM\"" >>confdefs.h
-
+printf "%s\n" "#define XTERM \"${XTERM}\"" >>confdefs.h
 
 # check if ln -s works
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether ln -s works" >&5
@@ -23089,7 +23101,6 @@ printf "%s\n" "#define HAVE_PTRDIFF_T 1" >>confdefs.h
 
 fi
 
-
 # Check for headers
 # Autoupdate added the next few lines to ensure that your configure
 # script's behavior did not change.  They are probably safe to remove.
@@ -23329,18 +23340,6 @@ then :
   printf "%s\n" "#define HAVE_LIMITS_H 1" >>confdefs.h
 
 fi
-ac_fn_c_check_header_compile "$LINENO" "stdio.h" "ac_cv_header_stdio_h" "$ac_includes_default"
-if test "x$ac_cv_header_stdio_h" = xyes
-then :
-  printf "%s\n" "#define HAVE_STDIO_H 1" >>confdefs.h
-
-fi
-ac_fn_c_check_header_compile "$LINENO" "sys/time.h" "ac_cv_header_sys_time_h" "$ac_includes_default"
-if test "x$ac_cv_header_sys_time_h" = xyes
-then :
-  printf "%s\n" "#define HAVE_SYS_TIME_H 1" >>confdefs.h
-
-fi
 ac_fn_c_check_header_compile "$LINENO" "values.h" "ac_cv_header_values_h" "$ac_includes_default"
 if test "x$ac_cv_header_values_h" = xyes
 then :
@@ -23401,12 +23400,32 @@ then :
 fi
 
 fi
+if test "x${ac_cv_header_stdio_h}" = "x"; then
+  test -z "${ac_cv_header_stdio_h}"
+  ac_fn_c_check_header_compile "$LINENO" "stdint.h" "ac_cv_header_stdint_h" "$ac_includes_default"
+if test "x$ac_cv_header_stdint_h" = xyes
+then :
+  printf "%s\n" "#define HAVE_STDINT_H 1" >>confdefs.h
+
+fi
+
+fi
 if test "x${ac_cv_header_strings_h}" = "x"; then
   test -z "${ac_cv_header_strings_h}"
   ac_fn_c_check_header_compile "$LINENO" "strings.h" "ac_cv_header_strings_h" "$ac_includes_default"
 if test "x$ac_cv_header_strings_h" = xyes
 then :
   printf "%s\n" "#define HAVE_STRINGS_H 1" >>confdefs.h
+
+fi
+
+fi
+if test "x${ac_cv_header_sys_time_h}" = "x"; then
+  test -z "${ac_cv_header_sys_time_h}"
+  ac_fn_c_check_header_compile "$LINENO" "sys/time.h" "ac_cv_header_sys_time_h" "$ac_includes_default"
+if test "x$ac_cv_header_sys_time_h" = xyes
+then :
+  printf "%s\n" "#define HAVE_SYS_TIME_H 1" >>confdefs.h
 
 fi
 
@@ -24267,12 +24286,6 @@ printf "%s\n" "#define HAVE_MMAP 1" >>confdefs.h
 fi
 rm -f conftest.mmap conftest.txt
 
-ac_fn_c_check_func "$LINENO" "alarm" "ac_cv_func_alarm"
-if test "x$ac_cv_func_alarm" = xyes
-then :
-  printf "%s\n" "#define HAVE_ALARM 1" >>confdefs.h
-
-fi
 ac_fn_c_check_func "$LINENO" "atexit" "ac_cv_func_atexit"
 if test "x$ac_cv_func_atexit" = xyes
 then :
@@ -24419,6 +24432,16 @@ then :
 
 fi
 
+if test "x${ac_cv_func_alarm}" = "x"; then
+  test -n "${ac_cv_func_alarm}"
+  ac_fn_c_check_func "$LINENO" "alarm" "ac_cv_func_alarm"
+if test "x$ac_cv_func_alarm" = xyes
+then :
+  printf "%s\n" "#define HAVE_ALARM 1" >>confdefs.h
+
+fi
+
+fi
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-lCAdata':
@@ -24844,6 +24867,18 @@ then :
 
   LIBS="-ldwarf $LIBS"
 
+else $as_nop
+
+                  if test "x${enable_dwarf}" = "xyes"
+then :
+
+                    if test ! -d src/dwarf-20111214/libdwarf
+then :
+
+                      as_fn_error $? "libdwarf requested but not found; try configuring with --disable-dwarf to work around this issue." "$LINENO" 5
+
+fi
+fi
 fi
 
 fi
@@ -25293,9 +25328,9 @@ fi
 
 LIBS="${POPT_LIB} ${LIBS}"
 
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for dlopen in -ldl" >&5
-printf %s "checking for dlopen in -ldl... " >&6; }
-if test ${ac_cv_lib_dl_dlopen+y}
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for dlclose in -ldl" >&5
+printf %s "checking for dlclose in -ldl... " >&6; }
+if test ${ac_cv_lib_dl_dlclose+y}
 then :
   printf %s "(cached) " >&6
 else $as_nop
@@ -25307,35 +25342,35 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* Override any GCC internal prototype to avoid an error.
    Use char because int might match the return type of a GCC
    builtin and then its argument prototype would still apply.  */
-char dlopen ();
+char dlclose ();
 int
 main (void)
 {
-return dlopen ();
+return dlclose ();
   ;
   return 0;
 }
 _ACEOF
 if ac_fn_c_try_link "$LINENO"
 then :
-  ac_cv_lib_dl_dlopen=yes
+  ac_cv_lib_dl_dlclose=yes
 else $as_nop
-  ac_cv_lib_dl_dlopen=no
+  ac_cv_lib_dl_dlclose=no
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.beam \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_dl_dlopen" >&5
-printf "%s\n" "$ac_cv_lib_dl_dlopen" >&6; }
-if test "x$ac_cv_lib_dl_dlopen" = xyes
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_dl_dlclose" >&5
+printf "%s\n" "$ac_cv_lib_dl_dlclose" >&6; }
+if test "x$ac_cv_lib_dl_dlclose" = xyes
 then :
   DL_LIB="-ldl"
 else $as_nop
   DL_LIB=""; as_fn_error $? "dl library not found" "$LINENO" 5
 fi
 
-LIBS="$DL_LIB $LIBS"
+LIBS="${DL_LIB} ${LIBS}"
 
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for xmalloc in -liberty" >&5
 printf %s "checking for xmalloc in -liberty... " >&6; }
@@ -25520,7 +25555,7 @@ fi
 
 fi
 
-LIBS="$IBERTY_LIB $LIBS"
+LIBS="${IBERTY_LIB} ${LIBS}"
 
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for compress in -lz" >&5
 printf %s "checking for compress in -lz... " >&6; }
@@ -25561,26 +25596,27 @@ if test "x$ac_cv_lib_z_compress" = xyes
 then :
   Z_LIB="-lz";
 else $as_nop
-  Z_LIB=""; as_fn_error $? "libz library not found; required by libbfd" "$LINENO" 5
+  Z_LIB="";
+	      as_fn_error $? "libz library not found; required by libbfd" "$LINENO" 5
 fi
 
-LIBS="$Z_LIB $LIBS"
+LIBS="${Z_LIB} ${LIBS}"
 
 LDCONFIG="`which ldconfig`"
-if test "x$LDCONFIG" != "x"; then
+if test "x${LDCONFIG}" != "x"; then
 	CHECK_LBFD
 else
 	BFD_LIB="bfd"
 fi
-as_ac_Lib=`printf "%s\n" "ac_cv_lib_$BFD_LIB""_bfd_openr" | $as_tr_sh`
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for bfd_openr in -l$BFD_LIB" >&5
-printf %s "checking for bfd_openr in -l$BFD_LIB... " >&6; }
+as_ac_Lib=`printf "%s\n" "ac_cv_lib_${BFD_LIB}""_bfd_openr" | $as_tr_sh`
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for bfd_openr in -l${BFD_LIB}" >&5
+printf %s "checking for bfd_openr in -l${BFD_LIB}... " >&6; }
 if eval test \${$as_ac_Lib+y}
 then :
   printf %s "(cached) " >&6
 else $as_nop
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-l$BFD_LIB  $LIBS"
+LIBS="-l${BFD_LIB}  $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -25611,15 +25647,15 @@ eval ac_res=\$$as_ac_Lib
 printf "%s\n" "$ac_res" >&6; }
 if eval test \"x\$"$as_ac_Lib"\" = x"yes"
 then :
-  BFD_LIB="-l$BFD_LIB";
+  BFD_LIB="-l${BFD_LIB}";
 else $as_nop
   BFD_LIB=""; { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: bfd_openr bfd library not found" >&5
 printf "%s\n" "$as_me: WARNING: bfd_openr bfd library not found" >&2;}
 fi
 
-LIBS="$BFD_LIB $LIBS"
+LIBS="${BFD_LIB} ${LIBS}"
 
-ORIG_SAVE_LIBS="$LIBS"
+ORIG_SAVE_LIBS="${LIBS}"
 
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for X" >&5
 printf %s "checking for X... " >&6; }
@@ -26344,9 +26380,9 @@ fi
 
 fi
 
-X_LIBS="$X_PRE_LIBS $X_LIBS -lX11 $X_EXTRA_LIBS"
+X_LIBS="${X_PRE_LIBS} ${X_LIBS} -lX11 ${X_EXTRA_LIBS}"
 
-ORIG_SAVE_X_LIBS="$X_LIBS"
+ORIG_SAVE_X_LIBS="${X_LIBS}"
 
 
 
@@ -26878,20 +26914,23 @@ printf "%s\n" "$ax_cv_qt_test_result" >&6; }
 
 if test "`uname`" != "Darwin"; then
 	QT_DO_IT_ALL
+else
+	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: skipping some Qt stuff on Darwin" >&5
+printf "%s\n" "$as_me: skipping some Qt stuff on Darwin" >&6;}
 fi
 
 ###############################################
 # Setup Compiler Flags
 ###############################################
 
-if test "$enable_optimization" = "no"; then
-	CFLAGS=`echo $CFLAGS | sed 's/-O2//g'`
-	CXXFLAGS=`echo $CXXFLAGS | sed 's/-O2//g'`
+if test "x${enable_optimization}" = "xno"; then
+	CFLAGS="`echo ${CFLAGS} | sed 's/-O2//g'`"
+	CXXFLAGS="`echo ${CXXFLAGS} | sed 's/-O2//g'`"
 fi
 
-if test x$debug = xfalse; then
-	CFLAGS=`echo $CFLAGS | sed 's/-g//g'`
-	CXXFLAGS=`echo $CXXFLAGS | sed 's/-g//g'`
+if test "x${debug}" = "xfalse"; then
+	CFLAGS="`echo ${CFLAGS} | sed 's/-g//g'`"
+	CXXFLAGS="`echo ${CXXFLAGS} | sed 's/-g//g'`"
 fi
 
 # Set 64-bit flags, if necessary
@@ -26911,46 +26950,6 @@ topdir="`pwd`"
 
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: WARNING: missing check for BFD version" >&5
 printf "%s\n" "$as_me: WARNING: missing check for BFD version" >&2;}
-
-
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether ${CC} -W is understood" >&5
-printf %s "checking whether ${CC} -W is understood... " >&6; }
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-SAVE_CFLAGS=$CFLAGS
-CFLAGS=-W
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-int
-main (void)
-{
-;
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"
-then :
-  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-printf "%s\n" "yes" >&6; }; CA_CFLAGS="${CA_CFLAGS} -W"
-else $as_nop
-  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf "%s\n" "no" >&6; }
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
-CFLAGS=$SAVE_CFLAGS
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
 
 
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether ${CC} -Wall is understood" >&5
@@ -26979,6 +26978,46 @@ if ac_fn_c_try_compile "$LINENO"
 then :
   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }; CA_CFLAGS="${CA_CFLAGS} -Wall"
+else $as_nop
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+CFLAGS=$SAVE_CFLAGS
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether ${CC} -Wextra is understood" >&5
+printf %s "checking whether ${CC} -Wextra is understood... " >&6; }
+
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+SAVE_CFLAGS=$CFLAGS
+CFLAGS=-Wextra
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main (void)
+{
+;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"
+then :
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }; CA_CFLAGS="${CA_CFLAGS} -Wextra"
 else $as_nop
   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
@@ -27112,7 +27151,7 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-if test x$debug = xtrue; then
+if test "x${debug}" = "xtrue"; then
 
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether ${CC} -DCA_ENABLE_DEBUG is understood" >&5
 printf %s "checking whether ${CC} -DCA_ENABLE_DEBUG is understood... " >&6; }
@@ -27155,10 +27194,10 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 fi
 
-if test "$enable_werror" = "yes"; then
+if test "x${enable_werror}" = "xyes"; then
 	# enable -Werror for non-release versions.
 	ls `pwd`/.svn > /dev/null
-	if test "$?" = "0" ; then
+	if test "$?" = "0"; then
 
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether ${CC} -Werror is understood" >&5
 printf %s "checking whether ${CC} -Werror is understood... " >&6; }
@@ -27199,23 +27238,21 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-	fi
-fi
+	else
+		ls `pwd`/.git > /dev/null
+		if test "$?" = "0" ; then
 
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether ${CC} -Werror is understood" >&5
+printf %s "checking whether ${CC} -Werror is understood... " >&6; }
 
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
-
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether ${CXX} -W is understood" >&5
-printf %s "checking whether ${CXX} -W is understood... " >&6; }
-
-ac_ext=cpp
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
-SAVE_CXXFLAGS=$CXXFLAGS
-CXXFLAGS=-W
+SAVE_CFLAGS=$CFLAGS
+CFLAGS=-Werror
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -27227,21 +27264,26 @@ main (void)
   return 0;
 }
 _ACEOF
-if ac_fn_cxx_try_compile "$LINENO"
+if ac_fn_c_try_compile "$LINENO"
 then :
   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-printf "%s\n" "yes" >&6; }; CA_CXXFLAGS="${CA_CXXFLAGS} -W"
+printf "%s\n" "yes" >&6; }; CA_CFLAGS="${CA_CFLAGS} -Werror"
 else $as_nop
   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
-CXXFLAGS=$SAVE_CXXFLAGS
+CFLAGS=$SAVE_CFLAGS
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+		fi
+	fi
+fi
 
 
 
@@ -27271,6 +27313,46 @@ if ac_fn_cxx_try_compile "$LINENO"
 then :
   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }; CA_CXXFLAGS="${CA_CXXFLAGS} -Wall"
+else $as_nop
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+CXXFLAGS=$SAVE_CXXFLAGS
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether ${CXX} -Wextra is understood" >&5
+printf %s "checking whether ${CXX} -Wextra is understood... " >&6; }
+
+ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+SAVE_CXXFLAGS=$CXXFLAGS
+CXXFLAGS=-Wextra
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main (void)
+{
+;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_compile "$LINENO"
+then :
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }; CA_CXXFLAGS="${CA_CXXFLAGS} -Wextra"
 else $as_nop
   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
@@ -27404,7 +27486,7 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
-if test x$debug = xtrue; then
+if test "x${debug}" = "xtrue"; then
 
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether ${CXX} -DCA_ENABLE_DEBUG is understood" >&5
 printf %s "checking whether ${CXX} -DCA_ENABLE_DEBUG is understood... " >&6; }
@@ -27447,7 +27529,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 fi
 
-if test "$enable_werror" = "yes"; then
+if test "x${enable_werror}" = "xyes"; then
 	# enable -Werror for non-release versions.
 	ls `pwd`/.svn > /dev/null
 	if test "$?" = "0" ; then
@@ -27491,6 +27573,50 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
+	else
+		ls `pwd`/.git > /dev/null
+		if test "$?" = "0" ; then
+
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether ${CXX} -Werror is understood" >&5
+printf %s "checking whether ${CXX} -Werror is understood... " >&6; }
+
+ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+SAVE_CXXFLAGS=$CXXFLAGS
+CXXFLAGS=-Werror
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main (void)
+{
+;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_compile "$LINENO"
+then :
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+printf "%s\n" "yes" >&6; }; CA_CXXFLAGS="${CA_CXXFLAGS} -Werror"
+else $as_nop
+  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+printf "%s\n" "no" >&6; }
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
+CXXFLAGS=$SAVE_CXXFLAGS
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+		fi
 	fi
 fi
 
